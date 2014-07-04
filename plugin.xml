@@ -1,0 +1,9 @@
+<plugin name='extjs-scaffolding' version='0.1' grailsVersion='2.4 &gt; *'>
+  <author>Your name</author>
+  <title>Extjs Scaffolding Plugin</title>
+  <description>Brief summary/description of the plugin.
+</description>
+  <documentation>http://grails.org/plugin/extjs-scaffolding</documentation>
+  <type>ExtjsScaffoldingGrailsPlugin</type>
+  <resources />
+</plugin>
