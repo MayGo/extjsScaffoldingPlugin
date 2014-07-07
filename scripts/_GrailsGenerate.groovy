@@ -29,9 +29,10 @@ includeTargets << grailsScript("_GrailsCreateArtifacts")
 
 generateForName = null
 generateViews = true
-generateController = true
-generateRestfulController = false
-generateAsyncController = false
+generateStores = true
+generateStatics = true
+generateModels = true
+
 
 target(generateForOne: "Generates controllers and views for only one domain class.") {
 	depends(loadApp)
@@ -72,6 +73,19 @@ target(uberGenerate: "Generates controllers and views for all domain classes.") 
 	}
 
 	domainClasses.each { domainClass -> generateForDomainClass(domainClass) }
+	
+	if (generateStatics) {
+		event("StatusUpdate", ["Generating static views"])
+		def DefaultGrailsTemplateGenerator = classLoader.loadClass('ExtjsTemplateGenerator')
+		def templateGenerator = DefaultGrailsTemplateGenerator.newInstance(classLoader)
+		
+		templateGenerator.grailsApplication = grailsApp
+		templateGenerator.pluginManager = pluginManager
+		templateGenerator.generateStatics(basedir)
+		
+		event("GenerateStaticEnd", [])
+	}
+	
 	event("StatusFinal", ["Finished generation for domain classes"])
 }
 
@@ -87,22 +101,17 @@ void generateForDomainClass(domainClass) {
 		event("GenerateViewsEnd", [domainClass.fullName])
 	}
 
-	if (generateAsyncController ) {
-		event("StatusUpdate", ["Generating controller for domain class ${domainClass.fullName}"])
-		templateGenerator.generateAsyncController(domainClass, basedir)
-		templateGenerator.generateAsyncTest(domainClass, "${basedir}/test/unit")
-		event("GenerateControllerEnd", [domainClass.fullName])
+	if (generateStores) {
+		event("StatusUpdate", ["Generating store classes for domain class ${domainClass.fullName}"])
+		templateGenerator.generateStore(domainClass, basedir)
+		event("GenerateStoreEnd", [domainClass.fullName])
 	}
-	else if (generateRestfulController) {
-		event("StatusUpdate", ["Generating controller for domain class ${domainClass.fullName}"])
-		templateGenerator.generateRestfulController(domainClass, basedir)
-		templateGenerator.generateRestfulTest(domainClass, "${basedir}/test/unit")
-		event("GenerateControllerEnd", [domainClass.fullName])
+	
+	if (generateModels) {
+		event("StatusUpdate", ["Generating store classes for domain class ${domainClass.fullName}"])
+		templateGenerator.generateModel(domainClass, basedir)
+		event("GenerateModelEnd", [domainClass.fullName])
 	}
-	else if (generateController) {
-		event("StatusUpdate", ["Generating controller for domain class ${domainClass.fullName}"])
-		templateGenerator.generateController(domainClass, basedir)
-		templateGenerator.generateTest(domainClass, "${basedir}/test/unit")
-		event("GenerateControllerEnd", [domainClass.fullName])
-	}
+	
+	
 }

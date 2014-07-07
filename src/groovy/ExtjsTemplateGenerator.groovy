@@ -1,3 +1,11 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
+
 import groovy.text.SimpleTemplateEngine
 import groovy.text.Template
 
@@ -7,6 +15,7 @@ import org.codehaus.groovy.grails.plugins.GrailsPluginInfo
 import org.codehaus.groovy.grails.plugins.GrailsPluginManager
 import org.codehaus.groovy.grails.plugins.GrailsPluginUtils
 import org.codehaus.groovy.grails.scaffolding.AbstractGrailsTemplateGenerator
+import org.codehaus.groovy.grails.scaffolding.AbstractGrailsTemplateGenerator.GrailsControllerType;
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.Resource
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
@@ -21,6 +30,13 @@ import org.springframework.util.StringUtils;
  * @author Maigo Erit
  */
 class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
+	
+	static EXTJS_APP_DIR = "extjs/app/"
+	static EXTJS_VIEW_DIR = EXTJS_APP_DIR + "view/"
+	static EXTJS_VIEW_MAIN_DIR = EXTJS_VIEW_DIR+"main/"
+	static EXTJS_STORE_DIR = EXTJS_APP_DIR + "store/"
+	static EXTJS_MODEL_DIR = EXTJS_APP_DIR + "model/"
+	static EXTJS_CONTROLLER_DIR = EXTJS_APP_DIR + "controller/"
 
 	ExtjsTemplateGenerator(ClassLoader classLoader) {
 		super(classLoader)
@@ -30,7 +46,7 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 	public void generateViews(GrailsDomainClass domainClass, String destDir) throws IOException {
 		Assert.hasText(destDir, "Argument [destdir] not specified");
 
-		File viewsDir = new File(destDir, "extjs/app/view/" + domainClass.getPropertyName());
+		File viewsDir = new File(destDir, EXTJS_VIEW_DIR + domainClass.getPropertyName());
 		if (!viewsDir.exists()) {
 			viewsDir.mkdirs();
 		}
@@ -63,6 +79,9 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		binding.put("packageName", packageName);
 		binding.put("multiPart", multiPart);
 		binding.put("propertyName", getPropertyName(domainClass));
+		binding.put("appName", grailsApplication.metadata['app.name']);
+		
+		
 
 		generate(templateText, binding, out);
 	}
@@ -170,4 +189,197 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 
 		return names;
 	}
+	
+	
+	
+	
+	
+	
+	
+	public void generateModel(GrailsDomainClass domainClass, String destDir) throws IOException {
+		Assert.hasText(destDir, "Argument [destdir] not specified");
+
+		if (domainClass == null) {
+			return;
+		}
+
+		String fullName = domainClass.getFullName();
+		String pkg = "";
+		int pos = fullName.lastIndexOf('.');
+		if (pos != -1) {
+			// Package name with trailing '.'
+			pkg = fullName.substring(0, pos + 1);
+		}
+
+		File destFile = new File(destDir, EXTJS_MODEL_DIR +
+				domainClass.getShortName() + ".js");
+		if (canWrite(destFile)) {
+			destFile.getParentFile().mkdirs();
+
+			BufferedWriter writer = null;
+			try {
+				writer = new BufferedWriter(new FileWriter(destFile));
+				generateModel(domainClass, writer);
+				try {
+					writer.flush();
+				} catch (IOException ignored) {}
+			}
+			finally {
+				IOGroovyMethods.closeQuietly(writer);
+			}
+
+			log.info("Controller generated at [" + destFile + "]");
+		}
+	}
+	
+	protected void generateModel(GrailsDomainClass domainClass, Writer out) throws IOException {
+		String templateText = getTemplateText("Model.template.js");
+		
+
+		Map<String, Object> binding = createBinding(domainClass);
+		binding.put("packageName", domainClass.getPackageName());
+		binding.put("propertyName", getPropertyName(domainClass));
+		binding.put("appName", grailsApplication.metadata['app.name']);
+
+		generate(templateText, binding, out);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void generateStore(GrailsDomainClass domainClass, String destDir) throws IOException {
+		Assert.hasText(destDir, "Argument [destdir] not specified");
+
+		if (domainClass == null) {
+			return;
+		}
+
+		String fullName = domainClass.getFullName();
+		String pkg = "";
+		int pos = fullName.lastIndexOf('.');
+		if (pos != -1) {
+			// Package name with trailing '.'
+			pkg = fullName.substring(0, pos + 1);
+		}
+
+		File destFile = new File(destDir, EXTJS_STORE_DIR +
+				domainClass.getShortName() + "List.js");
+		if (canWrite(destFile)) {
+			destFile.getParentFile().mkdirs();
+
+			BufferedWriter writer = null;
+			try {
+				writer = new BufferedWriter(new FileWriter(destFile));
+				generateStore(domainClass, writer);
+				try {
+					writer.flush();
+				} catch (IOException ignored) {}
+			}
+			finally {
+				IOGroovyMethods.closeQuietly(writer);
+			}
+
+			log.info("Controller generated at [" + destFile + "]");
+		}
+	}
+	
+	protected void generateStore(GrailsDomainClass domainClass, Writer out) throws IOException {
+		String templateText = getTemplateText("Store.template.js");
+		
+
+		Map<String, Object> binding = createBinding(domainClass);
+		binding.put("packageName", domainClass.getPackageName());
+		binding.put("propertyName", getPropertyName(domainClass));
+		binding.put("appName", grailsApplication.metadata['app.name']);
+
+		generate(templateText, binding, out);
+	}
+	
+	
+	/**
+	 * Generate static files 
+	 * @param destDir
+	 * @throws IOException
+	 */
+	public void generateStatics(String destDir) throws IOException {
+		Assert.hasText(destDir, "Argument [destdir] not specified");
+
+		["Root.template.js"].each{
+			generateStatic(destDir, EXTJS_CONTROLLER_DIR + it.replace(".template", ""), it)
+		}
+		
+		["Main.template.js", "MainController.template.js", "MainModel.template.js"].each{
+			generateStatic(destDir, EXTJS_VIEW_MAIN_DIR + it.replace(".template", ""), it)
+		}
+		
+		["Application.template.js"].each{
+			generateStatic(destDir, EXTJS_APP_DIR + it.replace(".template", ""), it)
+		}
+		
+		["Base.template.js"].each{
+			generateStatic(destDir, EXTJS_MODEL_DIR + it.replace(".template", ""), it)
+		}
+	
+	}
+	
+	public void generateStatic(String destDir, String fileName, String templateName) throws IOException {
+		Assert.hasText(destDir, "Argument [destdir] not specified");
+
+		File destFile = new File(destDir, fileName);
+		if (canWrite(destFile)) {
+			destFile.getParentFile().mkdirs();
+
+			BufferedWriter writer = null;
+			try {
+				writer = new BufferedWriter(new FileWriter(destFile));
+				generateStatic(writer, templateName);
+				try {
+					writer.flush();
+				} catch (IOException ignored) {}
+			}
+			finally {
+				IOGroovyMethods.closeQuietly(writer);
+			}
+
+			log.info("Controller generated at [" + destFile + "]");
+		}
+	}
+	
+	protected void generateStatic(Writer out, templateName) throws IOException {
+		String templateText = getTemplateText(templateName);
+
+		Map<String, Object> binding = new HashMap<String, Object>();
+		binding.put("appName", grailsApplication.metadata['app.name']);
+		def domainClasses = grailsApplication.domainClasses
+		binding.put("domainClasses", domainClasses);
+
+		generate(templateText, binding, out);
+	}
+
+
+	@Override
+	public void generateController(GrailsControllerType controllerType, GrailsDomainClass domainClass, String destDir) throws IOException {
+		
+	}
+
+	@Override
+	public void generateController(GrailsDomainClass domainClass, String destDir) throws IOException {
+		
+	}
+
+	@Override
+	public void generateRestfulController(GrailsDomainClass domainClass, String destDir) throws IOException {
+		
+	}
+
+	@Override
+	public void generateAsyncController(GrailsDomainClass domainClass, String destDir) throws IOException {
+		
+	}
+	
 }

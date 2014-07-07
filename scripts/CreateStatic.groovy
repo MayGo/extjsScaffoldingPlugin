@@ -1,12 +1,12 @@
 includeTargets << new File(extjsScaffoldingPluginDir, 'scripts/_GrailsGenerate.groovy')
 
-target (createViews: "Generates the CRUD views for a specified domain class") {
+target (createStatic: "Generates the static views for a specified domain class") {
 	depends(checkVersion, parseArguments, packageApp)
 
 	promptForName(type: "Domain Class")
 
+	generateViews = false
 	generateStores = false
-	generateStatics = false
 	generateModels = false
 
 	String name = argsMap['params'][0]
@@ -19,4 +19,4 @@ target (createViews: "Generates the CRUD views for a specified domain class") {
 	}
 }
 
-setDefaultTarget( createViews )
+setDefaultTarget( createStatic )
