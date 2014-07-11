@@ -23,6 +23,8 @@ import org.springframework.util.Assert
 import org.codehaus.groovy.runtime.IOGroovyMethods;
 import org.springframework.util.StringUtils;
 
+import grails.util.Holders
+
 /**
  * implementation of the generator that generates extjs artifacts (controllers, models, store, views etc.)
  * from the domain model.
@@ -31,7 +33,8 @@ import org.springframework.util.StringUtils;
  */
 class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 	
-	static EXTJS_APP_DIR = "extjs/app/"
+	static EXTJS_DIR = Holders.config.extJsExportLocation?:"extjs/"
+	static EXTJS_APP_DIR = EXTJS_DIR+"app/"
 	static EXTJS_VIEW_DIR = EXTJS_APP_DIR + "view/"
 	static EXTJS_VIEW_MAIN_DIR = EXTJS_VIEW_DIR+"main/"
 	static EXTJS_STORE_DIR = EXTJS_APP_DIR + "store/"
@@ -323,6 +326,9 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		
 		["Base.template.js"].each{
 			generateStatic(destDir, EXTJS_MODEL_DIR + it.replace(".template", ""), it)
+		}
+		["index.template.html", "app.template.js"].each{
+			generateStatic(destDir, EXTJS_DIR + + it.replace(".template", ""), it)
 		}
 	
 	}
