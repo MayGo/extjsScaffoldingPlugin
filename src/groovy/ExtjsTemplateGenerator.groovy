@@ -3,8 +3,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Path
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import groovy.text.SimpleTemplateEngine
 import groovy.text.Template
@@ -23,7 +27,9 @@ import org.springframework.util.Assert
 import org.codehaus.groovy.runtime.IOGroovyMethods;
 import org.springframework.util.StringUtils;
 
+import groovy.io.FileType
 import grails.util.Holders
+import java.nio.file.Paths
 
 /**
  * implementation of the generator that generates extjs artifacts (controllers, models, store, views etc.)
@@ -32,7 +38,7 @@ import grails.util.Holders
  * @author Maigo Erit
  */
 class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
-	
+
 	static EXTJS_DIR = Holders.config.extJsExportLocation?:"extjs/"
 	static EXTJS_APP_DIR = EXTJS_DIR+"app/"
 	static EXTJS_VIEW_DIR = EXTJS_APP_DIR + "view/"
@@ -40,6 +46,8 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 	static EXTJS_STORE_DIR = EXTJS_APP_DIR + "store/"
 	static EXTJS_MODEL_DIR = EXTJS_APP_DIR + "model/"
 	static EXTJS_CONTROLLER_DIR = EXTJS_APP_DIR + "controller/"
+	static SCAFFOLDING_STATICS_DIR = "statics/"
+	static SCAFFOLDING_STATICS_DIR_ANT_ALL = SCAFFOLDING_STATICS_DIR + "**/*.js"
 
 	ExtjsTemplateGenerator(ClassLoader classLoader) {
 		super(classLoader)
@@ -83,8 +91,8 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		binding.put("multiPart", multiPart);
 		binding.put("propertyName", getPropertyName(domainClass));
 		binding.put("appName", grailsApplication.metadata['app.name']);
-		
-		
+
+
 
 		generate(templateText, binding, out);
 	}
@@ -104,7 +112,6 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 				writer.flush();
 			}
 			catch (IOException ignored) {
-
 			}
 		}
 		finally {
@@ -152,7 +159,7 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 
 		return resources;
 	}
-	
+
 	@Override
 	protected File getPluginDir() throws IOException {
 		GrailsPluginInfo info = GrailsPluginUtils.getPluginBuildSettings().getPluginInfoForName("extjs-scaffolding");
@@ -180,7 +187,7 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 			domainInstance:getPropertyName(domainClass)]
 		return renderEditorTemplate.make(binding).toString()
 	}
-	
+
 	@Override
 	protected Set<String> extractNames(Resource[] resources) {
 		Set<String> names = new HashSet<String>();
@@ -192,13 +199,13 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 
 		return names;
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 	public void generateModel(GrailsDomainClass domainClass, String destDir) throws IOException {
 		Assert.hasText(destDir, "Argument [destdir] not specified");
 
@@ -234,10 +241,10 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 			log.info("Controller generated at [" + destFile + "]");
 		}
 	}
-	
+
 	protected void generateModel(GrailsDomainClass domainClass, Writer out) throws IOException {
 		String templateText = getTemplateText("Model.template.js");
-		
+
 
 		Map<String, Object> binding = createBinding(domainClass);
 		binding.put("packageName", domainClass.getPackageName());
@@ -246,15 +253,15 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 
 		generate(templateText, binding, out);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
 	public void generateStore(GrailsDomainClass domainClass, String destDir) throws IOException {
 		Assert.hasText(destDir, "Argument [destdir] not specified");
 
@@ -290,10 +297,10 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 			log.info("Controller generated at [" + destFile + "]");
 		}
 	}
-	
+
 	protected void generateStore(GrailsDomainClass domainClass, Writer out) throws IOException {
 		String templateText = getTemplateText("Store.template.js");
-		
+
 
 		Map<String, Object> binding = createBinding(domainClass);
 		binding.put("packageName", domainClass.getPackageName());
@@ -302,8 +309,8 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 
 		generate(templateText, binding, out);
 	}
-	
-	
+
+
 	/**
 	 * Generate static files 
 	 * @param destDir
@@ -312,28 +319,53 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 	public void generateStatics(String destDir) throws IOException {
 		Assert.hasText(destDir, "Argument [destdir] not specified");
 
-		["Root.template.js"].each{
-			generateStatic(destDir, EXTJS_CONTROLLER_DIR + it.replace(".template", ""), it)
+		Resource[] resources = []
+		String templatesDirPath 
+		if (resourceLoader != null && grailsApplication.isWarDeployed()) {
+			templatesDirPath = "/WEB-INF/templates/scaffolding/"+SCAFFOLDING_STATICS_DIR
+			try {
+				PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(resourceLoader);
+				resources = resolver.getResources(templatesDirPath + SCAFFOLDING_STATICS_DIR_ANT_ALL)
+			}catch (Exception e) {
+				log.error("Error while loading views from " + templatesDirPath, e);
+			}
+		}else {
+			PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+
+			templatesDirPath = basedir + "/src/templates/scaffolding"+SCAFFOLDING_STATICS_DIR
+			Resource templatesDir = new FileSystemResource(templatesDirPath + SCAFFOLDING_STATICS_DIR_ANT_ALL);
+			if (templatesDir.exists()) {
+				try {
+					resources = resolver.getResources(templatesDirPath);
+				}catch (Exception e) {
+					log.error("Error while loading views from " + basedir, e);
+				}
+			}
+			if(!resources) {
+				File pluginDir = getPluginDir();
+				try {
+					templatesDirPath = pluginDir.path + "/src/templates/scaffolding/"
+					resources = resolver.getResources("file:" + templatesDirPath + SCAFFOLDING_STATICS_DIR_ANT_ALL);
+				} catch (Exception e) {
+					// ignore
+					log.error("Error locating templates from " + pluginDir + ": " + e.getMessage(), e);
+				}
+			}
 		}
+
+
+		for (Resource resource : resources) {
+			Path dirPath = Paths.get(templatesDirPath);
+			Path filePath = Paths.get(resource.file.path);
+			Path relativeFilePath = dirPath.relativize(filePath);
+			Path relativeFilePathWithoutStaticDir = relativeFilePath.subpath(1, relativeFilePath.nameCount)
 		
-		["Main.template.js", "MainController.template.js", "MainModel.template.js"].each{
-			generateStatic(destDir, EXTJS_VIEW_MAIN_DIR + it.replace(".template", ""), it)
+			generateStatic(destDir, EXTJS_DIR + relativeFilePathWithoutStaticDir, resource)
 		}
-		
-		["Application.template.js"].each{
-			generateStatic(destDir, EXTJS_APP_DIR + it.replace(".template", ""), it)
-		}
-		
-		["Base.template.js"].each{
-			generateStatic(destDir, EXTJS_MODEL_DIR + it.replace(".template", ""), it)
-		}
-		["index.template.html", "app.template.js"].each{
-			generateStatic(destDir, EXTJS_DIR + + it.replace(".template", ""), it)
-		}
-	
+
 	}
-	
-	public void generateStatic(String destDir, String fileName, String templateName) throws IOException {
+
+	public void generateStatic(String destDir, String fileName, Resource templateFile) throws IOException {
 		Assert.hasText(destDir, "Argument [destdir] not specified");
 
 		File destFile = new File(destDir, fileName);
@@ -343,7 +375,7 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 			BufferedWriter writer = null;
 			try {
 				writer = new BufferedWriter(new FileWriter(destFile));
-				generateStatic(writer, templateName);
+				generateStatic(writer, templateFile);
 				try {
 					writer.flush();
 				} catch (IOException ignored) {}
@@ -355,9 +387,9 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 			log.info("Controller generated at [" + destFile + "]");
 		}
 	}
-	
-	protected void generateStatic(Writer out, templateName) throws IOException {
-		String templateText = getTemplateText(templateName);
+
+	protected void generateStatic(Writer out, Resource templateFile) throws IOException {
+		String templateText = getTemplateTextFromResource(templateFile);
 
 		Map<String, Object> binding = new HashMap<String, Object>();
 		binding.put("appName", grailsApplication.metadata['app.name']);
@@ -366,26 +398,31 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 
 		generate(templateText, binding, out);
 	}
-
+	
+	protected String getTemplateTextFromResource(Resource templateFile) throws IOException {
+		InputStream inputStream = templateFile.getInputStream();
+		
+		return inputStream == null ? null : IOGroovyMethods.getText(inputStream);
+	}
 
 	@Override
 	public void generateController(GrailsControllerType controllerType, GrailsDomainClass domainClass, String destDir) throws IOException {
-		
+
 	}
 
 	@Override
 	public void generateController(GrailsDomainClass domainClass, String destDir) throws IOException {
-		
+
 	}
 
 	@Override
 	public void generateRestfulController(GrailsDomainClass domainClass, String destDir) throws IOException {
-		
+
 	}
 
 	@Override
 	public void generateAsyncController(GrailsDomainClass domainClass, String destDir) throws IOException {
-		
+
 	}
-	
+
 }

@@ -17,7 +17,6 @@ Ext.define('${appName}.view.main.Main', {
 
     xtype: 'app-main',
     
-    controller: 'main',
     viewModel: {
         type: 'main'
     },
