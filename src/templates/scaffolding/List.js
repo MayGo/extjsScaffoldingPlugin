@@ -30,8 +30,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.List', {
 	{
 		xtype : 'rownumberer',
 		width : 40,
-		sortable : false,
-		locked : true
+		sortable : false
 	}, {
 		text : 'ID',
 		width : 50,
@@ -112,32 +111,32 @@ private renderFieldForProperty(p, owningClass, prefix = "") {
                 width: 400,
                 fieldLabel: 'Search',
                 labelWidth: 50,
-                xtype: 'searchfield'
-                ,            store: '${className}List'
+                xtype: 'searchfield',
+                store: '${className}List'
             }, '->', {
                 xtype: 'component',
                 itemId: 'status',
                 tpl: 'Matching threads: {count}',
                 style: 'margin-right:5px'
-            }
+            },{
+    			text : 'Add',
+    			iconCls : 'icon-add',
+    			handler : 'addItemHandler'
+    		}, '-', {
+    			itemId : 'delete',
+    			text : 'Delete',
+    			iconCls : 'icon-delete',
+    			disabled : true,
+    			handler : 'deleteItemHandler'
+    		}
 		]
 	},
 	{
-		dock: 'bottom',
-		xtype : 'toolbar',
-		items : [{
-			text : 'Add',
-			iconCls : 'icon-add',
-			handler : 'addItemHandler'
-		}, '-', {
-			itemId : 'delete',
-			text : 'Delete',
-			iconCls : 'icon-delete',
-			disabled : true,
-			handler : 'deleteItemHandler'
-		},
-		]
-	}],
+        xtype: 'pagingtoolbar',
+        store: '${className}List',   // same store GridPanel is using
+        dock: 'bottom',
+        displayInfo: true
+    }],
 	viewConfig : {
 		stripeRows : true
 	},
