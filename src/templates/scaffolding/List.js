@@ -1,4 +1,7 @@
-<% import grails.persistence.Event %>
+<% 
+	import grails.persistence.Event
+	import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
+%>
 
 Ext.define('${appName}.view.${domainClass.propertyName}.List', {
 	extend : 'Ext.grid.Panel',
@@ -74,9 +77,31 @@ private renderFieldForProperty(p, owningClass, prefix = "") {
 		sortable : true,
 		dataIndex : '${p.name}',
 		groupable : true,
-		editor : {
-			xtype : 'textfield'
+		flex: 1,
+		<%
+		if(p.isOneToOne()){
+			%>
+			renderer: function (value, metaData) {
+				  return 'Object id: ' +value.id;
+		    },
+		    editor : {
+				xtype : 'combo',
+				valueField: 'id',
+				tpl:'<tpl for="."><div class="x-boundlist-item" >Object id: {id}</div></tpl>',
+				displayTpl: '<tpl for=".">Object id: {id}</tpl>',
+				store: '${p.naturalName}List',
+			}
+			<%
+		}else{
+			%>
+			editor : {
+				xtype : 'textfield'
+			}
+			<%
 		}
+		%>
+		
+		
 	},
 <%  } %>
 ],
