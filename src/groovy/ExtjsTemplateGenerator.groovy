@@ -176,7 +176,7 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 
 		if (!renderEditorTemplate) {
 			// create template once for performance
-			renderEditorTemplate = engine.createTemplate(getTemplateText('renderEditor.template'))
+			renderEditorTemplate = engine.createTemplate(getTemplateText('viewEditor.template'))
 		}
 
 		def binding = [

@@ -77,29 +77,7 @@ private renderFieldForProperty(p, owningClass, prefix = "") {
 		dataIndex : '${p.name}',
 		groupable : true,
 		flex: 1,
-		<%
-		if(p.isOneToOne()){
-			%>
-			renderer: function (value, metaData) {
-				  return 'Object id: ' +value.id;
-		    },
-		    editor : {
-				xtype : 'combo',
-				valueField: 'id',
-				tpl:'<tpl for="."><div class="x-boundlist-item" >Object id: {id}</div></tpl>',
-				displayTpl: '<tpl for=".">Object id: {id}</tpl>',
-				store: '${p.naturalName}List',
-			}
-			<%
-		}else{
-			%>
-			editor : {
-				xtype : 'textfield'
-			}
-			<%
-		}
-		%>
-		
+		${renderEditor(p)}
 		
 	},
 <%  } %>
