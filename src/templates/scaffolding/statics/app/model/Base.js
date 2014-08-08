@@ -16,7 +16,6 @@ Ext.define('${appName}.model.Base', {
 			
 			url : 'http://localhost:8080/${appName}/{entityName:uncapitalize}s',
 			reader: {
-			    type : 'json',
 			    rootProperty : 'list',
 			    totalProperty  : 'total'
 			},
