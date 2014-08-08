@@ -41,6 +41,7 @@ Ext.define('${appName}.view.main.Main', {
     },{
         region: 'center',
         xtype: 'tabpanel',
+        id: 'myTabpanel',
         items:[
 		<%
 	for(d in domainClasses){%>

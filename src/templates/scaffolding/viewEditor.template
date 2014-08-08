@@ -33,6 +33,9 @@
 
     private renderEnumEditor(domainClass, property) {
 		return """
+			renderer: function (value, metaData) {
+				return (value)?value.name:'';
+			},
 			editor : {
 				xtype : 'combo',
 				store : ${(property.type.values()*.name()).collect{"'$it'"}}
@@ -60,7 +63,7 @@
         if (property.association) {
 			return  """
 			  renderer: function (value, metaData) {
-					return 'Object id: ' +value.id;
+					return (value)?'Object id: ' +value.id:'';
 			  },
 			  editor : {
 				  xtype : 'combo',
@@ -88,6 +91,7 @@
 		String editorStrBegin =",editor : { xtype : 'numberfield'"
 		String editorStrBetween = ""
 		String editorStrEnd ="}"
+		String formatStr = ", format:'0'"
 		
 		
 		if (!cp) {
@@ -101,14 +105,14 @@
 				return cellStr+", editor : { xtype : 'combo', store : ${(domainClass.constraints."${property.name}".inList).collect{"'$it'"}}   }"
 			} else {
 				if (property.type in [float, double, Float, Double, BigDecimal]) {
-					cellStrBetween += ", format:'0.00'"
+					formatStr = ", format:'0.00'"
 				}
 				if (cp.min != null) editorStrBetween += ", minValue: ${cp.min}"
 				if (cp.max != null) editorStrBetween += ", maxValue: ${cp.max}"
 			}
 			
 		}
-		return cellStr + cellStrBetween + editorStrBegin + editorStrBetween + editorStrEnd
+		return cellStr + cellStrBetween + formatStr + editorStrBegin + editorStrBetween + editorStrEnd
      }
 
     private renderBooleanEditor(domainClass, property) {
@@ -127,7 +131,8 @@
 		 	xtype: 'datecolumn',   
 		 	format:'Y-m-d',
 			editor : {
-				xtype : 'datefield'
+				xtype : 'datefield',
+		 		format: 'Y-m-d',
 			}
 			"""
     }

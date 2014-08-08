@@ -47,7 +47,7 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 	static EXTJS_MODEL_DIR = EXTJS_APP_DIR + "model/"
 	static EXTJS_CONTROLLER_DIR = EXTJS_APP_DIR + "controller/"
 	static SCAFFOLDING_STATICS_DIR = "statics/"
-	static SCAFFOLDING_STATICS_DIR_ANT_ALL = SCAFFOLDING_STATICS_DIR + "**/*.js"
+	static SCAFFOLDING_STATICS_DIR_ANT_ALL = SCAFFOLDING_STATICS_DIR + "**/*.*"
 
 	ExtjsTemplateGenerator(ClassLoader classLoader) {
 		super(classLoader)

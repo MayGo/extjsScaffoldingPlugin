@@ -25,16 +25,31 @@ Ext.define('${appName}.model.${className}', {
 		}
 	}
 
-private renderFieldForProperty(p, owningClass, prefix = "") {
+private renderFieldForProperty(property, owningClass, prefix = "") {
 	boolean hasHibernate = pluginManager?.hasGrailsPlugin('hibernate') || pluginManager?.hasGrailsPlugin('hibernate4')
 	boolean required = false
+	String type = ""
+		
 	if (hasHibernate) {
-		cp = owningClass.constrainedProperties[p.name]
+		cp = owningClass.constrainedProperties[property.name]
 		required = (cp ? !(cp.propertyType in [boolean, Boolean]) && !cp.nullable : false)
+		if(cp.propertyType in [boolean, Boolean]){
+			 type = "boolean"
+		}else if(cp.propertyType in [int, Integer, long, Long]){
+			 type = "int"
+		}else if(Number.isAssignableFrom(property.type) || (property.type?.isPrimitive() && property.type != boolean)){
+			 type = "number"
+		}else if(property.type == Date || property.type == java.sql.Date || property.type == java.sql.Time || property.type == Calendar){
+			 type = "date"
+		}else if(property.type == String){
+			 type = "string"
+		}
 	}
+	
 	%>
 	{
-		name : '${p.name}'
+		name : '${property.name}',
+		type: '${type}'
 	},
 <%  } %>
 ]

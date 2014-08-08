@@ -18,7 +18,7 @@ Ext.define('${appName}.store.${className}List', {
 			}
 			//TODO:replace with note in sidebar
 			Ext.MessageBox.show({
-				msg : Ext.String.format("{0} user: {1}", verb, record.getId()),
+				msg : Ext.String.format("{0} ${className}: {1}", verb, record.getId()),
 				icon : Ext.MessageBox.INFO,
 				buttons : Ext.Msg.OK
 			});
