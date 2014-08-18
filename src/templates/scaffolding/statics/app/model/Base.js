@@ -22,5 +22,8 @@ Ext.define('${appName}.model.Base', {
 			startParam:'offset',
 			limitParam:'max'
 		}
+	},
+	getUniqueName:function(){
+		return Ext.getDisplayName(this).split(".").pop() + " " + this.getId()
 	}
 });

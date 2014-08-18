@@ -1,5 +1,7 @@
 // configuration for plugin testing - will not be included in the plugin zip
-
+grails.databinding.dateFormats = [
+        'yyyy-MM-dd HH:mm:ss', 'MMddyyyy', 'yyyy-MM-dd HH:mm:ss.S', "yyyy-MM-dd'T'hh:mm:ss'Z'"]
+		
 log4j = {
     // Example of changing the log pattern for the default console
     // appender:

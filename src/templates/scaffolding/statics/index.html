@@ -5,13 +5,14 @@
 
     <title>${appName}</title>
 
-    <link rel="stylesheet" type="text/css" href="http://dev.sencha.com/extjs/5.0.0/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all-debug.css"> <script type="text/javascript" src="http://dev.sencha.com/extjs/5.0.0/ext-all.js"></script>
-	<script type="text/javascript" src="http://dev.sencha.com/extjs/5.0.0/ext-all.js"></script>
-	<script type="text/javascript" src="http://dev.sencha.com/extjs/5.0.0/packages/ext-theme-neptune/build/ext-theme-neptune.js" defer=""></script>
+   <link rel="stylesheet" type="text/css" href="ext/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all-debug.css">
+	<script type="text/javascript" src="ext/build/ext-all.js"></script>
+	<script type="text/javascript" src="ext/packages/ext-theme-neptune/build/ext-theme-neptune.js" ></script>
 
 	<script type="text/javascript">
         Ext.Loader.setConfig({enabled: true});
         Ext.Loader.setPath('Ext.ux', 'ux');
+        Ext.Loader.loadScript("overrides/data/proxy/Rest.js");
         Ext.Loader.loadScript("overrides/data/reader/Json.js");
         
 		Ext.ClassManager.addNameAlternateMappings({
@@ -19,35 +20,7 @@
 				"widget.searchfield"
 		  	]
 		});
-		Ext.override(Ext.data.proxy.Rest, {
-	        setException: function(operation, response){
-	            console.log("Exception");
-				
-	            operation.response = response;
-	            operation.responseText = response.responseText;
-	            operation.responseData = Ext.JSON.decode(operation.responseText); 
-				operation.setException({
-	                status: response.status,
-	                statusText: response.statusText
-	            });
-				
-
-				var recordId = operation.request._records[0].id
-				if(recordId && operation.responseData.errors){
-					var grid = Ext.getCmp('myTabpanel').getActiveTab();
-					var view = grid.getView();
-					var instance = view.getRecord(recordId);
-
-					var editor = grid.getPlugin('rowediting');
-					editor.startEdit(grid.store.indexOfId(recordId), 0);
-
-					Ext.each(operation.responseData.errors, function(error, index) {
-					  return editor.editor.down("[name=" + error.field + "]").markInvalid(error.message);
-					});	
-				}
-	           
-	        },
-	    });
+		
     </script>
     <script type="text/javascript" src="app.js"></script>
 </head>

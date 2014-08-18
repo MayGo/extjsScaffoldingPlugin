@@ -14,13 +14,30 @@ Ext.define('${appName}.view.main.MainController', {
 
     alias: 'controller.main',
 
-    onClickButton: function () {
-        Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
-    },
+    createTab: function (prefix, rec, cfg) {
+        var tabs = this.lookupReference('main'),
+            id = prefix + '_' + rec.getId(),
+            tab = tabs.items.getByKey(id);
 
-    onConfirm: function (choice) {
-        if (choice === 'yes') {
-            //
+        if (!tab) {
+            cfg.itemId = id;
+            cfg.closable = true;
+            cfg.title = rec.getUniqueName();
+            tab = tabs.add(cfg);
         }
-    }
+
+        tabs.setActiveTab(tab);
+    },
+    onMenuClick: function (view, rowIdx, colIdx, item, e, rec) {
+        this.createTab('asset', rec, {
+            xtype: 'assetlist-grid'
+        });
+    },
+    onSearchSelect: function( combo, records, eOpts ){
+		console.log(records);
+		var rec = records[0]
+		this.createTab('asset', rec, {
+	        xtype: 'assetlist-grid'
+        });
+	}
 });

@@ -5,5 +5,7 @@
 </description>
   <documentation>http://grails.org/plugin/extjs-scaffolding</documentation>
   <type>ExtjsScaffoldingGrailsPlugin</type>
-  <resources />
+  <resources>
+    <resource>extjsScaffoldingPlugin.CustomRestfulController</resource>
+  </resources>
 </plugin>
