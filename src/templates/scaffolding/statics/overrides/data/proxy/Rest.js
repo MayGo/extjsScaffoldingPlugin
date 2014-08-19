@@ -1,6 +1,6 @@
 Ext.override(Ext.data.proxy.Rest, {
 	        setException: function(operation, response){
-	            console.log("Exception");
+	            console.log("REST Exception");
 				
 	            operation.response = response;
 	            operation.responseText = response.responseText;
@@ -14,7 +14,6 @@ Ext.override(Ext.data.proxy.Rest, {
 				var recordId = operation.request._records[0].id;
 				if(recordId && operation.responseData.errors){
 					var tabView = Ext.getCmp('myTabpanel').getActiveTab();
-					console.log(tabView);
 				
 					if(tabView instanceof ResourceManager.view.BaseRestGrid){
 						var view = tabView.getView();
@@ -23,12 +22,9 @@ Ext.override(Ext.data.proxy.Rest, {
 						editor.startEdit(tabView.store.indexOfId(recordId), 0);
 	
 						Ext.each(operation.responseData.errors, function(error, index) {
-						  return editor.editor.down("[name=" + error.field + "]").markInvalid(error.message);
+							editor.editor.down("[name=" + error.field + "]").markInvalid(error.message);
 						});	
 					}
-					
-						console.log(tabView.class);
-					
 				}
 	           
 	        },

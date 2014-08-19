@@ -1,110 +1,64 @@
+<% 
+	import grails.persistence.Event
+	import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
+%>
 Ext.define('${appName}.view.${domainClass.propertyName}.Detail', {
-    extend: 'Ext.panel.Panel',
+    extend: '${appName}.view.BaseDetailView',
     alias: 'widget.${domainClass.propertyName.toLowerCase()}detail',
     
     requires: [
         '${appName}.view.${domainClass.propertyName}.DetailModel',
-        '${appName}.view.${domainClass.propertyName}.DetailController',
-        'Ext.form.Panel',
-        'Ext.form.field.Text',
-        'Ext.form.field.TextArea',
-        'Ext.layout.container.VBox',
-        'Ext.form.field.ComboBox',
-        'Ext.view.View'
+        '${appName}.view.${domainClass.propertyName}.DetailController'
     ],
-    
-    bind: {
-        title: '{theDomainObject.uniqueName}'
-    },
-    
-    layout: {
-        type: 'vbox',
-        align: 'stretch'
-    },
-    
+  
     componentCls: '${domainClass.propertyName.toLowerCase()}-detail',
-    bodyPadding: 20,
     
     controller: '${domainClass.propertyName.toLowerCase()}detail',
     viewModel: {
         type: '${domainClass.propertyName.toLowerCase()}detail'
     },
     
-    tbar: [{
-        text: 'Save',
-        handler: 'onSaveClick'
-    }],
+  
     
-    items: [{
-        xtype: 'component',
-        bind: '{theDomainObject.uniqueName}',
-        cls: 'title',
-        margin: '0 0 20 0'
-    }, {
-        xtype: 'form',
-        border: false,
-        maxWidth: 600,
-        height: 100,
-        reference: 'form',
-        defaults: {
-            anchor: '95%'
-        },
-        items: [{
-            xtype: 'textfield',
-            fieldLabel: 'Title',
-            allowBlank: false,
-            bind: '{theDomainObject.uniqueName}',
-            publishes: ['value']
-        }/*, {
-            xtype: 'combobox',
-            fieldLabel: 'Assignee',
-            allowBlank: false,
-            forceSelection: true,
-            queryMode: 'local',
-            valueField: 'id',
-            displayField: 'name',
-            publishes: ['value'],
-            bind: {
-                store: '{theAsset.project.users}',
-                value: '{theAsset.assigneeId}'
-            }
-        }, {
-            xtype: 'combobox',
-            fieldLabel: 'Status',
-            allowBlank: false,
-            forceSelection: true,
-            editable: false,
-            queryMode: 'local',
-            valueField: 'id',
-            displayField: 'name',
-            publishes: ['value'],
-            bind: '{theAsset.status}',
-            store: {
-                fields: ['id', 'name'],
-                data: [
-                    { id: 1, name: 'Pending' },
-                    { id: 2, name: 'Open' },
-                    { id: 3, name: 'Closed' }
-                ]
-            }
-        }*/]
-    }/*, {
-        xtype: 'component',
-        html: 'Comments',
-        cls: 'small-title',
-        margin: '20 0'
-    }, {
-        xtype: 'dataview',
-        flex: 1,
-        bind: '{theResourceManager.comments}',
-        disableSelection: true,
-        cls: 'comments',
-        autoScroll: true,
-        emptyText: 'There are no comments',
-        itemTpl: [
-            '<div class="header"><span class="created">{created:date("Y-m-d H:i")}</span> - <span class="user">{user.name}</span></div>',
-            '<div class="content">{text}</div>',
-            '<tpl if="xindex !== xcount"><hr /></tpl>'
-        ]
-    }*/]
+    items: [
+		<%  excludedProps = Event.allEvents.toList() << 'version' << 'dateCreated' << 'lastUpdated'
+		persistentPropNames = domainClass.persistentProperties*.name
+		boolean hasHibernate = pluginManager?.hasGrailsPlugin('hibernate') || pluginManager?.hasGrailsPlugin('hibernate4')
+		if (hasHibernate) {
+			def GrailsDomainBinder = getClass().classLoader.loadClass('org.codehaus.groovy.grails.orm.hibernate.cfg.GrailsDomainBinder')
+			if (GrailsDomainBinder.newInstance().getMapping(domainClass)?.identity?.generator == 'assigned') {
+				persistentPropNames << domainClass.identifier.name
+			}
+		}
+		props = domainClass.properties.findAll { persistentPropNames.contains(it.name) && !excludedProps.contains(it.name) && (domainClass.constrainedProperties[it.name] ? domainClass.constrainedProperties[it.name].display : true) }
+		Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
+		for (p in props) {
+			if (p.embedded) {
+				def embeddedPropNames = p.component.persistentProperties*.name
+				def embeddedProps = p.component.properties.findAll { embeddedPropNames.contains(it.name) && !excludedProps.contains(it.name) }
+				Collections.sort(embeddedProps, comparator.constructors[0].newInstance([p.component] as Object[]))
+				//NOT USED
+			} else {
+				renderFieldForProperty(p, domainClass)
+			}
+		}
+		
+		private renderFieldForProperty(p, owningClass, prefix = "") {
+			boolean hasHibernate = pluginManager?.hasGrailsPlugin('hibernate') || pluginManager?.hasGrailsPlugin('hibernate4')
+			boolean required = false
+			if (hasHibernate) {
+				cp = owningClass.constrainedProperties[p.name]
+				required = (cp ? !(cp.propertyType in [boolean, Boolean]) && !cp.nullable : false)
+			}
+			%>
+			{
+	            fieldLabel: '${p.naturalName}',
+	            name:'${p.name}',
+	            bind: '{theDomainObject.${p.name}}',
+
+				${renderEditor(p, true)}
+				
+			},
+		<%  } %>        
+    ]
 });

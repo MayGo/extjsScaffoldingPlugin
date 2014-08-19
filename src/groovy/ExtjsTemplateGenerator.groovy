@@ -48,6 +48,9 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 	static EXTJS_CONTROLLER_DIR = EXTJS_APP_DIR + "controller/"
 	static SCAFFOLDING_STATICS_DIR = "statics/"
 	static SCAFFOLDING_STATICS_DIR_ANT_ALL = SCAFFOLDING_STATICS_DIR + "**/*.*"
+	
+	protected Template gridRenderEditorTemplate;
+	protected Template detailViewRenderEditorTemplate;
 
 	ExtjsTemplateGenerator(ClassLoader classLoader) {
 		super(classLoader)
@@ -166,7 +169,7 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		return info.getDescriptor().getFile().getParentFile();
 	}
 
-	def renderEditor = { GrailsDomainClassProperty property ->
+	def renderEditor = { GrailsDomainClassProperty property, boolean isDetailView = false ->
 		def domainClass = property.domainClass
 		def cp
 		boolean hasHibernate = pluginManager?.hasGrailsPlugin('hibernate') || pluginManager?.hasGrailsPlugin('hibernate4')
@@ -174,10 +177,15 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 			cp = domainClass.constrainedProperties[property.name]
 		}
 
-		if (!renderEditorTemplate) {
+		if (!gridRenderEditorTemplate) {
 			// create template once for performance
-			renderEditorTemplate = engine.createTemplate(getTemplateText('viewEditor.template'))
+			gridRenderEditorTemplate = engine.createTemplate(getTemplateText('gridEditor.template'))
 		}
+		if (!detailViewRenderEditorTemplate) {
+			// create template once for performance
+			detailViewRenderEditorTemplate = engine.createTemplate(getTemplateText('detailViewEditor.template'))
+		}
+		
 
 		def binding = [
 			pluginManager: pluginManager,
@@ -185,7 +193,8 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 			domainClass: domainClass,
 			cp: cp,
 			domainInstance:getPropertyName(domainClass)]
-		return renderEditorTemplate.make(binding).toString()
+		if(isDetailView) return detailViewRenderEditorTemplate.make(binding).toString()
+		else return gridRenderEditorTemplate.make(binding).toString()
 	}
 
 	@Override
