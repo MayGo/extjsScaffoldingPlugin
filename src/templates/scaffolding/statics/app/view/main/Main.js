@@ -11,9 +11,11 @@ Ext.define('${appName}.view.main.Main', {
 		'Ext.layout.container.Border',
 		'ResourceManager.view.main.MainController',
 		'ResourceManager.view.main.MainModel',
+		'ResourceManager.view.dashboard.View',
 	<%
 	for(d in domainClasses){%>
 		'${appName}.view.${d.propertyName}.List',
+		'${appName}.view.${d.propertyName}.Detail',
 	<%}
 	%>
 	],
@@ -53,8 +55,10 @@ Ext.define('${appName}.view.main.Main', {
 		    maxWidth: 250,
 		    items:[{
 		        xtype: 'combo',
-		        store: 'AssetList',
-		        displayField: 'name',
+		        store: '${domainClasses.first().getShortName()}List',
+		        displayField: 'uniqueName',
+		        reference: 'mainSearch',
+		        width:"100%",
 		        minChars: 1,
 		        listConfig: {
 		            loadingText: 'Searching...',
@@ -68,17 +72,23 @@ Ext.define('${appName}.view.main.Main', {
 		        xtype: 'grid',
 		        hideHeaders: true,
 		        store : 'MenuItems',
+		        listeners:{
+		        	rowclick:'onClickMenuItem'
+		        },
 		        columns: [{
 		            dataIndex: 'title',
 		            flex: 1
 		        }, {
 		            xtype: 'actioncolumn',
-		            width: 20,
-		            handler: 'onProjectSearchClick',
-		            stopSelection: false,
+		            width: 40,
 		            items: [{
-		                tooltip: 'Search tickets',
-		                iconCls: 'search'
+		                tooltip: 'Search items',
+		                handler: 'onOpenSearch',
+		                iconCls: 'x-grid-filters-find'
+		            },{
+		                tooltip: 'Create new domain object',
+		                handler: 'onCreateDomainObject',
+		                iconCls: 'x-toolbar-more-icon'
 		            }]
 		        }]
 		    }]
@@ -89,11 +99,19 @@ Ext.define('${appName}.view.main.Main', {
 	        xtype: 'tabpanel',
 	        id: 'myTabpanel',
 	        reference: 'main',
+	        defaults:{
+	       		closable:true
+	        },
 	        items:[
+			{
+			    xtype: 'dashboard',
+			    closable: false
+			},
 		<%
 	for(d in domainClasses){%>
 		{
-            xtype: '${d.propertyName}list-grid'
+            xtype: '${d.propertyName.toLowerCase()}gridlist',
+            itemId: '${d.propertyName.toLowerCase()}gridlist_tab'
         },
 	<%}
 	%>

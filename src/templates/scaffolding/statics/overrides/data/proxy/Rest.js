@@ -11,18 +11,24 @@ Ext.override(Ext.data.proxy.Rest, {
 	            });
 				
 
-				var recordId = operation.request._records[0].id
+				var recordId = operation.request._records[0].id;
 				if(recordId && operation.responseData.errors){
-					var grid = Ext.getCmp('myTabpanel').getActiveTab();
-					var view = grid.getView();
-					var instance = view.getRecord(recordId);
-
-					var editor = grid.getPlugin('rowediting');
-					editor.startEdit(grid.store.indexOfId(recordId), 0);
-
-					Ext.each(operation.responseData.errors, function(error, index) {
-					  return editor.editor.down("[name=" + error.field + "]").markInvalid(error.message);
-					});	
+					var tabView = Ext.getCmp('myTabpanel').getActiveTab();
+					console.log(tabView);
+				
+					if(tabView instanceof ResourceManager.view.BaseRestGrid){
+						var view = tabView.getView();
+						var instance = view.getRecord(recordId);
+						var editor = tabView.getPlugin('rowediting');
+						editor.startEdit(tabView.store.indexOfId(recordId), 0);
+	
+						Ext.each(operation.responseData.errors, function(error, index) {
+						  return editor.editor.down("[name=" + error.field + "]").markInvalid(error.message);
+						});	
+					}
+					
+						console.log(tabView.class);
+					
 				}
 	           
 	        },

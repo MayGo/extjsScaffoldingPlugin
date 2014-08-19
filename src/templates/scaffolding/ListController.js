@@ -1,6 +1,6 @@
 Ext.define('${appName}.view.${domainClass.propertyName}.ListController', {
 	extend : 'Ext.app.ViewController',
-	alias : 'controller.${domainClass.propertyName}list',
+	alias : 'controller.${domainClass.propertyName.toLowerCase()}list',
 
 	// Used as an editRenderer by BigData to display an uneditable field in the RowEditor
 	bold : function(v) {
