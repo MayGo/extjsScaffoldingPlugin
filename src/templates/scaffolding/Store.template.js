@@ -16,11 +16,10 @@ Ext.define('${appName}.store.${className}List', {
 			} else {
 				verb = name + 'd';
 			}
-			//TODO:replace with note in sidebar
-			Ext.MessageBox.show({
-				msg : Ext.String.format("{0} ${className}: {1}", verb, record.getId()),
-				icon : Ext.MessageBox.INFO,
-				buttons : Ext.Msg.OK
+			Ext.toast({
+				html : Ext.String.format("{0} {1}", verb, record.get('uniqueName')),
+				align : 't',
+				bodyPadding : 10
 			});
 		},
 

@@ -20,7 +20,6 @@ Ext.define('${appName}.view.BaseDetailView', {
     },
     
     bodyPadding: 20,
-    maxWidth : 400,
     tbar: [{
         text: 'Save',
         handler: 'onSaveClick'

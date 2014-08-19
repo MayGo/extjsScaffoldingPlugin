@@ -19,8 +19,21 @@ Ext.define('${appName}.view.${domainClass.propertyName}.Detail', {
     },
     
   
-    
-    items: [
+    items: [{
+        xtype: 'component',
+        bind: '{theDomainObject.uniqueName}',
+        cls: 'title',
+        margin: '0 0 20 0'
+    }, {
+        xtype: 'form',
+        border: false,
+        maxWidth: 400,
+        reference: 'form',
+        defaults: {
+            anchor: '95%'
+        },
+        items: [
+
 		<%  excludedProps = Event.allEvents.toList() << 'version' << 'dateCreated' << 'lastUpdated'
 		persistentPropNames = domainClass.persistentProperties*.name
 		boolean hasHibernate = pluginManager?.hasGrailsPlugin('hibernate') || pluginManager?.hasGrailsPlugin('hibernate4')
@@ -60,5 +73,6 @@ Ext.define('${appName}.view.${domainClass.propertyName}.Detail', {
 				
 			},
 		<%  } %>        
-    ]
+		]
+    }]
 });

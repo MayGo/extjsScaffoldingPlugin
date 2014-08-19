@@ -20,9 +20,15 @@ Ext.define('${appName}.view.BaseDetailController', {
 
 	onSuccess : function(list, operation) {
 		Ext.Msg.hide();
+		var record = operation.getRecords()[0], name = Ext.String.capitalize(operation.action), verb;
+
+		if (name == 'Destroy') {
+			verb = 'Destroyed';
+		} else {
+			verb = name + 'd';
+		}
 		Ext.toast({
-			title : 'Save',
-			html : 'Saved successfully',
+			html : Ext.String.format("{0} {1}", verb, record.get('uniqueName')),
 			align : 't',
 			bodyPadding : 10
 		});
