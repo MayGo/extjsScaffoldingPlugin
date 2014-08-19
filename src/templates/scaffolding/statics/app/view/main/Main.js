@@ -23,9 +23,7 @@ Ext.define('${appName}.view.main.Main', {
 	 xtype: 'app-main',
 	    controller: 'main',
 		layout: 'border',
-		width: 500,
-		height: 400,
-		
+
 		bodyBorder: false,
 		
 		defaults: {
