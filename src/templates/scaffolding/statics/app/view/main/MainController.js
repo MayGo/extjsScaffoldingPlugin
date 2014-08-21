@@ -64,7 +64,7 @@ Ext.define('${appName}.view.main.MainController', {
 		e.preventDefault();
     	var domain = rec.data['title'];
     	var searchBox = this.lookupReference('mainSearch');
-    	searchBox.bindStore(domain + "List");
+    	searchBox.bindStore({type:Ext.util.Format.lowercase(domain) + "list"});
 		searchBox.expand();
     },
     

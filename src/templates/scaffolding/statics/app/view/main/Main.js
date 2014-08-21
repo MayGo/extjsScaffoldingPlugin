@@ -53,7 +53,7 @@ Ext.define('${appName}.view.main.Main', {
 		    maxWidth: 250,
 		    items:[{
 		        xtype: 'combo',
-		        store: '${domainClasses.first().getShortName()}List',
+		        store: {type:'${domainClasses.first().getShortName().toLowerCase()}list'},
 		        displayField: 'uniqueName',
 		        reference: 'mainSearch',
 		        width:"100%",

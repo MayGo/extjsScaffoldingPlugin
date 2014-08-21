@@ -55,9 +55,8 @@
 			return  """
 				  xtype : 'combo',
 				  valueField: 'id',
-				  tpl:'<tpl for="."><div class="x-boundlist-item" >Object id: {id}</div></tpl>',
-				  displayTpl: '<tpl for=".">Object id: {id}</tpl>',
-				  store: '${grails.util.GrailsNameUtils.getShortName(property.type)}List',
+  				  displayField: 'uniqueName',
+				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}list'},
 			"""
         }
     }

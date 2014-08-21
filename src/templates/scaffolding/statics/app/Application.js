@@ -24,7 +24,6 @@ Ext.define('${appName}.Application', {
 		'${d.getShortName()}List',
 	<%}
 	%>
-        // TODO: add stores here
     ],
     
     launch: function () {

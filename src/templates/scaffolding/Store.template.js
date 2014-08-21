@@ -1,5 +1,6 @@
 Ext.define('${appName}.store.${className}List', {
 	extend : 'Ext.data.Store',
+	alias: 'store.${className.toLowerCase()}list',
 	requires : [ 'Ext.data.proxy.Rest' ],
 	model : '${appName}.model.${className}',
 	autoLoad : true,

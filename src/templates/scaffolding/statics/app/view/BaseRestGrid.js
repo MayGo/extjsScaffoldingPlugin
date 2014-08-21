@@ -27,37 +27,38 @@ Ext.define('${appName}.view.BaseRestGrid', {
 			return rec.phantom ? '' : v;
 		}
 	}],
-	dockedItems : [{
-		dock : 'top',
-		xtype : 'toolbar',
-		items : [{
-			width : 400,
-			fieldLabel : 'Search',
-			labelWidth : 50,
-			xtype : 'searchfield',
-			store : 'AssetList'
-		}, '->', {
-			xtype : 'component',
-			itemId : 'status',
-			tpl : 'Matching threads: {count}',
-			style : 'margin-right:5px'
-		}, {
-			text : 'Add',
-			iconCls : 'icon-add',
-			handler : 'addItemHandler'
-		}, '-', {
-			itemId : 'delete',
-			text : 'Delete',
-			iconCls : 'icon-delete',
-			disabled : true,
-			handler : 'deleteItemHandler'
-		}]
-	}, {
-		xtype : 'pagingtoolbar',
-		store : this.store, // same store GridPanel is using
-		dock : 'bottom',
-		displayInfo : true
-	}],
+	
+	initComponent: function() {
+		this.dockedItems= [{
+			dock : 'top',
+			xtype : 'toolbar',
+			items : [{
+				width : 400,
+				fieldLabel : 'Search',
+				labelWidth : 50,
+				xtype : 'searchfield',
+				store: this.store
+			}, '->', {
+				text : 'Add',
+				iconCls : 'icon-add',
+				handler : 'addItemHandler'
+			}, '-', {
+				itemId : 'delete',
+				text : 'Delete',
+				iconCls : 'icon-delete',
+				disabled : true,
+				handler : 'deleteItemHandler'
+			}]
+		},{
+			xtype : 'pagingtoolbar',
+			store : this.store, // same store GridPanel is using
+			dock : 'bottom',
+			displayInfo : true
+		}];
+		
+        this.callParent();
+    },
+    
 	viewConfig : {
 		stripeRows : true
 	},
