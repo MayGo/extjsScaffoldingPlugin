@@ -18,7 +18,15 @@ Ext.define('${appName}.view.BaseRestGrid', {
 		xtype : 'rownumberer',
 		width : 40,
 		sortable : false
-	}, {
+	},  {
+        xtype: 'actioncolumn',
+        width: 25,
+        items: [{
+            tooltip: 'Open domain object',
+            handler: 'openDomainObjectInTab',
+            icon: 'resources/images/edit.png'
+        }]
+    }, {
 		text : 'ID',
 		width : 50,
 		sortable : true,
@@ -40,12 +48,12 @@ Ext.define('${appName}.view.BaseRestGrid', {
 				store: this.store
 			}, '->', {
 				text : 'Add',
-				iconCls : 'icon-add',
+				icon: 'resources/images/add.png',
 				handler : 'addItemHandler'
 			}, '-', {
 				itemId : 'delete',
 				text : 'Delete',
-				iconCls : 'icon-delete',
+				icon: 'resources/images/delete.png',
 				disabled : true,
 				handler : 'deleteItemHandler'
 			}]

@@ -30,6 +30,7 @@ import org.springframework.util.StringUtils;
 import groovy.io.FileType
 import grails.util.Holders
 import java.nio.file.Paths
+import org.springframework.util.FileCopyUtils
 
 /**
  * implementation of the generator that generates extjs artifacts (controllers, models, store, views etc.)
@@ -329,7 +330,7 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		Assert.hasText(destDir, "Argument [destdir] not specified");
 
 		Resource[] resources = []
-		String templatesDirPath 
+		String templatesDirPath
 		if (resourceLoader != null && grailsApplication.isWarDeployed()) {
 			templatesDirPath = "/WEB-INF/templates/scaffolding/"+SCAFFOLDING_STATICS_DIR
 			try {
@@ -381,19 +382,27 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		if (canWrite(destFile)) {
 			destFile.getParentFile().mkdirs();
 
-			BufferedWriter writer = null;
-			try {
-				writer = new BufferedWriter(new FileWriter(destFile));
-				generateStatic(writer, templateFile);
+			if(fileName.endsWith(".js") || fileName.endsWith(".html")){
+				BufferedWriter writer = null;
 				try {
-					writer.flush();
-				} catch (IOException ignored) {}
-			}
-			finally {
-				IOGroovyMethods.closeQuietly(writer);
-			}
 
-			log.info("Controller generated at [" + destFile + "]");
+
+
+					writer = new BufferedWriter(new FileWriter(destFile));
+					generateStatic(writer, templateFile);
+
+
+					try {
+						writer.flush();
+					} catch (IOException ignored) {}
+				}
+				finally {
+					IOGroovyMethods.closeQuietly(writer);
+				}
+			}else{//Just copy non-template file like images
+				FileCopyUtils.copy(templateFile.inputStream, new FileOutputStream(destFile))
+			}
+			log.info("Static generated at [" + destFile + "]");
 		}
 	}
 

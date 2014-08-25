@@ -82,11 +82,11 @@ Ext.define('${appName}.view.main.Main', {
 		            items: [{
 		                tooltip: 'Search items',
 		                handler: 'onOpenSearch',
-		                iconCls: 'x-grid-filters-find'
+		                icon: 'resources/images/search.png'
 		            },{
 		                tooltip: 'Create new domain object',
 		                handler: 'onCreateDomainObject',
-		                iconCls: 'x-toolbar-more-icon'
+		                icon: 'resources/images/add.png'
 		            }]
 		        }]
 		    }]
