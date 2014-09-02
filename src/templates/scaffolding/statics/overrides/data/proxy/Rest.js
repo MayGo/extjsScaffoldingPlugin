@@ -4,8 +4,12 @@ Ext.override(Ext.data.proxy.Rest, {
 		
         operation.response = response;
         operation.responseText = response.responseText;
-        operation.responseData = Ext.JSON.decode(operation.responseText); 
-		operation.setException({
+        try{
+            operation.responseData = Ext.JSON.decode(operation.responseText); 
+        }catch(ex){
+
+        }
+        operation.setException({
             status: response.status,
             statusText: response.statusText
         });

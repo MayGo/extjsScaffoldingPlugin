@@ -67,11 +67,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.Detail', {
 			{
 	            fieldLabel: '${p.naturalName}',
 	            name:'${p.name}',
-	            <% if (p.association){%>
-	            bind: '{theDomainObject.${p.name}.id}',
-	            <% }else{%>
 	            bind: '{theDomainObject.${p.name}}',
-	            <% }%>
 				${renderEditor(p, true)}
 				
 			},

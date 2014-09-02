@@ -39,9 +39,9 @@ Ext.define('${appName}.model.Base', {
 	proxy : {
 		listeners:{
 			exception :function(proxy, type, operation){
-	            
-				var recordId = operation.request._records[0].id;
-				if(recordId && operation.responseData && operation.responseData.errors){
+				if(operation.request._records && operation.request._records[0].id && operation.responseData && operation.responseData.errors){ 
+					var recordId = operation.request._records[0].id;
+				
 					var tabView = Ext.getCmp('myTabpanel').getActiveTab();
 				
 					if(tabView instanceof ${appName}.view.BaseRestGrid){
