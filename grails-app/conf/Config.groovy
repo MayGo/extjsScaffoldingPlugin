@@ -22,3 +22,6 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+//grails.plugin.extjsscaffolding.exportLocation = "extjs/" //without ending / gives crapp
+//grails.plugin.extjsscaffolding.overwrite = true

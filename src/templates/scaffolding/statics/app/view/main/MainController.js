@@ -10,15 +10,15 @@ Ext.define('${appName}.view.main.MainController', {
 
     requires: [
         'Ext.MessageBox',
-        'ResourceManager.services.TabService'
+        '${appName}.services.TabService'
     ],
 
     alias: 'controller.main',
 
     onClickMenuItem: function ( view, rec, colIdx, rowIdx, e, eOpts ){
      	var title = rec.data['title'];
-    	var xtype = ResourceManager.services.TabService.domainListXtype(title);
-        ResourceManager.services.TabService.createTab(xtype, null, {
+    	var xtype = ${appName}.services.TabService.domainListXtype(title);
+    	${appName}.services.TabService.createTab(xtype, null, {
         	title: title,
             xtype: xtype
         });
@@ -26,7 +26,7 @@ Ext.define('${appName}.view.main.MainController', {
     
     onSearchSelect: function( combo, records, eOpts ){
     	 var rec = records[0];
-	     ResourceManager.services.TabService.openDomainDetailTab(rec);
+    	 ${appName}.services.TabService.openDomainDetailTab(rec);
 	},	
 	
 	onOpenSearch : function (view, rowIdx, colIdx, item, e, rec) {
@@ -34,13 +34,14 @@ Ext.define('${appName}.view.main.MainController', {
     	var domain = rec.data['title'];
     	var searchBox = this.lookupReference('mainSearch');
     	searchBox.bindStore({type:Ext.util.Format.lowercase(domain) + "list"});
+    	searchBox.store.load();
 		searchBox.expand();
     },
     
     onCreateDomainObject: function (view, rowIdx, colIdx, item, e, rec) {
     	var domain = rec.data['title'];
-    	var newRecord = Ext.create('ResourceManager.model.' + domain);
-	    ResourceManager.services.TabService.openDomainDetailTab(newRecord);
+    	var newRecord = Ext.create('${appName}.model.' + domain);
+    	${appName}.services.TabService.openDomainDetailTab(newRecord);
     }
 
 });

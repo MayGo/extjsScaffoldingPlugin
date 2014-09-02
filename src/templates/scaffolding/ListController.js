@@ -1,4 +1,4 @@
 Ext.define('${appName}.view.${domainClass.propertyName}.ListController', {
-	extend : 'ResourceManager.view.BaseListController',
+	extend : '${appName}.view.BaseListController',
 	alias : 'controller.${domainClass.propertyName.toLowerCase()}list'
 });

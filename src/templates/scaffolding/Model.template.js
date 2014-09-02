@@ -1,6 +1,6 @@
 <% import grails.persistence.Event %>
 Ext.define('${appName}.model.${className}', {
-	extend : 'ResourceManager.model.Base',
+	extend : '${appName}.model.Base',
 	fields : [
 		
 <%  excludedProps = Event.allEvents.toList() << 'version' << 'dateCreated' << 'lastUpdated'

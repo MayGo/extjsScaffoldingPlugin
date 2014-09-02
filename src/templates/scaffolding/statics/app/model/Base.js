@@ -22,7 +22,7 @@ Ext.define('${appName}.model.Base', {
 		proxy : {
 			type : 'rest',
 			
-			url : 'http://localhost:8080/${appName}/{entityName:uncapitalize}s',
+			url : 'http://localhost:8080/${appName}/{entityName:lowercase}s',
 			reader: {
 			    rootProperty : 'list',
 			    totalProperty  : 'total'
@@ -44,7 +44,7 @@ Ext.define('${appName}.model.Base', {
 				if(recordId && operation.responseData && operation.responseData.errors){
 					var tabView = Ext.getCmp('myTabpanel').getActiveTab();
 				
-					if(tabView instanceof ResourceManager.view.BaseRestGrid){
+					if(tabView instanceof ${appName}.view.BaseRestGrid){
 						var view = tabView.getView();
 						var instance = view.getRecord(recordId);
 						var editor = tabView.getPlugin('rowediting');

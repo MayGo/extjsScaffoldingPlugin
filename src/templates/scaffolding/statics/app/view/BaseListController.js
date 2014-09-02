@@ -2,7 +2,7 @@ Ext.define('${appName}.view.BaseListController', {
 	extend : 'Ext.app.ViewController',
 	
 	 requires: [
-        '${appName}.utils.TabService'
+        '${appName}.services.TabService'
     ],
 
     addItemHandler : function() {
@@ -30,7 +30,7 @@ Ext.define('${appName}.view.BaseListController', {
 
 	},
 	openDomainObjectInTab: function (view, rowIdx, colIdx, item, e, rec) {
-	    ResourceManager.services.TabService.openDomainDetailTab(rec);
+		${appName}.services.TabService.openDomainDetailTab(rec);
     },
     
 });

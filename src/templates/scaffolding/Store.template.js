@@ -3,8 +3,8 @@ Ext.define('${appName}.store.${className}List', {
 	alias: 'store.${className.toLowerCase()}list',
 	requires : [ 'Ext.data.proxy.Rest' ],
 	model : '${appName}.model.${className}',
-	autoLoad : true,
-	autoSync : true,
+	autoLoad : false,
+	autoSync : false,
 	pageSize : 50,
 	remoteFilter : true,
 	

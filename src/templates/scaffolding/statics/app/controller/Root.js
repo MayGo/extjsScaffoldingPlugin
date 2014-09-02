@@ -4,6 +4,6 @@
 Ext.define('${appName}.controller.Root', {
     extend: 'Ext.app.Controller',
     requires: [
-        'ResourceManager.view.main.Main'
+        '${appName}.view.main.Main'
     ],
 });

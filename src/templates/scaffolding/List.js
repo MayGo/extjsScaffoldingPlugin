@@ -4,7 +4,7 @@
 %>
 
 Ext.define('${appName}.view.${domainClass.propertyName}.List', {
-	extend : 'ResourceManager.view.BaseRestGrid',
+	extend : '${appName}.view.BaseRestGrid',
 	xtype : '${domainClass.propertyName.toLowerCase()}gridlist',
 	store : '${className}List',
 	title : '${className}',
@@ -12,8 +12,9 @@ Ext.define('${appName}.view.${domainClass.propertyName}.List', {
 	controller : '${domainClass.propertyName.toLowerCase()}list',
 	
 	initComponent: function() {
-    	this.columns =this.defaultColumns.concat(this.columns);
+    	this.columns = this.defaultColumns.concat(this.columns);
         this.callParent();
+        this.store.load();
     },
     
 	columns : [

@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.charset.Charset
 import java.nio.file.Path
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,6 +32,7 @@ import groovy.io.FileType
 import grails.util.Holders
 import java.nio.file.Paths
 import org.springframework.util.FileCopyUtils
+import groovy.util.CharsetToolkit
 
 /**
  * implementation of the generator that generates extjs artifacts (controllers, models, store, views etc.)
@@ -40,7 +42,8 @@ import org.springframework.util.FileCopyUtils
  */
 class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 
-	static EXTJS_DIR = Holders.config.extJsExportLocation?:"extjs/"
+	static EXTJS_DIR = Holders.config.grails.plugin.extjsscaffolding.exportLocation?:"extjs/"
+	boolean shouldOverwrite = Holders.config.grails.plugin.extjsscaffolding.overwrite?:false
 	static EXTJS_APP_DIR = EXTJS_DIR+"app/"
 	static EXTJS_VIEW_DIR = EXTJS_APP_DIR + "view/"
 	static EXTJS_VIEW_MAIN_DIR = EXTJS_VIEW_DIR+"main/"
@@ -55,10 +58,12 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 
 	ExtjsTemplateGenerator(ClassLoader classLoader) {
 		super(classLoader)
+		setOverwrite(shouldOverwrite)
 	}
 
 	@Override
 	public void generateViews(GrailsDomainClass domainClass, String destDir) throws IOException {
+		
 		Assert.hasText(destDir, "Argument [destdir] not specified");
 
 		File viewsDir = new File(destDir, EXTJS_VIEW_DIR + domainClass.getPropertyName());
@@ -421,6 +426,43 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		InputStream inputStream = templateFile.getInputStream();
 		
 		return inputStream == null ? null : IOGroovyMethods.getText(inputStream);
+	}
+	
+	
+	public void addAnnotation(GrailsDomainClass domainClass) throws IOException {
+
+		if (domainClass == null) {
+			return;
+		}
+
+		String fullName = domainClass.getFullName();
+		
+		String pathName = fullName.replace(".", File.separator)
+		String domainClassFilePath = "grails-app/domain/" + pathName+ ".groovy"
+		
+		File destFile = new File(domainClassFilePath);
+		if (canWrite(destFile)) {
+
+			CharsetToolkit toolkit = new CharsetToolkit(destFile);
+			// guess the encoding
+			Charset guessedCharset = toolkit.getCharset();
+			
+			//lowercase plural domain name as url
+			String restName = domainClass.getShortName().toLowerCase() + "s"
+			
+			String linesToAdd = "import grails.rest.Resource\n\n"
+			linesToAdd += "@Resource(uri = '/$restName', formats = ['json'], superClass = extjsScaffoldingPlugin.CustomRestfulController)\n"
+			
+			//Add annotation line without modifying file encoding
+			destFile.write(destFile.getText(guessedCharset.toString()).replaceFirst(/(.*class .+\{)/){
+				linesToAdd + it[0]
+			}, guessedCharset.toString())
+						
+			log.info("Annotation added to [" + destFile + "]");
+		}
+		
+		
+		
 	}
 
 	@Override

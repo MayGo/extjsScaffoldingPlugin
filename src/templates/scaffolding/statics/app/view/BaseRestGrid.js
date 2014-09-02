@@ -72,6 +72,11 @@ Ext.define('${appName}.view.BaseRestGrid', {
 	},
 	plugins : [{
 		ptype : 'rowediting',
-		pluginId : 'rowediting'
+		pluginId : 'rowediting',
+		listeners:{
+			edit: function(editor, e) {
+			    e.store.sync();
+			}
+		}
 	}]
 });

@@ -9,9 +9,9 @@ Ext.define('${appName}.view.main.Main', {
     extend: 'Ext.container.Container',
     requires:[
 		'Ext.layout.container.Border',
-		'ResourceManager.view.main.MainController',
-		'ResourceManager.view.main.MainModel',
-		'ResourceManager.view.dashboard.View',
+		'${appName}.view.main.MainController',
+		'${appName}.view.main.MainModel',
+		'${appName}.view.dashboard.View',
 	<%
 	for(d in domainClasses){%>
 		'${appName}.view.${d.propertyName}.List',
@@ -45,8 +45,12 @@ Ext.define('${appName}.view.main.Main', {
 		},
 		{
 			xtype: 'panel',
-		    title: 'ResourceManager',
+		    title: '${appName}',
 		    region:'west',
+		    layout: {
+				type: 'vbox',
+				align: 'stretch'
+			},
 		    margin: '5 0 0 0',
 		    width: 200,
 		    minWidth: 100,
@@ -68,6 +72,7 @@ Ext.define('${appName}.view.main.Main', {
 		    },
 		    {
 		        xtype: 'grid',
+		        flex: 1,
 		        hideHeaders: true,
 		        store : 'MenuItems',
 		        listeners:{
@@ -104,15 +109,7 @@ Ext.define('${appName}.view.main.Main', {
 			{
 			    xtype: 'dashboard',
 			    closable: false
-			},
-		<%
-	for(d in domainClasses){%>
-		{
-            xtype: '${d.propertyName.toLowerCase()}gridlist',
-            itemId: '${d.propertyName.toLowerCase()}gridlist_tab'
-        },
-	<%}
-	%>
+			}
 		]
     }]
 });

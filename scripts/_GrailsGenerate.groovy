@@ -32,6 +32,7 @@ generateViews = true
 generateStores = true
 generateStatics = true
 generateModels = true
+addAnnotations = false
 
 
 target(generateForOne: "Generates controllers and views for only one domain class.") {
@@ -111,6 +112,12 @@ void generateForDomainClass(domainClass) {
 		event("StatusUpdate", ["Generating store classes for domain class ${domainClass.fullName}"])
 		templateGenerator.generateModel(domainClass, basedir)
 		event("GenerateModelEnd", [domainClass.fullName])
+	}
+	
+	if (addAnnotations) {
+		event("StatusUpdate", ["Adding annotation to domain class ${domainClass.fullName}"])
+		templateGenerator.addAnnotation(domainClass)
+		event("AddAnnotationEnd", [domainClass.fullName])
 	}
 	
 	

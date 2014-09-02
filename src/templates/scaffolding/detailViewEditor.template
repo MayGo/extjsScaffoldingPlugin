@@ -62,12 +62,11 @@
     }
 
     private renderManyToMany(domainClass, property) {
-       
-
+		return "//ManyToMany"
     }
 
     private renderOneToMany(domainClass, property) {
-        
+       return "//OneToMany"
     }
 
     private renderNumberEditor(domainClass, property) {
