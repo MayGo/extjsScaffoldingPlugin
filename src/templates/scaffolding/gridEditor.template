@@ -69,7 +69,7 @@
 				  xtype : 'combo',
 				  valueField: 'id',
 				  displayField: 'uniqueName',
-				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}list'},
+				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}-liststore'},
 			  }
 			"""
         }

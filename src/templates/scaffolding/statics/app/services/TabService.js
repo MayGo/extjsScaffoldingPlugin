@@ -34,11 +34,11 @@ Ext.define('${appName}.services.TabService', {
         });
 	},
 	domainListXtype:function(domainName){
-		return  Ext.util.Format.lowercase(domainName) + "gridlist";
+		return  Ext.util.Format.lowercase(domainName) + "-gridlist";
 	},	
 	
 	domainDetailXtype:function(domainName){
-		return  Ext.util.Format.lowercase(domainName) + "detail";
+		return  Ext.util.Format.lowercase(domainName) + "-detailview";
 	}
 	
 });

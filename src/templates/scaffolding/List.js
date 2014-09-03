@@ -5,11 +5,11 @@
 
 Ext.define('${appName}.view.${domainClass.propertyName}.List', {
 	extend : '${appName}.view.BaseRestGrid',
-	xtype : '${domainClass.propertyName.toLowerCase()}gridlist',
+	xtype : '${domainClass.propertyName.toLowerCase()}-gridlist',
 	store : '${className}List',
 	title : '${className}',
 	requires : ['${appName}.view.${domainClass.propertyName}.ListController'],
-	controller : '${domainClass.propertyName.toLowerCase()}list',
+	controller : '${domainClass.propertyName.toLowerCase()}-listcontroller',
 	loadOnInit : true,
 	
 	initComponent: function() {

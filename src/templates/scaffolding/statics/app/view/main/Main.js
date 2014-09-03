@@ -15,6 +15,7 @@ Ext.define('${appName}.view.main.Main', {
 	<%
 	for(d in domainClasses){%>
 		'${appName}.view.${d.propertyName}.List',
+		'${appName}.view.${d.propertyName}.EmbeddedList',
 		'${appName}.view.${d.propertyName}.Detail',
 	<%}
 	%>
@@ -57,7 +58,7 @@ Ext.define('${appName}.view.main.Main', {
 		    maxWidth: 250,
 		    items:[{
 		        xtype: 'combo',
-		        store: {type:'${domainClasses.first().getShortName().toLowerCase()}list'},
+		        store: {type:'${domainClasses.first().getShortName().toLowerCase()}-liststore'},
 		        displayField: 'uniqueName',
 		        reference: 'mainSearch',
 		        width:"100%",

@@ -5,5 +5,5 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailModel', {
     extend: 'Ext.app.ViewModel',
 
     // This enables "viewModel: { type: 'assetdetail' }" in the view:
-    alias: 'viewmodel.${domainClass.propertyName.toLowerCase()}detail'
+    alias: 'viewmodel.${domainClass.propertyName.toLowerCase()}-detailviewmodel'
 });

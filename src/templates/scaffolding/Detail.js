@@ -4,7 +4,7 @@
 %>
 Ext.define('${appName}.view.${domainClass.propertyName}.Detail', {
     extend: '${appName}.view.BaseDetailView',
-    alias: 'widget.${domainClass.propertyName.toLowerCase()}detail',
+    alias: 'widget.${domainClass.propertyName.toLowerCase()}-detailview',
     
     requires: [
         '${appName}.view.${domainClass.propertyName}.DetailModel',
@@ -13,9 +13,9 @@ Ext.define('${appName}.view.${domainClass.propertyName}.Detail', {
   
     componentCls: '${domainClass.propertyName.toLowerCase()}-detail',
     
-    controller: '${domainClass.propertyName.toLowerCase()}detail',
+    controller: '${domainClass.propertyName.toLowerCase()}-detailcontroller',
     viewModel: {
-        type: '${domainClass.propertyName.toLowerCase()}detail'
+        type: '${domainClass.propertyName.toLowerCase()}-detailviewmodel'
     },
     
   

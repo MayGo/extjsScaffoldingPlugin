@@ -56,35 +56,22 @@
 				  xtype : 'restcombo',
 				  valueField: 'id',
   				  displayField: 'uniqueName',
-				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}list'},
+				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}-liststore'},
 			"""
         }
     }
 
     private renderManyToMany(domainClass, property) {
-		return "//ManyToMany"
+		return 	""" 
+    			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-embedded-gridlist',//ManyToMany
+				maxWidth: 2000,
+				"""
     }
 
     private renderOneToMany(domainClass, property) {
 		return 	""" 
-    			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}gridlist',//OneToMany
+    			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-embedded-gridlist',//OneToMany
 				maxWidth: 2000,
-				loadOnInit: false,
-				setStore: function (store) {
-					var objArr = store;
-
-					//make copy of global store
-					var newStore = Ext.create(Ext.ClassManager.getName(this.store));
-					
-					//Load full object from store using objects id
-					if(objArr){
-						Ext.each(objArr, function(record) {
-							newStore.load({id:record['id'],  addRecords: true})
-						}, this);
-					}
-					this.reconfigure(newStore);
-				}
-				
 				"""
     }
 
