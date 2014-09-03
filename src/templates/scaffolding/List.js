@@ -10,11 +10,12 @@ Ext.define('${appName}.view.${domainClass.propertyName}.List', {
 	title : '${className}',
 	requires : ['${appName}.view.${domainClass.propertyName}.ListController'],
 	controller : '${domainClass.propertyName.toLowerCase()}list',
+	loadOnInit : true,
 	
 	initComponent: function() {
     	this.columns = this.defaultColumns.concat(this.columns);
         this.callParent();
-        this.store.load();
+        if(this.loadOnInit) this.store.load();
     },
     
 	columns : [

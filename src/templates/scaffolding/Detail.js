@@ -27,10 +27,11 @@ Ext.define('${appName}.view.${domainClass.propertyName}.Detail', {
     }, {
         xtype: 'form',
         border: false,
-        maxWidth: 400,
+       
         reference: 'form',
         defaults: {
-            anchor: '95%'
+            anchor: '95%',
+            maxWidth: 400
         },
         items: [
 

@@ -103,6 +103,11 @@ Ext.define('${appName}.view.main.Main', {
 	        id: 'myTabpanel',
 	        reference: 'main',
 	        defaults:{
+				layout: {
+					type: 'vbox',
+					align: 'stretch'
+				},
+				autoScroll : true,
 	       		closable:true
 	        },
 	        items:[
