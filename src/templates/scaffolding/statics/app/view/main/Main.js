@@ -15,8 +15,9 @@ Ext.define('${appName}.view.main.Main', {
 	<%
 	for(d in domainClasses){%>
 		'${appName}.view.${d.propertyName}.List',
-		'${appName}.view.${d.propertyName}.EmbeddedList',
-		'${appName}.view.${d.propertyName}.Detail',
+		'${appName}.view.${d.propertyName}.EmbeddedArrayList',
+		'${appName}.view.${d.propertyName}.EmbeddedRestList',
+		'${appName}.view.${d.propertyName}.DetailView',
 	<%}
 	%>
 	],

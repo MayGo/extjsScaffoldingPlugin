@@ -2,7 +2,7 @@
 	import grails.persistence.Event
 	import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
 %>
-Ext.define('${appName}.view.${domainClass.propertyName}.Detail', {
+Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
     extend: '${appName}.view.BaseDetailView',
     alias: 'widget.${domainClass.propertyName.toLowerCase()}-detailview',
     
@@ -68,7 +68,17 @@ Ext.define('${appName}.view.${domainClass.propertyName}.Detail', {
 			{
 	            fieldLabel: '${p.naturalName}',
 	            name:'${p.name}',
-	            bind: '{theDomainObject.${p.name}}',
+	   <%  if (property.oneToMany  || (property.manyToMany && property.isOwningSide())){%>
+	            bind: {
+					value: {
+						bindTo: '{theDomainObject.${p.name}}',
+						single: true
+					}
+				},
+		<% }else{%>
+				 bind: '{theDomainObject.${p.name}}',
+		 <%}%>
+	            
 				${renderEditor(p, true)}
 				
 			},

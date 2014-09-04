@@ -40,9 +40,11 @@ Ext.define('${appName}.view.BaseDetailController', {
 		var error = operation.getError(), msg = Ext.isObject(error) ? error.status + ' ' + error.statusText : error;
 		var errors = [];
 		
-		Ext.each(operation.responseData.errors, function(error, index) {
-			errors.push({id:error.field, msg:error.message});
-		});
+		if(operation.responseData){
+			Ext.each(operation.responseData.errors, function(error, index) {
+				errors.push({id:error.field, msg:error.message});
+			});
+		}
 		
 		if(errors.length>0){
 			form.getForm().markInvalid(errors);

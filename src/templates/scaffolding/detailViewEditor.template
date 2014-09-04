@@ -22,14 +22,13 @@
         out << renderByteArrayEditor(domainClass, property)
     else if (property.manyToOne || property.oneToOne)
         out << renderManyToOne(domainClass, property)
-    else if ((property.oneToMany && !property.bidirectional) || (property.manyToMany && property.isOwningSide())) {
-        def str = renderManyToMany(domainClass, property)
-        if (str != null) {
-            out << str
-        }
+    else if ((property.oneToMany && !property.bidirectional) || property.manyToMany) {
+        out << renderManyToMany(domainClass, property)
     }
     else if (property.oneToMany)
         out << renderOneToMany(domainClass, property)
+    else
+    	out << "//nothing"
 
     private renderEnumEditor(domainClass, property) {
 		return """
@@ -58,19 +57,28 @@
   				  displayField: 'uniqueName',
 				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}-liststore'},
 			"""
+        }else{
+        	return "//renderManyToOne not association"
         }
     }
 
     private renderManyToMany(domainClass, property) {
-		return 	""" 
-    			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-embedded-gridlist',//ManyToMany
-				maxWidth: 2000,
-				"""
+    	if(property.isOwningSide()){
+			return 	""" 
+	    			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-embedded-arraylist',//ManyToMany
+					maxWidth: 2000,
+					"""
+		}else{
+			return 	""" 
+	    			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-embedded-restlist',//ManyToMany not owningSide
+					maxWidth: 2000,
+					"""
+		}
     }
 
     private renderOneToMany(domainClass, property) {
 		return 	""" 
-    			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-embedded-gridlist',//OneToMany
+    			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-embedded-arraylist',//OneToMany
 				maxWidth: 2000,
 				"""
     }

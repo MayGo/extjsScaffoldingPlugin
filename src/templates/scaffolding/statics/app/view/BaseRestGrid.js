@@ -6,6 +6,9 @@ Ext.define('${appName}.view.BaseRestGrid', {
 	width : 910,
 	multiColumnSort : true,
 	multiSelect : true,
+	
+	//If propery is true, then we hide some elements
+	isEmbeddedList:false,
 
 	selModel : {
 		pruneRemoved : false,
@@ -45,7 +48,8 @@ Ext.define('${appName}.view.BaseRestGrid', {
 				fieldLabel : 'Search',
 				labelWidth : 50,
 				xtype : 'searchfield',
-				store: this.store
+				store: this.store,
+				hidden: this.isEmbeddedList
 			}, '->', {
 				text : 'Add',
 				icon: 'resources/images/add.png',
@@ -61,7 +65,8 @@ Ext.define('${appName}.view.BaseRestGrid', {
 			xtype : 'pagingtoolbar',
 			store : this.store, // same store GridPanel is using
 			dock : 'bottom',
-			displayInfo : true
+			displayInfo : true,
+			hidden: this.isEmbeddedList
 		}];
 		
         this.callParent();
