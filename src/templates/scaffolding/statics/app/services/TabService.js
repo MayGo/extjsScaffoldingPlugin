@@ -21,17 +21,11 @@ Ext.define('${appName}.services.TabService', {
     openDomainDetailTab: function(rec){
 		var domain = rec.getDomainName();
     	var xtype = this.domainDetailXtype(domain);
-        this.createTab(domain, rec, {
-            xtype: xtype,
-            session: new Ext.data.Session({
-                data: [rec]
-            }),
-            viewModel: {
-                data: {
-                    theDomainObject: rec
-                }
-            }
-        });
+    	 this.createTab(domain, rec, {
+             xtype: xtype,
+ 			domainRecord: rec,
+ 			title: rec.uniqueName
+         });
 	},
 	domainListXtype:function(domainName){
 		return  Ext.util.Format.lowercase(domainName) + "-gridlist";

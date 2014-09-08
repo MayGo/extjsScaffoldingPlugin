@@ -10,10 +10,12 @@ Ext.define('${appName}.view.BaseDetailView', {
         'Ext.view.View'
     ],
     
-    bind: {
-        title: '{theDomainObject.uniqueName}'
-    },
-    
+    domainRecord: null, //Is Added in TabService.openDomainDetailTab
+    listeners:{
+		beforerender: function (self, eOpts){
+			this.lookupReference('baseform').loadRecord(this.domainRecord);
+		}
+	},
     layout: {
         type: 'vbox',
         align: 'stretch'
@@ -22,6 +24,28 @@ Ext.define('${appName}.view.BaseDetailView', {
     bodyPadding: 20,
     tbar: [{
         text: 'Save',
-        handler: 'onSaveClick'
+        handler: 'onSaveClick',
+        scale: 'medium',
+		hidden: true,
+    	 bind: {
+             hidden: '{isReadOnly}',
+			 disabled : '{!dataHasChanged}'
+         }
+    },{
+        text: 'Reset',
+        handler: 'onResetClick',
+        scale: 'medium',
+		hidden: true,
+    	 bind: {
+             hidden: '{isReadOnly}',
+			 disabled : '{!dataHasChanged}'
+         }
+    },{
+        text: 'Edit',
+        handler: 'onEditClick',
+        scale: 'medium',
+    	 bind: {
+             hidden: '{!isReadOnly}'
+         }
     }]
 });

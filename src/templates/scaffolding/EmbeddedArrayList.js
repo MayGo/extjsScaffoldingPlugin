@@ -4,9 +4,6 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 	extend : 'Ext.form.field.Base',
 	xtype : '${domainClass.propertyName.toLowerCase()}-embedded-arraylist',
 	
-	viewModel : {
-
-	},
 	initComponent : function() {
 
 		this.grid = this.childComponent = Ext.create('${appName}.view.${domainClass.propertyName}.List', {
@@ -17,7 +14,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 		this.grid.bindStore(Ext.create(Ext.ClassManager.getName(this.grid.store)));
 		this.grid.store.sync = function() {
 			//TODO: Turn off sync() in rowediting
-		}
+		};
 		
 		this.grid.store.addListener('update', function(self, eOpts) {
 
@@ -27,7 +24,9 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 				rawData.push(rec.getData());
 			});
 
-			this.getViewModel().set('theDomainObject.ametikohad', rawData);
+			//Change data and check if it has changed
+			this.value = rawData;
+			this.checkDirty();
 		}, this);
 		
 		this.callParent(arguments);
@@ -58,16 +57,34 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 	},
 	
 	setValue : function(values) {
-
 		//Load full object from store using objects id
 		if (values) {
 			Ext.each(values, function(record) {
 				this.grid.store.load({
 					id : record['id'],
-					addRecords : true
+					addRecords : true,
+					callback : function(records, operation, success) {
+						// Data has not actually changed, consider loaded data not dirty
+						var rawData = [];
+						Ext.each(this.grid.store.getRange(), function(rec) {
+							rawData.push(rec.getData());
+						});
+
+						this.value = rawData;
+						this.resetOriginalValue();
+					},
+					scope: this
 				});
 			}, this);
 		}
-
-	}
+	},
+	getValue : function() {
+		return this.value;
+	},
+	/*
+	 * Override isEqual to compare Object's values
+	 */
+	isEqual: function(value1, value2) {
+        return Ext.util.JSON.encode(value1) === Ext.util.JSON.encode(value2);
+    },
 });

@@ -3,10 +3,10 @@ Ext.define('Ext.ux.form.RestCombo', {
 
 	alias: 'widget.restcombo',
 
-	listeners: {
-		afterrender: function() {
+	listeners:{
+		beforerender: function() {
 			//Load full object from store using objects id
-			var customObj = this.bind.value.getValue();
+			var customObj = this.getValue();
 			if(customObj){
 				var id = customObj['id'];
 				this.store.load({
@@ -14,7 +14,8 @@ Ext.define('Ext.ux.form.RestCombo', {
 					scope:this,
 					callback: function(records, operation, success){
 						if(success && records.length == 1){
-							this.setValue(records[0])
+							this.setValue(records[0]);
+							this.initValue();
 						}
 					}
 				});

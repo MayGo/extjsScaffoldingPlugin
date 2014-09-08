@@ -20,15 +20,9 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
     
   
     items: [{
-        xtype: 'component',
-        bind: '{theDomainObject.uniqueName}',
-        cls: 'title',
-        margin: '0 0 20 0'
-    }, {
-        xtype: 'form',
+        xtype: 'base-form',
         border: false,
-       
-        reference: 'form',
+        reference: 'baseform',
         defaults: {
             anchor: '95%',
             maxWidth: 400
@@ -67,18 +61,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
 			%>
 			{
 	            fieldLabel: '${p.naturalName}',
-	            name:'${p.name}',
-	   <%  if (property.oneToMany  || (property.manyToMany && property.isOwningSide())){%>
-	            bind: {
-					value: {
-						bindTo: '{theDomainObject.${p.name}}',
-						single: true
-					}
-				},
-		<% }else{%>
-				 bind: '{theDomainObject.${p.name}}',
-		 <%}%>
-	            
+	            name:'${p.name}',            
 				${renderEditor(p, true)}
 				
 			},

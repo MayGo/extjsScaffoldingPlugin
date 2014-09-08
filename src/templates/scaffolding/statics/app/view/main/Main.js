@@ -12,6 +12,7 @@ Ext.define('${appName}.view.main.Main', {
 		'${appName}.view.main.MainController',
 		'${appName}.view.main.MainModel',
 		'${appName}.view.dashboard.View',
+		'${appName}.view.BaseForm',
 	<%
 	for(d in domainClasses){%>
 		'${appName}.view.${d.propertyName}.List',
