@@ -55,9 +55,33 @@ Ext.define('${appName}.view.BaseDetailController', {
 		var errors = [];
 		
 		if(operation.responseData){
+			
+			var isArrayPattern = /(.*)(?=.*\\[.*\\])/g;
+			var relationsErrors = new Ext.util.HashMap();
 			Ext.each(operation.responseData.errors, function(error, index) {
-				errors.push({id:error.field, msg:error.message});
+				var field = error.field;
+				//Search if error contains relation error e.g: user.role[0].name
+				var isArrayMatch = field.match(isArrayPattern);
+				if(isArrayMatch && isArrayMatch.length > 0){
+					var relationName = isArrayMatch[0];
+					var relationFieldName = field.substr(field.indexOf(".")+1);
+					
+					//Hold all relations field errors
+					var fieldErrors = relationsErrors.get(relationName);
+					if (!fieldErrors) {
+						fieldErrors = new Ext.util.HashMap();
+					}
+					fieldErrors.add(relationFieldName, error.message);
+					relationsErrors.add(relationName, fieldErrors);
+				}else{
+					errors.push({id:field, msg:error.message});
+				}
 			});
+			relationsErrors.each(
+				function(key, value, length){
+				    errors.push({id:key, msg:value});
+				}
+			);
 		}
 		
 		if(errors.length>0){

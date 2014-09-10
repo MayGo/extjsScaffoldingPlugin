@@ -87,4 +87,30 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 	isEqual: function(value1, value2) {
         return Ext.util.JSON.encode(value1) === Ext.util.JSON.encode(value2);
     },
+    markInvalid : function(errors) {
+		console.log("mark invalid");
+		console.log(errors)
+
+		// Save the message and fire the 'invalid' event
+		var me = this, oldMsg = me.getActiveError(), active;
+		
+		var i = 0;
+		errors.each(function(field, error, length) {
+			console.log(field, error, length);
+			//var model = me.grid.store.getAt(i);
+
+			var view = me.grid.getView();
+			var editor = me.grid.getPlugin('rowediting');
+			editor.startEdit(i, 0);
+			console.log(editor.editor.down("[name=" + field + "]"));
+			editor.editor.down("[name=" + field + "]").markInvalid(error);
+
+			i++;
+		});
+		/*me.setActiveErrors(Ext.Array.from(errors));
+		active = me.getActiveError();
+		if (oldMsg !== active) {
+			me.setError(active);
+		}*/
+	}
 });
