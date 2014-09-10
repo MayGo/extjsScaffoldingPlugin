@@ -79,6 +79,7 @@
     private renderOneToMany(domainClass, property) {
 		return 	""" 
     			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-embedded-arraylist',//OneToMany
+    			referencedPropertyName: '${property.getReferencedPropertyName()}.id',
 				maxWidth: 2000,
 				"""
     }

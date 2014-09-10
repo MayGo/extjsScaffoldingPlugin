@@ -4,6 +4,9 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 	extend : 'Ext.form.field.Base',
 	xtype : '${domainClass.propertyName.toLowerCase()}-embedded-arraylist',
 	
+	//load store data with parameter domain.id(eg: user.id=1) or takes relations ids and loads them separatelly
+	referencedPropertyName: null, 
+	
 	initComponent : function() {
 
 		this.grid = this.childComponent = Ext.create('${appName}.view.${domainClass.propertyName}.List', {
@@ -59,25 +62,42 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 	setValue : function(values) {
 		//Load full object from store using objects id
 		if (values) {
-			Ext.each(values, function(record) {
+			var form = this.ownerCt;
+			if(this.referencedPropertyName){
+				
+				var id = form.getRecord().getId();
+				var name = this.referencedPropertyName;
+				var params = {};
+				params[name]=id;
 				this.grid.store.load({
-					id : record['id'],
-					addRecords : true,
-					callback : function(records, operation, success) {
-						// Data has not actually changed, consider loaded data not dirty
-						var rawData = [];
-						Ext.each(this.grid.store.getRange(), function(rec) {
-							rawData.push(rec.getData());
-						});
-
-						this.value = rawData;
-						this.resetOriginalValue();
-					},
+				  	params: params,
+					callback : this.loadStoreCallback,
 					scope: this
 				});
-			}, this);
+			}else{
+				Ext.each(values, function(record) {
+					this.grid.store.load({
+						id : record['id'],
+						addRecords : true,
+						callback : this.loadStoreCallback,
+						scope: this
+					});
+				}, this);
+			}
 		}
 	},
+	
+	loadStoreCallback: function(records, operation, success) {
+		// Data has not actually changed, consider loaded data not dirty
+		var rawData = [];
+		Ext.each(this.grid.store.getRange(), function(rec) {
+			rawData.push(rec.getData());
+		});
+	
+		this.value = rawData;
+		this.resetOriginalValue();
+	},
+	
 	getValue : function() {
 		return this.value;
 	},

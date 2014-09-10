@@ -28,14 +28,25 @@ class CustomRestfulController<T> extends RestfulController<T> {
 				sortList.add([json[0].property, json[0].direction.toLowerCase()])
 			}
 		}
+		
+		//Search relation queries e.g: user.id=1
+		Map relations = params.findAll{k, v->
+			k.endsWith('.id')
+		}
 
 		def searchString = params.query
 		//Check if domain class has searchQuery in namedQueries else do a dynamic search (not suitable for production)
 		if(resource.metaClass.getStaticMetaMethod('getSearchQuery')){
+			//TODO: add relation query
 			results = resource.searchQuery(searchString, sortList).list(offset:params.offset, max:params.max)
 			totalResults = resource.searchQuery(searchString, sortList).count()
 		}else{
 			results = resource.createCriteria().list(offset:params.offset, max:params.max) {
+				
+				//make relation query
+				relations.each{k, v->
+					eq(k, v.toLong())
+				}
 				//Search from all String and Numeric fields
 				if(searchString) {
 					List intNumbers = searchString.findAll( /\d+/ )
