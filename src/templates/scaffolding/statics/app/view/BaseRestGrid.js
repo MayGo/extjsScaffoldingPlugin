@@ -2,8 +2,9 @@ Ext.define('${appName}.view.BaseRestGrid', {
 	extend : 'Ext.grid.Panel',
 	requires : 'Ext.grid.filters.Filters',
 	columnLines : true,
-	height : 400,
-	width : 910,
+	autoScroll:true,
+	minHeight:300,
+	width:'100%',
 	multiColumnSort : true,
 	multiSelect : true,
 	

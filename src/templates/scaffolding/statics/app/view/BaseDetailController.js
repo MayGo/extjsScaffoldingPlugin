@@ -31,6 +31,9 @@ Ext.define('${appName}.view.BaseDetailController', {
 
 	onSuccess : function(list, operation) {
 		this.getViewModel().set('dataHasChanged', false);
+		var form = this.lookupReference('baseform');
+		form.loadRecord(form.getRecord());
+		form.reset();
 		Ext.Msg.hide();
 		var record = operation.getRecords()[0], name = Ext.String.capitalize(operation.action), verb;
 
