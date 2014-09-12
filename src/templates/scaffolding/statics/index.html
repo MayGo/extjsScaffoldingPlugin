@@ -10,9 +10,11 @@
     <link rel="stylesheet" type="text/css" href="ext/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all-debug.css">
 	<script type="text/javascript" src="ext/build/ext-all.js"></script>
 	<script type="text/javascript" src="ext/packages/ext-theme-neptune/build/ext-theme-neptune.js" ></script>
+	<link href="resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
 	<script type="text/javascript">
         Ext.Loader.setConfig({enabled: true});
+        Ext.setGlyphFontFamily('FontAwesome');
         Ext.Loader.setPath('Ext.ux', 'ux');
         Ext.Loader.loadScript("overrides/data/proxy/Rest.js");
         Ext.Loader.loadScript("overrides/data/reader/Json.js");
