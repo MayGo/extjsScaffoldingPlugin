@@ -29,10 +29,11 @@ private renderFieldForProperty(property, owningClass, prefix = "") {
 	boolean hasHibernate = pluginManager?.hasGrailsPlugin('hibernate') || pluginManager?.hasGrailsPlugin('hibernate4')
 	boolean required = false
 	String type = ""
-		
+	String andMore = ""
 	if (hasHibernate) {
 		cp = owningClass.constrainedProperties[property.name]
 		required = (cp ? !(cp.propertyType in [boolean, Boolean]) && !cp.nullable : false)
+		
 		if(cp.propertyType in [boolean, Boolean]){
 			 type = "boolean"
 		}else if(cp.propertyType in [int, Integer, long, Long]){
@@ -41,6 +42,7 @@ private renderFieldForProperty(property, owningClass, prefix = "") {
 			 type = "number"
 		}else if(property.type == Date || property.type == java.sql.Date || property.type == java.sql.Time || property.type == Calendar){
 			 type = "date"
+			andMore=",dateWriteFormat: 'Y-m-d H:i:s.uO'"
 		}else if(property.type == String){
 			 type = "string"
 		}
@@ -49,7 +51,7 @@ private renderFieldForProperty(property, owningClass, prefix = "") {
 	%>
 	{
 		name : '${property.name}',
-		type: '${type}'
+		type: '${type}'${andMore}
 	},
 <%  } %>
 ]
