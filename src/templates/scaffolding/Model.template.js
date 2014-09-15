@@ -1,19 +1,14 @@
-<% import grails.persistence.Event %>
+<% 
+	import extjsScaffoldingPlugin.ScaffoldingHelper
+%>
 Ext.define('${appName}.model.${className}', {
 	extend : '${appName}.model.Base',
 	fields : [
 		
-<%  excludedProps = Event.allEvents.toList() << 'version' << 'dateCreated' << 'lastUpdated'
-	persistentPropNames = domainClass.persistentProperties*.name
-	boolean hasHibernate = pluginManager?.hasGrailsPlugin('hibernate') || pluginManager?.hasGrailsPlugin('hibernate4')
-	if (hasHibernate) {
-		def GrailsDomainBinder = getClass().classLoader.loadClass('org.codehaus.groovy.grails.orm.hibernate.cfg.GrailsDomainBinder')
-		if (GrailsDomainBinder.newInstance().getMapping(domainClass)?.identity?.generator == 'assigned') {
-			persistentPropNames << domainClass.identifier.name
-		}
-	}
-	props = domainClass.properties.findAll { persistentPropNames.contains(it.name) && !excludedProps.contains(it.name) && (domainClass.constrainedProperties[it.name] ? domainClass.constrainedProperties[it.name].display : true) }
-	Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
+<%  
+
+	props = ScaffoldingHelper.getProps(domainClass, pluginManager, comparator, getClass().classLoader)
+
 	for (p in props) {
 		if (p.embedded) {
 			def embeddedPropNames = p.component.persistentProperties*.name
