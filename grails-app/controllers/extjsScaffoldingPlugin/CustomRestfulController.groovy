@@ -74,7 +74,11 @@ class CustomRestfulController<T> extends RestfulController<T> {
 									eq("$property.name", it)
 								}
 
-							} 
+							}  else if( property.manyToOne || property.oneToOne){
+								intNumbers*.toLong().each{
+									eq("${property.name}.id", it)
+								}
+							}
 							intNumbers*.toLong().each{ eq("id", it) }
 						}
 					}

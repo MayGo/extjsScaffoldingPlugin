@@ -3,18 +3,19 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 	// Extend from Ext.form.field.Base for all the label related business
 	extend : 'Ext.form.field.Base',
 	xtype : '${domainClass.propertyName.toLowerCase()}-embedded-arraylist',
-	
+	width:'100%',	
 	//load store data with parameter domain.id(eg: user.id=1) or takes relations ids and loads them separatelly
 	referencedPropertyName: null, 
 	
 	initComponent : function() {
-
 		this.grid = this.childComponent = Ext.create('${appName}.view.${domainClass.propertyName}.List', {
 			loadOnInit : false,
-			isEmbeddedList : true
+			isEmbeddedList : (this.referencedPropertyName)?false:true
 		});
+		
+		//disable remote sorting  if there is no search property
+		if(!this.referencedPropertyName) this.grid.store.remoteSort = false
 		//Make copy of store
-		this.grid.bindStore(Ext.create(Ext.ClassManager.getName(this.grid.store)));
 		this.grid.store.sync = function() {
 			//TODO: Turn off sync() in rowediting
 		};
@@ -67,10 +68,9 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 				
 				var id = form.getRecord().getId();
 				var name = this.referencedPropertyName;
-				var params = {};
-				params[name]=id;
+				//Load only "referencedPropertyName" reference values
+				this.grid.store.proxy.extraParams[name]=id;
 				this.grid.store.load({
-				  	params: params,
 					callback : this.loadStoreCallback,
 					scope: this
 				});
@@ -86,6 +86,15 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 			}
 		}
 	},
+	
+	setReadOnly: function(readOnly) {
+        var me = this,
+            inputEl = me.inputEl;
+        readOnly = !!readOnly;
+        console.log("readonly")
+       // me.fireEvent('writeablechange', me, readOnly);
+    },
+	
 	
 	loadStoreCallback: function(records, operation, success) {
 		// Data has not actually changed, consider loaded data not dirty

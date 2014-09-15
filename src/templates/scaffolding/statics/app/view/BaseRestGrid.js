@@ -3,6 +3,7 @@ Ext.define('${appName}.view.BaseRestGrid', {
 	requires : 'Ext.grid.filters.Filters',
 	columnLines : true,
 	autoScroll:true,
+	height:100,
 	minHeight:300,
 	width:'100%',
 	multiColumnSort : true,
@@ -28,7 +29,7 @@ Ext.define('${appName}.view.BaseRestGrid', {
         items: [{
             tooltip: 'Open domain object',
             handler: 'openDomainObjectInTab',
-            icon: 'resources/images/edit.png'
+            icon: 'resources/images/eye.png'
         }]
     }, {
 		text : 'ID',
@@ -64,7 +65,7 @@ Ext.define('${appName}.view.BaseRestGrid', {
 			}]
 		},{
 			xtype : 'pagingtoolbar',
-			store : this.store, // same store GridPanel is using
+			store: this.store,
 			dock : 'bottom',
 			displayInfo : true,
 			hidden: this.isEmbeddedList

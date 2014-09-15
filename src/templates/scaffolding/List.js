@@ -6,13 +6,13 @@
 Ext.define('${appName}.view.${domainClass.propertyName}.List', {
 	extend : '${appName}.view.BaseRestGrid',
 	xtype : '${domainClass.propertyName.toLowerCase()}-gridlist',
-	store : '${className}List',
 	title : '${className}',
 	requires : ['${appName}.view.${domainClass.propertyName}.ListController'],
 	controller : '${domainClass.propertyName.toLowerCase()}-listcontroller',
 	loadOnInit : true,
 	
 	initComponent: function() {
+    	this.store = Ext.create('${appName}.store.${className}List');
     	this.columns = this.defaultColumns.concat(this.columns);
         this.callParent();
         if(this.loadOnInit) this.store.load();
@@ -48,6 +48,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.List', {
 			cp = owningClass.constrainedProperties[p.name]
 			required = (cp ? !(cp.propertyType in [boolean, Boolean]) && !cp.nullable : false)
 		}
+		if(!p.oneToMany && !p.manyToMany){
 		%>
 		{
 			text : '${p.naturalName}',
@@ -58,6 +59,6 @@ Ext.define('${appName}.view.${domainClass.propertyName}.List', {
 			${renderEditor(p)}
 			
 		},
-<%  } %>
+<% } } %>
 	]
 });
