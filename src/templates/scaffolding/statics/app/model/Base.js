@@ -22,7 +22,7 @@ Ext.define('${appName}.model.Base', {
 		proxy : {
 			type : 'rest',
 			
-			url : 'http://localhost:8080/${appName}/{entityName:lowercase}s',
+			url : ${appName}.config.Runtime.getApplicationUrl() +'/{entityName:lowercase}s',
 			reader: {
 			    rootProperty : 'list',
 			    totalProperty  : 'total'

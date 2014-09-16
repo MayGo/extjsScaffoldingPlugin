@@ -42,8 +42,10 @@ import groovy.util.CharsetToolkit
  */
 class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 
-	static EXTJS_DIR = Holders.config.grails.plugin.extjsscaffolding.exportLocation?:"extjs/"
+	static EXTJS_DIR = Holders.config.grails.plugin.extjsscaffolding.exportLocation?:"web-app/extapp/"
 	boolean shouldOverwrite = Holders.config.grails.plugin.extjsscaffolding.overwrite?:false
+	static APP_URL = 'http://localhost:8080/'
+	
 	static EXTJS_APP_DIR = EXTJS_DIR+"app/"
 	static EXTJS_VIEW_DIR = EXTJS_APP_DIR + "view/"
 	static EXTJS_VIEW_MAIN_DIR = EXTJS_VIEW_DIR+"main/"
@@ -99,7 +101,7 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		binding.put("packageName", packageName);
 		binding.put("multiPart", multiPart);
 		binding.put("propertyName", getPropertyName(domainClass));
-		binding.put("appName", grailsApplication.metadata['app.name']);
+		binding.put("appName", grailsApplication.metadata['app.name'].capitalize().replace(" ", ""));
 
 
 
@@ -264,17 +266,11 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		Map<String, Object> binding = createBinding(domainClass);
 		binding.put("packageName", domainClass.getPackageName());
 		binding.put("propertyName", getPropertyName(domainClass));
-		binding.put("appName", grailsApplication.metadata['app.name']);
+		binding.put("appName", grailsApplication.metadata['app.name'].capitalize().replace(" ", ""));
+		
 
 		generate(templateText, binding, out);
 	}
-
-
-
-
-
-
-
 
 
 	public void generateStore(GrailsDomainClass domainClass, String destDir) throws IOException {
@@ -320,7 +316,7 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		Map<String, Object> binding = createBinding(domainClass);
 		binding.put("packageName", domainClass.getPackageName());
 		binding.put("propertyName", getPropertyName(domainClass));
-		binding.put("appName", grailsApplication.metadata['app.name']);
+		binding.put("appName", grailsApplication.metadata['app.name'].capitalize().replace(" ", ""));
 
 		generate(templateText, binding, out);
 	}
@@ -374,8 +370,17 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 			Path filePath = Paths.get(resource.file.path);
 			Path relativeFilePath = dirPath.relativize(filePath);
 			Path relativeFilePathWithoutStaticDir = relativeFilePath.subpath(1, relativeFilePath.nameCount)
-		
-			generateStatic(destDir, EXTJS_DIR + relativeFilePathWithoutStaticDir, resource)
+
+			String fileName = EXTJS_DIR + relativeFilePathWithoutStaticDir
+			if(["ext"].contains(relativeFilePathWithoutStaticDir.subpath(0, 1).toString())) {
+				File destFile = new File(destDir, fileName);
+				if (canWrite(destFile)) {
+					destFile.getParentFile().mkdirs();
+					FileCopyUtils.copy(resource.inputStream, new FileOutputStream(destFile))
+				}
+			}else {
+				generateStatic(destDir, fileName, resource)
+			}
 		}
 
 	}
@@ -386,7 +391,6 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		File destFile = new File(destDir, fileName);
 		if (canWrite(destFile)) {
 			destFile.getParentFile().mkdirs();
-
 			if(fileName.endsWith(".js") || fileName.endsWith(".html")){
 				BufferedWriter writer = null;
 				try {
@@ -415,9 +419,10 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		String templateText = getTemplateTextFromResource(templateFile);
 
 		Map<String, Object> binding = new HashMap<String, Object>();
-		binding.put("appName", grailsApplication.metadata['app.name']);
+		binding.put("appName", grailsApplication.metadata['app.name'].capitalize().replace(" ", ""));
 		def domainClasses = grailsApplication.domainClasses
 		binding.put("domainClasses", domainClasses);
+		binding.put("appUrl", Holders.config.grails.plugin.extjsscaffolding.appUrl?:APP_URL + grailsApplication.metadata['app.name']);
 
 		generate(templateText, binding, out);
 	}

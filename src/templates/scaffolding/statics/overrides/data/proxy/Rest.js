@@ -11,7 +11,7 @@ Ext.override(Ext.data.proxy.Rest, {
         }
         operation.setException({
             status: response.status,
-            statusText: response.statusText
+            statusText: (response.statusText)?response.statusText:"Error getting response from server."
         });
     }
 });

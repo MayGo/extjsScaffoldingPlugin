@@ -7,6 +7,7 @@ Ext.define('${appName}.Application', {
     extend: 'Ext.app.Application',
     
     name: '${appName}',
+    requires : ['${appName}.config.Runtime'],
 
     views: [
         // TODO: add views here
