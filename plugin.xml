@@ -1,7 +1,8 @@
-<plugin name='extjs-scaffolding' version='0.1' grailsVersion='2.4 &gt; *'>
-  <author>Your name</author>
+<plugin name='extjs-scaffolding' version='1.0' grailsVersion='2.4 &gt; *'>
+  <author>Maigo Erit</author>
+  <authorEmail>maigo.erit@gmail.com</authorEmail>
   <title>Extjs Scaffolding Plugin</title>
-  <description>Brief summary/description of the plugin.
+  <description>Generates ExtJS application and adds rest.Resource annotation to domain objects
 </description>
   <documentation>http://grails.org/plugin/extjs-scaffolding</documentation>
   <type>ExtjsScaffoldingGrailsPlugin</type>

@@ -10,10 +10,10 @@ class ExtjsScaffoldingGrailsPlugin {
 
 	// TODO Fill in these fields
 	def title = "Extjs Scaffolding Plugin" // Headline display name of the plugin
-	def author = "Your name"
-	def authorEmail = ""
+	def author = "Maigo Erit"
+	def authorEmail = "maigo.erit@gmail.com"
 	def description = '''\
-Brief summary/description of the plugin.
+Generates ExtJS application and adds rest.Resource annotation to domain objects
 '''
 
 	// URL to the plugin's documentation
@@ -22,7 +22,7 @@ Brief summary/description of the plugin.
 	// Extra (optional) plugin metadata
 
 	// License: one of 'APACHE', 'GPL2', 'GPL3'
-	//    def license = "APACHE"
+	def license = "GPL3"
 
 	// Details of company behind the plugin (if there is one)
 	//    def organization = [ name: "My Company", url: "http://www.my-company.com/" ]
