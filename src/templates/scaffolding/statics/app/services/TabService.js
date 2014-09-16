@@ -17,15 +17,19 @@ Ext.define('${appName}.services.TabService', {
         }
 
         tabs.setActiveTab(tab);
+        return tab;
     },
-    openDomainDetailTab: function(rec){
+    openDomainDetailTab: function(rec, isNew){
 		var domain = rec.getDomainName();
     	var xtype = this.domainDetailXtype(domain);
-    	 this.createTab(domain, rec, {
-             xtype: xtype,
+    	var tab = this.createTab(domain, rec, {
+            xtype: xtype,
  			domainRecord: rec,
  			title: rec.uniqueName
-         });
+        });
+    	if(isNew){
+     		tab.getViewModel().set('isReadOnly', false);
+     	}
 	},
 	domainListXtype:function(domainName){
 		return  Ext.util.Format.lowercase(domainName) + "-gridlist";

@@ -12,7 +12,8 @@ Ext.define('${appName}.model.Base', {
 		type : 'string',
 		convert : function(newValue, model) {
 			return Ext.getDisplayName(model).split(".").pop() + " " + (model.get('id')?model.get('id'):"[new]");
-		}
+		},
+		depends: ['id']
 	}
 	],
 	
