@@ -446,7 +446,7 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		String domainClassFilePath = "grails-app/domain/" + pathName+ ".groovy"
 		
 		File destFile = new File(domainClassFilePath);
-		if (canWrite(destFile)) {
+		if (canWrite(destFile) && !destFile.text.contains("@Resource")) {
 
 			CharsetToolkit toolkit = new CharsetToolkit(destFile);
 			// guess the encoding
