@@ -10,12 +10,8 @@ Ext.define('${appName}.Application', {
     requires : ['${appName}.config.Runtime'],
 
     views: [
-        // TODO: add views here
-    ],
-
-    controllers: [
-        'Root'
-        // TODO: add controllers here
+		'login.Login',
+		'main.Main'
     ],
 
     stores: [
@@ -28,6 +24,25 @@ Ext.define('${appName}.Application', {
     ],
     
     launch: function () {
-        // TODO - Launch the application
+    	// Check whether the browser supports LocalStorage
+		// It's important to note that this type of application could use
+		// any type of storage, i.e., Cookies, LocalStorage, etc.
+		var supportsLocalStorage = Ext.supports.LocalStorage, loggedIn;
+
+		if (!supportsLocalStorage) {
+
+			// Alert the user if the browser does not support localStorage
+			Ext.Msg.alert('Your Browser Does Not Support Local Storage');
+			return;
+		}
+
+		// Check to see the current value of the localStorage key
+		loggedIn = false//localStorage.getItem("loggedIn");
+
+		// This ternary operator determines the value of the TutorialLoggedIn
+		// key.
+		// If TutorialLoggedIn isn't true, we display the login window,
+		// otherwise, we display the main view
+		Ext.widget(loggedIn ? 'app-main' : 'login');
     }
 });

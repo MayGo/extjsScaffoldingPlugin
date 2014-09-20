@@ -5,14 +5,5 @@
  */
 Ext.application({
     name: '${appName}',
-
-    extend: '${appName}.Application',
-    
-    autoCreateViewport: '${appName}.view.main.Main'
-	
-    //-------------------------------------------------------------------------
-    // Most customizations should be made to ${appName}.Application. If you need to
-    // customize this file, doing so below this section reduces the likelihood
-    // of merge conflicts when upgrading to new versions of Sencha Cmd.
-    //-------------------------------------------------------------------------
+    extend: '${appName}.Application'
 });

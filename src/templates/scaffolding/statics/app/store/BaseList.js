@@ -21,15 +21,6 @@ Ext.define('${appName}.store.BaseList', {
 				align : 't',
 				bodyPadding : 10
 			});
-		},
-
-		exception : function(proxy, response, operation) {
-			Ext.MessageBox.show({
-				title : 'REMOTE EXCEPTION',
-				msg : operation.getError(),
-				icon : Ext.MessageBox.ERROR,
-				buttons : Ext.Msg.OK
-			});
 		}
 	}
 

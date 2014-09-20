@@ -58,7 +58,7 @@ Ext.define('${appName}.model.Base', {
 				}else{
 					Ext.MessageBox.show({
 						title : 'Remote Exception',
-						msg : operation.responseText,
+                        msg : operation.responseText?operation.responseText:operation.getError().statusText,
 						icon : Ext.MessageBox.ERROR,
 						buttons : Ext.Msg.OK
 					});
