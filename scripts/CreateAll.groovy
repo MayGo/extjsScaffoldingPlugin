@@ -2,6 +2,10 @@ includeTargets << new File( extjsScaffoldingPluginDir,  'scripts/_GrailsGenerate
 
 target( createAll:'Generate all domain artifacts' ) {
   	depends(checkVersion, parseArguments, packageApp)
+	  
+    generateDomain = true
+    generateAssets = true
+    generateApplication = true
 
 	promptForName(type: "Domain Class")
 

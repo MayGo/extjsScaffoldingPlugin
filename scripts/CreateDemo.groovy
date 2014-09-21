@@ -1,20 +1,15 @@
 includeTargets << new File( extjsScaffoldingPluginDir,  'scripts/_GrailsGenerate.groovy' )
 
-target( createDemo:'Generate all domain artifacts' ) {
+target( createDemo:'Generate demo application (all artefacts)' ) {
   	depends(checkVersion, parseArguments, packageApp)
 
+	generateDomain = true
+    generateAssets = true
+	generateApplication = true
 	addAnnotations = true
 	promptForName(type: "Domain Class")
 
-	String name = argsMap['params'][0]
-	if (!name || name == '*') {
-		uberGenerate()
-	}
-	else {
-		generateForName = name
-		generateForOne()
-	}
-
+	uberGenerate()
 }
 
 setDefaultTarget( createDemo )

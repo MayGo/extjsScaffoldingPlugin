@@ -5,9 +5,7 @@ target (createModel: "Generates the model for a specified domain class") {
 
 	promptForName(type: "Domain Class")
 
-	generateViews = false
-	generateStores = false
-	generateStatics = false
+	generateDomain = true
 
 	String name = argsMap['params'][0]
 	if (!name || name == '*') {
@@ -19,4 +17,4 @@ target (createModel: "Generates the model for a specified domain class") {
 	}
 }
 
-setDefaultTarget( createModel )
+setDefaultTarget( createDomain )

@@ -28,10 +28,9 @@ includeTargets << grailsScript("_GrailsBootstrap")
 includeTargets << grailsScript("_GrailsCreateArtifacts")
 
 generateForName = null
-generateViews = true
-generateStores = true
-generateStatics = true
-generateModels = true
+generateDomain = false
+generateAssets = false
+generateApplication = false
 addAnnotations = false
 
 
@@ -75,16 +74,21 @@ target(uberGenerate: "Generates controllers and views for all domain classes.") 
 
 	domainClasses.each { domainClass -> generateForDomainClass(domainClass) }
 	
-	if (generateStatics) {
+	def DefaultGrailsTemplateGenerator = classLoader.loadClass('ExtjsTemplateGenerator')
+	def templateGenerator = DefaultGrailsTemplateGenerator.newInstance(classLoader)
+	
+	templateGenerator.grailsApplication = grailsApp
+	templateGenerator.pluginManager = pluginManager
+	if (generateApplication) {
+		event("StatusUpdate", ["Generating application views"])
+		templateGenerator.generateApplication(basedir)
+		event("GenerateApplicationEnd", [])
+	}
+	
+	if (generateAssets) {
 		event("StatusUpdate", ["Generating static views"])
-		def DefaultGrailsTemplateGenerator = classLoader.loadClass('ExtjsTemplateGenerator')
-		def templateGenerator = DefaultGrailsTemplateGenerator.newInstance(classLoader)
-		
-		templateGenerator.grailsApplication = grailsApp
-		templateGenerator.pluginManager = pluginManager
-		templateGenerator.generateStatics(basedir)
-		
-		event("GenerateStaticEnd", [])
+		templateGenerator.generateAssets(basedir)
+		event("GenerateAssetsEnd", [])
 	}
 	
 	event("StatusFinal", ["Finished generation for domain classes"])
@@ -96,22 +100,12 @@ void generateForDomainClass(domainClass) {
 	def templateGenerator = DefaultGrailsTemplateGenerator.newInstance(classLoader)
 	templateGenerator.grailsApplication = grailsApp
 	templateGenerator.pluginManager = pluginManager
-	if (generateViews) {
-		event("StatusUpdate", ["Generating views for domain class ${domainClass.fullName}"])
-		templateGenerator.generateViews(domainClass, basedir)
-		event("GenerateViewsEnd", [domainClass.fullName])
-	}
 
-	if (generateStores) {
-		event("StatusUpdate", ["Generating store classes for domain class ${domainClass.fullName}"])
-		templateGenerator.generateStore(domainClass, basedir)
+
+	if (generateDomain) {
+		event("StatusUpdate", ["Generating exxtjs classes for domain class ${domainClass.fullName}"])
+		templateGenerator.generateDomain(domainClass, basedir)
 		event("GenerateStoreEnd", [domainClass.fullName])
-	}
-	
-	if (generateModels) {
-		event("StatusUpdate", ["Generating store classes for domain class ${domainClass.fullName}"])
-		templateGenerator.generateModel(domainClass, basedir)
-		event("GenerateModelEnd", [domainClass.fullName])
 	}
 	
 	if (addAnnotations) {
