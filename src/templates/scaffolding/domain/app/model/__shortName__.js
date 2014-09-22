@@ -1,5 +1,5 @@
 <% 
-	import extjsScaffoldingPlugin.ScaffoldingHelper
+	import grails.plugin.extjsscaffolding.ScaffoldingHelper
 %>
 Ext.define('${appName}.model.${className}', {
 	extend : '${appName}.model.Base',

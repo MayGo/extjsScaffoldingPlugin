@@ -34,8 +34,10 @@ Ext.define('${appName}.Application', {
 				return;
 			}
 	
-			// Check to see the current value of the localStorage key
-			loggedIn = localStorage.getItem("loggedIn");
+			var profile = Ext.create('${appName}.model.Profile');
+			profile.setLoginDataFromLocalStorage();
+			
+			if(profile.isLoggedIn()) loggedIn = true;
     	}else{
     		loggedIn = true;
     	}

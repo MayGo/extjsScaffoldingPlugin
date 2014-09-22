@@ -6,9 +6,5 @@ Ext.define('${appName}.view.main.MainModel', {
 
     alias: 'viewmodel.main',
 
-    data: {
-        name: '${appName}'
-    }
-
-    //TODO - add data, formulas and/or methods to support your view
+  
 });

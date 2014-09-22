@@ -1,4 +1,4 @@
-package extjsScaffoldingPlugin
+package grails.plugin.extjsscaffolding
 
 import grails.persistence.Event
 import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler

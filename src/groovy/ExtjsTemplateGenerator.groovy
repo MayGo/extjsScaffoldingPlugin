@@ -131,10 +131,13 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 			log.error "No lenght for template file."
 			return;
 		}
-
-		Map<String, Object> binding = new HashMap<String, Object>();
-		binding.put("appName", grailsApplication.metadata['app.name'].capitalize().replace(" ", ""));
 		def domainClasses = grailsApplication.domainClasses
+		def config = grailsApplication.config
+		
+		Map<String, Object> binding = new HashMap<String, Object>();
+		
+		binding.put("appName", grailsApplication.metadata['app.name'].capitalize().replace(" ", ""));
+		binding.put("config", config);
 		binding.put("domainClasses", domainClasses);
 		binding.put("appUrl", Holders.config.grails.plugin.extjsscaffolding.appUrl?:APP_URL + grailsApplication.metadata['app.name']);
 
@@ -147,7 +150,7 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 	
 	public void generateDomain(GrailsDomainClass domainClass, String destDir) throws IOException {
 		Assert.hasText(destDir, "Argument [destdir] not specified");
-
+	
 		Resource[] resources
 		String templatesDirPath
 		(resources, templatesDirPath) = gatherResources(SCAFFOLDING_DOMAIN_DIR)

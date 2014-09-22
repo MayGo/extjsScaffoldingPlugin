@@ -1,4 +1,4 @@
-includeTargets << new File( extjsScaffoldingPluginDir,  'scripts/_GrailsGenerate.groovy' )
+includeTargets << new File( extjsScaffoldingPluginDir,  'scripts/_ExtjsGenerate.groovy' )
 
 target( createAll:'Generate all domain artifacts' ) {
   	depends(checkVersion, parseArguments, packageApp)
@@ -7,17 +7,7 @@ target( createAll:'Generate all domain artifacts' ) {
     generateAssets = true
     generateApplication = true
 
-	promptForName(type: "Domain Class")
-
-	String name = argsMap['params'][0]
-	if (!name || name == '*') {
 		uberGenerate()
-	}
-	else {
-		generateForName = name
-		generateForOne()
-	}
-
 }
 
 setDefaultTarget( createAll )

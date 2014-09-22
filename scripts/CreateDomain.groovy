@@ -1,4 +1,4 @@
-includeTargets << new File(extjsScaffoldingPluginDir, 'scripts/_GrailsGenerate.groovy')
+includeTargets << new File(extjsScaffoldingPluginDir, 'scripts/_ExtjsGenerate.groovy')
 
 target (createModel: "Generates the model for a specified domain class") {
 	depends(checkVersion, parseArguments, packageApp)
@@ -7,14 +7,7 @@ target (createModel: "Generates the model for a specified domain class") {
 
 	generateDomain = true
 
-	String name = argsMap['params'][0]
-	if (!name || name == '*') {
-		uberGenerate()
-	}
-	else {
-		generateForName = name
-		generateForOne()
-	}
+	uberGenerate()
 }
 
 setDefaultTarget( createDomain )

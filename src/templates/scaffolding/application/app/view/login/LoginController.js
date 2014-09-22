@@ -6,35 +6,36 @@ Ext.define('Horizon.view.login.LoginController', {
 
 	onLogin:function(loginBtn) {
 		var form = loginBtn.up('form').getForm();
-		form.submit({
-			url: Horizon.config.Runtime.getLoginUrl(),
-			waitTitle : 'Connecting',
-			waitMsg : 'Sending data...',
-
-			success : function(form, action) {
-				console.log(action)
-				Ext.Msg.alert('Success', action.result.message);
-				// Set the localStorage value to true
-				localStorage.setItem("loggedIn", true);
+		// Can't use form.submit({..}), because rest login succes does not return success:true parameter
+		Ext.Ajax.request({
+            url: Horizon.config.Runtime.getLoginUrl(),
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            params : Ext.JSON.encode(form.getValues()),
+            success: function(response, options) {
+                var result = Ext.JSON.decode(response.responseText); 
+				
+				
+				var profile = Ext.create('${appName}.model.Profile');
+				profile.setLoginData(result);
 
 				// Remove Login Window
 				this.getView().destroy();
 
 				// Add the main view to the viewport
 				Ext.widget('app-main');
-			},
-
-			failure : function(form, action) {
-				
-				console.log(action);
-				if(action.response.status == 401){
-					Ext.Msg.alert('Login Failed!',	action.response.statusText);
+             
+            },
+            failure: function(response, options) {
+				if(response.status == 401){
+					Ext.Msg.alert('Login Failed!',	response.statusText);
 				}else {
-				    var txt = (action.response.responseText)?action.response.responseText:action.response.statusText
+				    var txt = (response.responseText)?response.responseText:response.statusText
 				    Ext.Msg.alert('Warning!', 'Authentication server is unreachable : ' + txt);
 				}
 				// login.getForm().reset();
-			}					
-		});	
+            },
+            scope:this
+        });
 	}
 });

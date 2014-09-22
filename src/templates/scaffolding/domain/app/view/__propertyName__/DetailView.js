@@ -1,5 +1,5 @@
 <% 
-	import extjsScaffoldingPlugin.ScaffoldingHelper
+	import grails.plugin.extjsscaffolding.ScaffoldingHelper
 %>
 Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
     extend: '${appName}.view.BaseDetailView',
