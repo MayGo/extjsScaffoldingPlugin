@@ -11,7 +11,7 @@ Ext.define('${appName}.model.Base', {
 		name : 'uniqueName',
 		type : 'string',
 		convert : function(newValue, model) {
-			return Ext.getDisplayName(model).split(".").pop() + " " + (model.get('id')?model.get('id'):"[new]");
+			return Ext.getDisplayName(model).split(".").pop() + " " + (model.get('id')?model.get('id'):model.toString());
 		},
 		depends: ['id']
 	}
@@ -35,6 +35,28 @@ Ext.define('${appName}.model.Base', {
 	
 	getDomainName:function(){
 		return Ext.getDisplayName(this).split(".").pop();
+	},
+	
+	toString:function(){
+		var text = "[";
+		var data = this.getData({persist:true});
+		Ext.iterate(data, function(key, value) {
+		 if(Ext.isObject(value)){
+			 if(Ext.isDefined(value['class']) && Ext.isDefined(value.id)){
+				 text += value['class'].split(".").pop()
+				 text += "-"+value.id
+				 text += " "
+			 }
+		 }else if(key == 'class'){
+			 
+		 }else if(value){
+			 text += key + ":" + value
+			 text += " "
+		 }
+		
+		});
+ 
+		return text + "]"
 	},
 	
 	proxy : {
