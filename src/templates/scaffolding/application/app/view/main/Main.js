@@ -31,15 +31,7 @@ Ext.define('${appName}.view.main.Main', {
 		},
 		
 		items: [
-		    {
-		    title: 'Ver. 0.1. Build: 2.23234.1',
-		    region: 'south',
-		    height: 100,
-		    collapsed:true,
-		    minHeight: 75,
-		    maxHeight: 150,
-		    html: '<p>Information about application</p>'
-		},
+		    
 		{
 			xtype: 'panel',
 		    title: '${appName}',
@@ -52,6 +44,7 @@ Ext.define('${appName}.view.main.Main', {
 		    width: 200,
 		    minWidth: 100,
 		    maxWidth: 250,
+		    bbar: [{ xtype: 'button', text: 'Logout', handler: 'onLogout'}],
 		    items:[{
 		        xtype: 'combo',
 		        store: {type:'${domainClasses.first().getShortName().toLowerCase()}-liststore'},
@@ -113,5 +106,13 @@ Ext.define('${appName}.view.main.Main', {
 			    closable: false
 			}
 		]
-    }]
+    },{
+	    title: 'Ver. 0.1. Build: 2.23234.1',
+	    region: 'south',
+	    height: 100,
+	    collapsed:true,
+	    minHeight: 75,
+	    maxHeight: 150,
+	    html: '<p>Information about application</p>'
+	}]
 });

@@ -36,6 +36,21 @@ Ext.define('${appName}.view.main.MainController', {
     	var domain = rec.data['title'];
     	var newRecord = Ext.create('${appName}.model.' + domain);
     	${appName}.services.TabService.openDomainDetailTab(newRecord, true);
+    },
+    
+    onLogout:function(){
+    	Ext.Ajax.request({
+            url: Horizon.config.Runtime.getLogoutUrl(),
+            method: 'POST',
+            success: function(response, options) {
+            	this.getView().destroy();
+            	Ext.widget('login')
+            },
+            failure: function(response, options) {
+            	Ext.Msg.alert('Logout Failed!',	response.statusText);
+            },
+            scope:this
+        });
     }
 
 });

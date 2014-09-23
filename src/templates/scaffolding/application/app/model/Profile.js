@@ -10,8 +10,8 @@ Ext.define('${appName}.model.Profile', {
 	
 	setLoginData: function(data){
 		var usernamePropertyName = '${(config.grails.plugin.springsecurity.rest.token.rendering.usernamePropertyName)?:"username"}'
-		var tokenPropertyName = '${(config.grails.plugin.springsecurity.rest.token.rendering.tokenPropertyName)?:"username"}'
-		var authoritiesPropertyName = '${(config.grails.plugin.springsecurity.rest.token.rendering.authoritiesPropertyName)?:"permissions"}'
+		var tokenPropertyName = '${(config.grails.plugin.springsecurity.rest.token.rendering.tokenPropertyName)?:"access_token"}'
+		var authoritiesPropertyName = '${(config.grails.plugin.springsecurity.rest.token.rendering.authoritiesPropertyName)?:"roles"}'
 		
 		this.set('username', data[usernamePropertyName]);
 		this.set('token', data[tokenPropertyName]);
@@ -37,7 +37,7 @@ Ext.define('${appName}.model.Profile', {
 	},
 	
 	setTokenToDefaultHeaders: function(){
-		var headerName = '${(config.grails.plugin.springsecurity.rest.token.validation.headerName)?:"x-token"}'
+		var headerName = '${(config.grails.plugin.springsecurity.rest.token.validation.headerName)?:"X-Auth-Token"}'
 		var defaultHeaders=[];
 		defaultHeaders[headerName] = this.get('token');
 		Ext.Ajax.setDefaultHeaders(defaultHeaders);

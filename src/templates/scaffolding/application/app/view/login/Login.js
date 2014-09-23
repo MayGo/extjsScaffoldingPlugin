@@ -1,21 +1,22 @@
 Ext.define('Horizon.view.login.Login',{
-	extend : 'Ext.window.Window',
-	xtype : 'login',
+	extend: 'Ext.window.Window',
+	xtype: 'login',
 
-	requires : [ 
-	             'Horizon.view.login.LoginController',
-			     'Ext.form.Panel'
-	           ],
+	requires: [ 
+	     'Horizon.view.login.LoginController',
+	     'Ext.form.Panel'
+    ],
 
-	controller : 'login',
-	bodyPadding : 10,
+   	controller : 'login',
 	title : 'Login Window',
+	frame:true,
 	closable : false,
 	autoShow : true,
 
 	items : {
 		xtype : 'form',
 		reference : 'form',
+		bodyPadding: 15,
 		jsonSubmit : true,
 		defaults : {
 			listeners : {
@@ -34,23 +35,22 @@ Ext.define('Horizon.view.login.Login',{
 			xtype : 'textfield',
 			name : 'username',
 			fieldLabel : 'Username',
+			emptyText: 'username',
 			allowBlank : false
 		}, {
 			xtype : 'textfield',
 			name : 'password',
 			inputType : 'password',
 			fieldLabel : 'Password',
+			emptyText: 'password',
 			allowBlank : false
-		}, {
-			xtype : 'displayfield',
-			hideEmptyLabel : false,
-			value : 'Enter any non-blank password'
-		} ],
+		}],
 		buttons : [ {
 			text : 'Login',
 			itemId : 'loginBtn',
 			formBind : true,
 			handler : 'onLogin'
-		} ]
+		} ],
+		
 	}
 });
