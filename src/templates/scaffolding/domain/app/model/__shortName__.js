@@ -3,12 +3,10 @@
 %>
 Ext.define('${appName}.model.${className}', {
 	extend : '${appName}.model.Base',
-	fields : [
-		
-<%  
+	fields : [<%  
 
 	props = ScaffoldingHelper.getProps(domainClass, pluginManager, comparator, getClass().classLoader)
-
+	List useBaseNames=[]
 	for (p in props) {
 		if (p.embedded) {
 			def embeddedPropNames = p.component.persistentProperties*.name
@@ -18,7 +16,25 @@ Ext.define('${appName}.model.${className}', {
 		} else {
 			renderFieldForProperty(p, domainClass)
 		}
+		List basenames = (config.grails.plugin.extjsscaffolding.basenames)?:['name', 'username', 'authority']
+		if(p.name in basenames){
+			useBaseNames << p.name
+		}
 	}
+	if(useBaseNames.size()>0){
+		%>
+		{
+			name : 'uniqueName',
+			type : 'string',
+			convert : function(newValue, model) {
+				var name = model.getDomainName() + "-";
+				<% useBaseNames.each{ basename-> %>name += model.get('${basename}')+'${(basename == useBaseNames.last())?"":","}';<% } %>
+				return name
+			},
+			depends: [<% useBaseNames.each{ basename-> %>'${basename}${(basename == useBaseNames.last())?"":","}'<% } %>]
+		}<%
+	}
+
 
 private renderFieldForProperty(property, owningClass, prefix = "") {
 	boolean hasHibernate = pluginManager?.hasGrailsPlugin('hibernate') || pluginManager?.hasGrailsPlugin('hibernate4')

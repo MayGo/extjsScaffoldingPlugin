@@ -24,8 +24,11 @@ Ext.define('${appName}.services.TabService', {
     	var xtype = this.domainDetailXtype(domain);
     	var tab = this.createTab(domain, rec, {
             xtype: xtype,
- 			domainRecord: rec,
- 			title: rec.uniqueName
+            viewModel: {
+                data: {
+                    theDomainObject: rec
+                }
+            }
         });
     	if(isNew){
      		tab.getViewModel().set('isReadOnly', false);

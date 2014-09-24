@@ -25,3 +25,4 @@ log4j = {
 
 //grails.plugin.extjsscaffolding.exportLocation = "extjs/" //without ending / gives crapp
 //grails.plugin.extjsscaffolding.overwrite = true
+grails.plugin.extjsscaffolding.basenames = ['name']

@@ -210,6 +210,8 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		Map<String, Object> binding = createBinding(domainClass);
 		binding.put("packageName", packageName);
 		binding.put("multiPart", multiPart);
+		def config = grailsApplication.config
+		binding.put("config", config);
 		binding.put("propertyName", getPropertyName(domainClass));
 		binding.put("appName", grailsApplication.metadata['app.name'].capitalize().replace(" ", ""));
 		

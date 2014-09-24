@@ -35,7 +35,7 @@ Ext.define('${appName}.view.main.MainController', {
     onCreateDomainObject: function (view, rowIdx, colIdx, item, e, rec) {
     	var domain = rec.data['title'];
     	var newRecord = Ext.create('${appName}.model.' + domain);
-    	newRecord.set("id", "[new]",{convert :false});
+    	newRecord.set("uniqueName", newRecord.getDomainName() + " [new]",{convert :false});
     	${appName}.services.TabService.openDomainDetailTab(newRecord, true);
     },
     

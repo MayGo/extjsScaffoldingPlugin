@@ -10,12 +10,9 @@ Ext.define('${appName}.view.BaseDetailView', {
         'Ext.view.View'
     ],
     
-    domainRecord: null, //Is Added in TabService.openDomainDetailTab
-    listeners:{
-		beforerender: function (self, eOpts){
-			this.lookupReference('baseform').loadRecord(this.domainRecord);
-		}
-	},
+    bind: {
+        title: '{theDomainObject.uniqueName}'
+    },
     layout: {
         type: 'vbox',
         align: 'stretch'

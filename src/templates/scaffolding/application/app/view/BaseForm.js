@@ -4,12 +4,17 @@ Ext.define('${appName}.view.BaseForm', {
 	xtype: 'base-form',
 	
 	trackResetOnLoad:true,
-	
+	modelValidation:true,
+
 	viewModel:{
 		
 	},
     bind: {
-        formReadOnly: '{isReadOnly}'
+        formReadOnly: '{isReadOnly}',
+        formRecord:'{theDomainObject}'
+    },
+    setFormRecord:function(record){
+		this.loadRecord(record);
     },
     setFormReadOnly:function(readOnly){
 		var form = this.getForm();

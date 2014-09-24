@@ -11,7 +11,7 @@ Ext.define('${appName}.model.Base', {
 		name : 'uniqueName',
 		type : 'string',
 		convert : function(newValue, model) {
-			return Ext.getDisplayName(model).split(".").pop() + " " + (model.get('id')?model.get('id'):model.toString());
+			return model.getDomainName() + " " + (model.get('id')?model.get('id'):model.toString());
 		},
 		depends: ['id']
 	}

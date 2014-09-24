@@ -43,18 +43,18 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
 			}
 		}
 		
-		private renderFieldForProperty(p, owningClass, prefix = "") {
+		private renderFieldForProperty(property, owningClass, prefix = "") {
 			boolean hasHibernate = pluginManager?.hasGrailsPlugin('hibernate') || pluginManager?.hasGrailsPlugin('hibernate4')
 			boolean required = false
 			if (hasHibernate) {
-				cp = owningClass.constrainedProperties[p.name]
+				cp = owningClass.constrainedProperties[property.name]
 				required = (cp ? !(cp.propertyType in [boolean, Boolean]) && !cp.nullable : false)
 			}
 			%>
 			{
-	            fieldLabel: '${p.naturalName}',
-	            name:'${p.name}',            
-				${renderEditor(p, true)}
+	            fieldLabel: '${property.naturalName}',
+	            name:'${property.name}',    
+				${renderEditor(property, true)}
 				
 			},
 		<%  } %>        
