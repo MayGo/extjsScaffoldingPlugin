@@ -14,6 +14,13 @@ Ext.define('${appName}.model.Base', {
 			return model.getDomainName() + " " + (model.get('id')?model.get('id'):model.toString());
 		},
 		depends: ['id']
+	}, {
+		name : 'tabName',
+		type : 'string',
+		convert : function(newValue, model) {
+			return model.getDomainName() + " - " + model.get('uniqueName');
+		},
+		depends: ['uniqueName']
 	}
 	],
 	

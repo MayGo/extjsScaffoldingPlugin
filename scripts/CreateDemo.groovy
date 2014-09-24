@@ -6,7 +6,8 @@ target( createDemo:'Generate demo application (all artefacts)' ) {
 	generateDomain = true
   generateAssets = true
 	generateApplication = true
-	addAnnotations = true
+	addAnnotations = false
+	generateControllers = true
 
 	uberGenerate()
 }

@@ -12,7 +12,7 @@ Ext.define('${appName}.store.BaseList', {
 			var record = operation.getRecords()[0], name = Ext.String.capitalize(operation.action), verb;
 
 			if (name == 'Destroy') {
-				verb = 'Destroyed';
+				verb = 'Deleted';
 			} else {
 				verb = name + 'd';
 			}

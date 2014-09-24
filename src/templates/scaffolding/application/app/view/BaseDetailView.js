@@ -11,7 +11,7 @@ Ext.define('${appName}.view.BaseDetailView', {
     ],
     
     bind: {
-        title: '{theDomainObject.uniqueName}'
+        title: '{theDomainObject.tabName}'
     },
     layout: {
         type: 'vbox',

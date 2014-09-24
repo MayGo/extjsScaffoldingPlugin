@@ -18,6 +18,7 @@ Ext.define('${appName}.view.BaseListController', {
 		var selection = grid.getView().getSelectionModel().getSelection()[0];
 		if (selection) {
 			store.remove(selection);
+			store.sync();
 		}
 	},
 

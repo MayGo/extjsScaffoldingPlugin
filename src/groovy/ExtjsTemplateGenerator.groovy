@@ -331,6 +331,35 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 			log.info("Annotation added to [" + destFile + "]");
 		}
 	}
+	public void addUrlMappings() throws IOException {
+		String classFilePath = "grails-app/conf/UrlMappings.groovy"
+		
+		File destFile = new File(classFilePath);
+		if (canWrite(destFile)){
+			def domainClasses = grailsApplication.domainClasses
+			String linesToAdd = ""
+			domainClasses.each{domainClass->
+				String shortName = domainClass.getShortName();
+				String shortNameLower = shortName.toLowerCase();
+				String line = "'/${shortNameLower}s'(resources:'$shortName')"
+
+				if(!destFile.text.contains(line)) {
+					linesToAdd += "\t\t" + line +"\n"
+				}
+			}
+			
+			//Write lines to file
+			if(linesToAdd) {
+				CharsetToolkit toolkit = new CharsetToolkit(destFile);
+				// guess the encoding
+				Charset guessedCharset = toolkit.getCharset();
+				destFile.write(destFile.getText(guessedCharset.toString()).replaceFirst(/(.*mappings\s*\=\s*\{)/){ 
+					it[0] + "\n\n" + linesToAdd 
+				}, guessedCharset.toString())
+							
+			}
+		}
+	}
 	
 	
 	@Override
@@ -348,20 +377,6 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 	}
 	
 
-	@Override
-	public void generateController(GrailsControllerType controllerType, GrailsDomainClass domainClass, String destDir) throws IOException {
-
-	}
-
-	@Override
-	public void generateController(GrailsDomainClass domainClass, String destDir) throws IOException {
-
-	}
-
-	@Override
-	public void generateRestfulController(GrailsDomainClass domainClass, String destDir) throws IOException {
-
-	}
 
 	@Override
 	public void generateAsyncController(GrailsDomainClass domainClass, String destDir) throws IOException {

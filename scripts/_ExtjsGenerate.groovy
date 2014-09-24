@@ -5,6 +5,7 @@ generateDomain = false
 generateAssets = false
 generateApplication = false
 addAnnotations = false
+generateControllers = false
 
 
 target(uberGenerate: "Generates controllers and extjs views for all domain classes.") {
@@ -34,14 +35,26 @@ target(uberGenerate: "Generates controllers and extjs views for all domain class
 			templateGenerator.generateDomain(domainClass, basedir)
 			event("GenerateStoreEnd", [domainClass.fullName])
 		}
-		
 		if (addAnnotations) {
-			event("StatusUpdate", ["Adding annotation to domain class ${domainClass.fullName}"])
-			templateGenerator.addAnnotation(domainClass)
-			event("AddAnnotationEnd", [domainClass.fullName])
+				event("StatusUpdate", ["Adding annotation to domain class ${domainClass.fullName}"])
+				templateGenerator.addAnnotation(domainClass)
+				event("AddAnnotationEnd", [domainClass.fullName])
 		}
+		if (generateControllers) {
+				event("StatusUpdate", ["Adding controller to domain class ${domainClass.fullName}"])
+			  templateGenerator.generateRestfulController(domainClass, basedir)
+				templateGenerator.generateRestfulTest(domainClass, "${basedir}/test/unit")
+				event("GenerateControllerEnd", [domainClass.fullName])
+		}
+		
+		
 	}
 
+	if (generateControllers) {
+		event("StatusUpdate", ["Adding urlMappings"])
+		templateGenerator.addUrlMappings()
+		event("AddUrlMappingsEnd", ["End"])
+	}
 	if (generateApplication) {
 		event("StatusUpdate", ["Generating application views"])
 		templateGenerator.generateApplication(basedir)

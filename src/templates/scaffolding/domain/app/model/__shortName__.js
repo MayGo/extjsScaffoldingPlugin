@@ -27,7 +27,7 @@ Ext.define('${appName}.model.${className}', {
 			name : 'uniqueName',
 			type : 'string',
 			convert : function(newValue, model) {
-				var name = model.getDomainName() + "-";
+				var name = "";
 				<% useBaseNames.each{ basename-> %>name += model.get('${basename}')+'${(basename == useBaseNames.last())?"":","}';<% } %>
 				return name
 			},
