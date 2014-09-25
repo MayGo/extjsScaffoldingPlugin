@@ -6,20 +6,16 @@ Ext.define('${appName}.view.menu.TopMenu', {
 
 	xtype: 'top-menu',
 	controller: 'topmenu',
-	
-	layout:'hbox',
 	items:[{
         xtype: 'segmentedbutton',
-        flex: 1,
         defaults:{
         	 scale: 'medium',
-        	 height:50,
-        	 
+        	 height:30
         },
         allowToggle: false,
         items: [{
         		glyph: 0xf015,
-                text: '<h1>${appName}</h1>'
+                text: '<b>${appName}</b>'
             },\
             <%
             int i = 70
@@ -48,22 +44,5 @@ Ext.define('${appName}.view.menu.TopMenu', {
             <%
             i++
             }%>]
-    },{
-		xtype: 'combo',
-		flex:1,
-		margin: '0 5',
-		height: '100%',
-		store: {type:'author-liststore'},
-		displayField: 'uniqueName',
-		reference: 'mainSearch',
-		minChars: 1,
-		
-		listConfig: {
-		    loadingText: 'Searching...',
-		    emptyText: 'No matching results found.',
-		},
-		listeners:{
-				select:'onSearchSelect' 
-		}
-	}]		
+    }]		
 });

@@ -24,7 +24,7 @@ Ext.define('${appName}.view.menu.TopMenuController', {
 	
 	onOpenSearch : function (btn, event) {
 		var domain = btn.value;
-    	var searchBox = this.lookupReference('mainSearch');
+    	var searchBox = Ext.ComponentQuery.query('#mainSearch')[0];
     	searchBox.clearValue();
     	searchBox.bindStore({type:Ext.util.Format.lowercase(domain) + "-liststore"});
     	searchBox.store.load();

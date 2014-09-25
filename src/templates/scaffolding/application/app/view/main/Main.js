@@ -48,6 +48,27 @@ Ext.define('${appName}.view.main.Main', {
 			    },
 			    {
 			    	type:'component', 
+			    	flex: 1
+			    },
+			    {
+					xtype: 'combo',
+					margin: '3 10',
+			    	width: 200,
+					store: {type:'author-liststore'},
+					displayField: 'uniqueName',
+					itemId: 'mainSearch',
+					minChars: 1,
+					
+					listConfig: {
+					    loadingText: 'Searching...',
+					    emptyText: 'No matching results found.',
+					},
+					listeners:{
+							select:'onSearchSelect' 
+					}
+				},
+			    {
+			    	type:'component', 
 			    	layout:'fit',
 			    	items:[{ xtype: 'button', text: 'Logout', handler: 'onLogout', scale: 'medium'}]
 			    }
