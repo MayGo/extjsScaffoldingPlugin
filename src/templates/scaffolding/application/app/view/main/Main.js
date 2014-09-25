@@ -5,6 +5,8 @@ Ext.define('${appName}.view.main.Main', {
 		'Ext.layout.container.Border',
 		'${appName}.view.main.MainController',
 		'${appName}.view.main.MainModel',
+		'${appName}.view.menu.TopMenu',
+		'${appName}.view.menu.TopMenuController',
 		'${appName}.view.dashboard.View',
 		'${appName}.view.BaseForm',
 	<%
@@ -24,67 +26,33 @@ Ext.define('${appName}.view.main.Main', {
 		bodyBorder: false,
 		
 		defaults: {
-		    collapsible: true,
-		    split: true,
+		    collapsible: false,
+		    split: false,
 		    bodyPadding: 1,
 		    floatable: false
 		},
 		
 		items: [
-		    
 		{
 			xtype: 'panel',
-		    title: '${appName}',
-		    region:'west',
+		    region:'north',
 		    layout: {
-				type: 'vbox',
-				align: 'stretch'
+		    	type: 'hbox',
+		        pack: 'start',
+		        align: 'stretch'
 			},
-		    margin: '5 0 0 0',
-		    width: 200,
-		    minWidth: 100,
-		    maxWidth: 250,
-		    bbar: [{ xtype: 'button', text: 'Logout', handler: 'onLogout'}],
-		    items:[{
-		        xtype: 'combo',
-		        store: {type:'${domainClasses.first().getShortName().toLowerCase()}-liststore'},
-		        displayField: 'uniqueName',
-		        reference: 'mainSearch',
-		        width:"100%",
-		        minChars: 1,
-		        listConfig: {
-		            loadingText: 'Searching...',
-		            emptyText: 'No matching results found.',
-		        },
-		        listeners:{
-		        	select:'onSearchSelect' 
-		        }
-		    },
-		    {
-		        xtype: 'grid',
-		        flex: 1,
-		        hideHeaders: true,
-		        store : 'MenuItems',
-		        listeners:{
-		        	rowclick:'onClickMenuItem'
-		        },
-		        columns: [{
-		            dataIndex: 'title',
-		            flex: 1
-		        }, {
-		            xtype: 'actioncolumn',
-		            width: 40,
-		            items: [{
-		                tooltip: 'Search items',
-		                handler: 'onOpenSearch',
-		                icon: 'resources/images/search.png'
-		            },{
-		                tooltip: 'Create new domain object',
-		                handler: 'onCreateDomainObject',
-		                icon: 'resources/images/add.png'
-		            }]
-		        }]
-		    }]
+		    items: [
+		        {
+			    	xtype:'top-menu',
+			    	flex: 1
+			    },
+			    {
+			    	type:'component', 
+			    	layout:'fit',
+			    	items:[{ xtype: 'button', text: 'Logout', handler: 'onLogout', scale: 'medium'}]
+			    }
+		
+		    ]
 		},{
 			region: 'center',
 	        collapsible: false,
@@ -111,6 +79,7 @@ Ext.define('${appName}.view.main.Main', {
 	    region: 'south',
 	    height: 100,
 	    collapsed:true,
+	    collapsible: true,
 	    minHeight: 75,
 	    maxHeight: 150,
 	    html: '<p>Information about application</p>'
