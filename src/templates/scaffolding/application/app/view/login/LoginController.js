@@ -1,4 +1,4 @@
-Ext.define('Horizon.view.login.LoginController', {
+Ext.define('${appName}.view.login.LoginController', {
 	extend : 'Ext.app.ViewController',
 	alias : 'controller.login',
 
@@ -8,7 +8,7 @@ Ext.define('Horizon.view.login.LoginController', {
 		var form = loginBtn.up('form').getForm();
 		// Can't use form.submit({..}), because rest login succes does not return success:true parameter
 		Ext.Ajax.request({
-            url: Horizon.config.Runtime.getLoginUrl(),
+            url: ${appName}.config.Runtime.getLoginUrl(),
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             params : Ext.JSON.encode(form.getValues()),

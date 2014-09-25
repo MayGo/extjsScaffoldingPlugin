@@ -26,7 +26,7 @@ Ext.define('${appName}.Application', {
     launch: function () {
     	Ext.fly("loading").hide();
     	var loggedIn = false;
-    	if(Horizon.config.Runtime.getSecurityEnabled()){
+    	if(${appName}.config.Runtime.getSecurityEnabled()){
 			var supportsLocalStorage = Ext.supports.LocalStorage;
 	
 			if (!supportsLocalStorage) {
@@ -40,7 +40,7 @@ Ext.define('${appName}.Application', {
 			
 			if(profile.isLoggedIn()){
 				Ext.Ajax.request({
-		            url: Horizon.config.Runtime.getValidationUrl(),
+		            url: ${appName}.config.Runtime.getValidationUrl(),
 		            method: 'POST',
 		            success: function(response, options) {
 		            	Ext.widget('app-main')

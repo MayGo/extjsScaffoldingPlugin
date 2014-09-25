@@ -10,8 +10,8 @@ Ext.define('${appName}.view.menu.TopMenuController', {
 
     onClickMenuItem: function ( btn, event ){
     	var domain = btn.value;
-    	var xtype = Horizon.services.TabService.domainListXtype(domain);
-    	Horizon.services.TabService.createTab(xtype, null, {
+    	var xtype = ${appName}.services.TabService.domainListXtype(domain);
+    	${appName}.services.TabService.createTab(xtype, null, {
         	title: domain,
             xtype: xtype
         });
