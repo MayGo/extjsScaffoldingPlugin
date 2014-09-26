@@ -7,8 +7,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
     
     requires: [
         '${appName}.view.${domainClass.propertyName}.DetailModel',
-        '${appName}.view.${domainClass.propertyName}.DetailController',
-        '${appName}.view.${domainClass.propertyName}.DetailSearchView'	
+        '${appName}.view.${domainClass.propertyName}.DetailController'
     ],
   
     componentCls: '${domainClass.propertyName.toLowerCase()}-detail',
@@ -18,16 +17,9 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
         type: '${domainClass.propertyName.toLowerCase()}-detailviewmodel'
     },
     
-    defaults: {
-        collapsible: true,
-        split: true,
-        bodyPadding: 10
-    },
-    items: [{xtype:'${domainClass.propertyName.toLowerCase()}-detailsearchview', region:'north'},{
+    items: [{
         xtype: 'base-form',
         reference: 'baseform',
-
-        region:'center',
         defaults: {
             anchor: '95%',
             maxWidth: 400

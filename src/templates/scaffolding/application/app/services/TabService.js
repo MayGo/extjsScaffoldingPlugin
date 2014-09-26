@@ -35,7 +35,7 @@ Ext.define('${appName}.services.TabService', {
      	}
 	},
 	domainListXtype:function(domainName){
-		return  Ext.util.Format.lowercase(domainName) + "-gridlist";
+		return  Ext.util.Format.lowercase(domainName) + "-listview";
 	},	
 	
 	domainDetailXtype:function(domainName){

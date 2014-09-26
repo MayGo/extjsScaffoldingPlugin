@@ -2,12 +2,15 @@
 	import grails.plugin.extjsscaffolding.ScaffoldingHelper
 %>
 
-Ext.define('${appName}.view.${domainClass.propertyName}.List', {
+Ext.define('${appName}.view.${domainClass.propertyName}.RestList', {
 	extend : '${appName}.view.BaseRestGrid',
-	xtype : '${domainClass.propertyName.toLowerCase()}-gridlist',
-	title : '${className}',
+	xtype : '${domainClass.propertyName.toLowerCase()}-restlist',
 	requires : ['${appName}.view.${domainClass.propertyName}.ListController'],
+	
 	controller : '${domainClass.propertyName.toLowerCase()}-listcontroller',
+	viewModel: {
+        type: '${domainClass.propertyName.toLowerCase()}-listviewmodel'
+    },
 	loadOnInit : true,
 	
 	initComponent: function() {

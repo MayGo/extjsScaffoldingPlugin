@@ -1,23 +1,24 @@
 <% 
 	import grails.plugin.extjsscaffolding.ScaffoldingHelper
 %>
-Ext.define('${appName}.view.${domainClass.propertyName}.DetailSearchView', {
+Ext.define('${appName}.view.${domainClass.propertyName}.ListSearch', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.${domainClass.propertyName.toLowerCase()}-detailsearchview',
+    alias: 'widget.${domainClass.propertyName.toLowerCase()}-listsearch',
     
-//    requires: [
-//        '${appName}.view.${domainClass.propertyName}.DetailModel',
-//        '${appName}.view.${domainClass.propertyName}.DetailController'
-//    ],
+    requires: [
+        '${appName}.view.${domainClass.propertyName}.ListModel',
+        '${appName}.view.${domainClass.propertyName}.ListController'
+    ],
   
-//    componentCls: '${domainClass.propertyName.toLowerCase()}-detailsearch',
+    componentCls: '${domainClass.propertyName.toLowerCase()}-listsearch',
     
-//    controller: '${domainClass.propertyName.toLowerCase()}-detailsearchcontroller',
-//    viewModel: {
-//        type: '${domainClass.propertyName.toLowerCase()}-detailsearchviewmodel'
-//    },
+    controller: '${domainClass.propertyName.toLowerCase()}-listcontroller',
+    viewModel: {
+        type: '${domainClass.propertyName.toLowerCase()}-listviewmodel'
+    },
     
-    title:'search',
+    title:'Search',
+    bodyPadding: '5 10',
     items: [{
     	xtype:'form',
     	defaults: {
