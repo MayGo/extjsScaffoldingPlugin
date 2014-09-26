@@ -8,8 +8,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 	referencedPropertyName: null, 
 	
 	initComponent : function() {
-		this.grid = this.childComponent = Ext.create('${appName}.view.${domainClass.propertyName}.List', {
-			loadOnInit : false,
+		this.grid = this.childComponent = Ext.create('${appName}.view.${domainClass.propertyName}.RestList', {
 			isEmbeddedList : (this.referencedPropertyName)?false:true
 		});
 		

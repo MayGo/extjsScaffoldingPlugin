@@ -34,4 +34,13 @@ Ext.define('${appName}.view.BaseListController', {
 		${appName}.services.TabService.openDomainDetailTab(rec);
     },
     
+    onSearchClick: function(){
+		var store = this.getViewModel().get('listStore');
+		var formPanel = this.lookupReference('listSearchForm')
+		var params = formPanel.getValues()
+		store.load({
+			params:params
+		});
+    }
+
 });

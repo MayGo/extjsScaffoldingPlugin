@@ -45,14 +45,7 @@ Ext.define('${appName}.view.BaseRestGrid', {
 		this.dockedItems= [{
 			dock : 'top',
 			xtype : 'toolbar',
-			items : [{
-				width : 400,
-				fieldLabel : 'Search',
-				labelWidth : 50,
-				xtype : 'searchfield',
-				store: this.store,
-				hidden: this.isEmbeddedList
-			}, '->', {
+			items : ['->', {
 				text : 'Add',
 				icon: 'resources/images/add.png',
 				handler : 'addItemHandler'
@@ -65,7 +58,9 @@ Ext.define('${appName}.view.BaseRestGrid', {
 			}]
 		},{
 			xtype : 'pagingtoolbar',
-			store: this.store,
+			bind:{
+				store: '{listStore}'
+			},
 			dock : 'bottom',
 			displayInfo : true,
 			hidden: this.isEmbeddedList

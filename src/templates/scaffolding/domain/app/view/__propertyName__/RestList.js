@@ -7,17 +7,13 @@ Ext.define('${appName}.view.${domainClass.propertyName}.RestList', {
 	xtype : '${domainClass.propertyName.toLowerCase()}-restlist',
 	requires : ['${appName}.view.${domainClass.propertyName}.ListController'],
 	
-	controller : '${domainClass.propertyName.toLowerCase()}-listcontroller',
-	viewModel: {
-        type: '${domainClass.propertyName.toLowerCase()}-listviewmodel'
-    },
-	loadOnInit : true,
-	
+	bind:{
+		store: '{listStore}'
+	},
+
 	initComponent: function() {
-    	this.store = Ext.create('${appName}.store.${className}List');
     	this.columns = this.defaultColumns.concat(this.columns);
         this.callParent();
-        if(this.loadOnInit) this.store.load();
     },
     
 	columns : [

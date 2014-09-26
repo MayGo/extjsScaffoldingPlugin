@@ -24,19 +24,46 @@ class ExtjsScaffoldingService{
 		}
 
 		def searchString = param.query
-
+		
+		
+		def persistentProperties = new DefaultGrailsDomainClass(resource).persistentProperties
+		
+		def persistentPropertiesMap = [:] as HashMap
+		persistentProperties.each { 
+			persistentPropertiesMap.put(it.name, it)
+		}
 		def	results = resource.createCriteria().list(offset:param.offset, max:param.max) {
 			
 			//make relation query
 			relations.each{k, v->
 				eq(k, v.toLong())
 			}
+			
+			//Search params values from properties
+			param.each{key, value->
+				def property = persistentPropertiesMap[key]
+				if(property && value) {
+					if (property.type == String) {
+						ilike ("$property.name",  value+'%')
+					} else if(property.type == Integer){
+						eq("$property.name", value.toInteger())
+					} else if(property.type == Long){
+						eq("$property.name", value.toLong())
+					} else if(property.type == Double){
+						eq("$property.name", value.toDouble())
+					} else if( property.type == Float){
+						eq("$property.name", value.toFloat())
+					}  else if( property.manyToOne || property.oneToOne){
+						eq("${property.name}.id", value.toLong())
+					}
+				}
+			}
 			//Search from all String and Numeric fields
 			if(searchString) {
 				List intNumbers = searchString.findAll( /\d+/ )
 				List floatNumbers = searchString.findAll(  /-?\d+\.\d*|-?\d*\.\d+|-?\d+/ )
 				or{
-					new DefaultGrailsDomainClass(resource).persistentProperties.each {property->
+					persistentProperties.each {property->
 						if (property.type == String) {
 							ilike ("$property.name",  searchString+'%')
 						} else if(property.type == Integer){

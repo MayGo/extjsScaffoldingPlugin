@@ -9,7 +9,9 @@ Ext.define('${appName}.view.${domainClass.propertyName}.ListView', {
 	            '${appName}.view.${domainClass.propertyName}.ListController'
 	            ],
 	controller : '${domainClass.propertyName.toLowerCase()}-listcontroller',
-
+	viewModel: {
+        type: '${domainClass.propertyName.toLowerCase()}-listviewmodel'
+    },
     layout: {
         type: 'border',
         align: 'stretch'

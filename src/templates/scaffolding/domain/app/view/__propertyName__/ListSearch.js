@@ -12,15 +12,13 @@ Ext.define('${appName}.view.${domainClass.propertyName}.ListSearch', {
   
     componentCls: '${domainClass.propertyName.toLowerCase()}-listsearch',
     
-    controller: '${domainClass.propertyName.toLowerCase()}-listcontroller',
-    viewModel: {
-        type: '${domainClass.propertyName.toLowerCase()}-listviewmodel'
-    },
-    
     title:'Search',
     bodyPadding: '5 10',
+    bbar:[{xtype:'button', text:'Search', handler:'onSearchClick'}],
+
     items: [{
     	xtype:'form',
+    	reference: 'listSearchForm',
     	defaults: {
            //anchor: '95%',
            maxWidth: 400,
@@ -52,13 +50,12 @@ Ext.define('${appName}.view.${domainClass.propertyName}.ListSearch', {
 					if ((property.oneToMany && !property.bidirectional) || property.manyToMany) {
 						
 					}else{
-					%>
+					%>\
 						{
 				            fieldLabel: '${property.naturalName}',
-				            name:'${property.name}',    
+				            name:'${property.name}',
 							${renderEditor(property, true)}
-							
-						},
+						},\
 					<% }
 				} %>               
     	         ]
