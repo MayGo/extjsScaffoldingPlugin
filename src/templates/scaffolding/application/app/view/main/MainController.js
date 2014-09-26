@@ -11,7 +11,7 @@ Ext.define('${appName}.view.main.MainController', {
        
     onLogout:function(){
     	Ext.Ajax.request({
-            url: Horizon.config.Runtime.getLogoutUrl(),
+            url: ${appName}.config.Runtime.getLogoutUrl(),
             method: 'POST',
             success: function(response, options) {
             	this.getView().destroy();

@@ -1,9 +1,9 @@
-Ext.define('Horizon.view.login.Login',{
+Ext.define('${appName}.view.login.Login',{
 	extend: 'Ext.window.Window',
 	xtype: 'login',
 
 	requires: [ 
-	     'Horizon.view.login.LoginController',
+	     '${appName}.view.login.LoginController',
 	     'Ext.form.Panel'
     ],
 
