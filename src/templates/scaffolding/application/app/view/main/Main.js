@@ -21,21 +21,21 @@ Ext.define('${appName}.view.main.Main', {
 
 	 xtype: 'app-main',
 	    controller: 'main',
-		layout: 'border',
+	    layout: {
+	        type: 'vbox',
+	        align : 'stretch',
+	        pack  : 'start'
+	    },
 
 		bodyBorder: false,
 		
 		defaults: {
-		    collapsible: false,
-		    split: false,
 		    bodyPadding: 1,
-		    floatable: false
 		},
 		
 		items: [
 		{
 			xtype: 'panel',
-		    region:'north',
 		    layout: {
 		    	type: 'hbox',
 		        pack: 'start',
@@ -75,20 +75,11 @@ Ext.define('${appName}.view.main.Main', {
 		
 		    ]
 		},{
-			region: 'center',
-	        collapsible: false,
+	        flex:1,
 	        margin: '5 0 0 0',
 	        xtype: 'tabpanel',
 	        id: 'myTabpanel',
 	        reference: 'main',
-	        defaults:{
-				layout: {
-					type: 'vbox',
-					align: 'stretch'
-				},
-				autoScroll : true,
-	       		closable:true
-	        },
 	        items:[
 			{
 			    xtype: 'dashboard',

@@ -17,10 +17,7 @@ Ext.define('${appName}.view.menu.TopMenuController', {
         });
     },
     
-    onSearchSelect: function( combo, records, eOpts ){
-    	 var rec = records[0];
-    	 ${appName}.services.TabService.openDomainDetailTab(rec);
-	},	
+
 	
 	onOpenSearch : function (btn, event) {
 		var domain = btn.value;

@@ -22,6 +22,10 @@ Ext.define('${appName}.view.main.MainController', {
             },
             scope:this
         });
-    }
+    },
+    onSearchSelect: function( combo, records, eOpts ){
+   	 var rec = records[0];
+   	 ${appName}.services.TabService.openDomainDetailTab(rec);
+	}
 
 });

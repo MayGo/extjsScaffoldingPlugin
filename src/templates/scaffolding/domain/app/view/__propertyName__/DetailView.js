@@ -7,7 +7,8 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
     
     requires: [
         '${appName}.view.${domainClass.propertyName}.DetailModel',
-        '${appName}.view.${domainClass.propertyName}.DetailController'
+        '${appName}.view.${domainClass.propertyName}.DetailController',
+        '${appName}.view.${domainClass.propertyName}.DetailSearchView'	
     ],
   
     componentCls: '${domainClass.propertyName.toLowerCase()}-detail',
@@ -17,17 +18,21 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
         type: '${domainClass.propertyName.toLowerCase()}-detailviewmodel'
     },
     
-  
-    items: [{
+    defaults: {
+        collapsible: true,
+        split: true,
+        bodyPadding: 10
+    },
+    items: [{xtype:'${domainClass.propertyName.toLowerCase()}-detailsearchview', region:'north'},{
         xtype: 'base-form',
-        border: false,
         reference: 'baseform',
+
+        region:'center',
         defaults: {
             anchor: '95%',
             maxWidth: 400
         },
-        items: [
-
+        items: [\
 		<%  
 		
 		props = ScaffoldingHelper.getProps(domainClass, pluginManager, comparator, getClass().classLoader)
