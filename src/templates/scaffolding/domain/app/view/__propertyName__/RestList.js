@@ -6,7 +6,8 @@ Ext.define('${appName}.view.${domainClass.propertyName}.RestList', {
 	extend : '${appName}.view.BaseRestGrid',
 	xtype : '${domainClass.propertyName.toLowerCase()}-restlist',
 	requires : ['${appName}.view.${domainClass.propertyName}.ListController'],
-	
+	controller : '${domainClass.propertyName.toLowerCase()}-listcontroller',
+
 	bind:{
 		store: '{listStore}'
 	},
