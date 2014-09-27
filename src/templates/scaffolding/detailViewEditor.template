@@ -52,7 +52,7 @@
     private String renderManyToOne(domainClass,property) {
         if (property.association) {
 			return  """
-				  xtype : 'restcombo',
+				  xtype : 'combo',
 				  valueField: 'id',
   				  displayField: 'uniqueName',
 				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}-liststore'},

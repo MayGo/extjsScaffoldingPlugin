@@ -4,12 +4,9 @@ Ext.define('${appName}.view.BaseDetailController', {
 	requires : ['Ext.window.Toast'],
 
 	onSaveClick : function() {
-		this.getViewModel().set('dataHasChanged', false);
 		var form = this.lookupReference('baseform'), rec;
-
 		if (form.isValid()) {
-			form.updateRecord();
-			rec = form.getRecord();
+            rec = this.getViewModel().getData().theDomainObject;
 			// TODO: implement isolated sessions
 			Ext.Msg.wait('Saving', 'Saving ...');
 			rec.save({
@@ -20,9 +17,9 @@ Ext.define('${appName}.view.BaseDetailController', {
 		}
 	},
 	onResetClick : function() {
-		this.getViewModel().set('dataHasChanged', false);
 		var form = this.lookupReference('baseform');
-		form.reset();
+		console.log("should reset");
+		//form.reset();
 	},
 	onEditClick : function() {
 		this.getViewModel().set('isReadOnly', false);
@@ -30,10 +27,6 @@ Ext.define('${appName}.view.BaseDetailController', {
 	
 
 	onSuccess : function(list, operation) {
-		this.getViewModel().set('dataHasChanged', false);
-		var form = this.lookupReference('baseform');
-		form.loadRecord(form.getRecord());
-		form.reset();
 		Ext.Msg.hide();
 		var record = operation.getRecords()[0], name = Ext.String.capitalize(operation.action), verb;
 

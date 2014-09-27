@@ -22,12 +22,5 @@ Ext.define('${appName}.view.BaseForm', {
 		Ext.each(fields.items, function (field) {
 			field.setReadOnly(readOnly);
 		});
-	},
-	listeners:{
-		dirtychange: function( self, dirty, eOpts ){
-			//Change data on DetailView-s viewModel
-			this.lookupViewModel(true).set('dataHasChanged', dirty);
-		}
-		
 	}
 });
