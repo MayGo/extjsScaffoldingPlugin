@@ -20,6 +20,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
     items: [{
         xtype: 'base-form',
         reference: 'baseform',
+        modelValidation: true,
         defaults: {
             anchor: '95%',
             maxWidth: 400
@@ -50,7 +51,18 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
 			%>
 			{
 	            fieldLabel: '${property.naturalName}',
-	            name:'${property.name}',    
+	           // name:'${property.name}', 
+	            <%  if (property.oneToMany  || (property.manyToMany && property.isOwningSide())){%>
+                bind: {
+                    value: {
+                        bindTo: '{theDomainObject.${property.name}}',
+                        single: true
+                    }
+                },
+        <% }else{%>
+                 bind: '{theDomainObject.${property.name}}',
+         <%}%>
+
 				${renderEditor(property, true)}
 				
 			},
