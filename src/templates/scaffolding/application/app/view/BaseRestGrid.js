@@ -41,33 +41,44 @@ Ext.define('${appName}.view.BaseRestGrid', {
 		}
 	}],
 	
-	initComponent: function() {
-		this.dockedItems= [{
-			dock : 'top',
-			xtype : 'toolbar',
-			items : ['->', {
-				text : 'Add',
-				icon: 'resources/images/add.png',
-				handler : 'addItemHandler'
-			}, '-', {
-				itemId : 'delete',
-				text : 'Delete',
-				icon: 'resources/images/delete.png',
-				disabled : true,
-				handler : 'deleteItemHandler'
-			}]
-		},{
-			xtype : 'pagingtoolbar',
-			bind:{
-				store: '{listStore}'
-			},
-			dock : 'bottom',
-			displayInfo : true,
-			hidden: this.isEmbeddedList
-		}];
-		
-        this.callParent();
-    },
+	dockedItems: [{
+		dock : 'top',
+		xtype : 'toolbar',
+		items : ['->', {
+			text : 'Add',
+			icon: 'resources/images/add.png',
+			handler : 'addItemHandler'
+		}, '-', {
+			itemId : 'delete',
+			text : 'Delete',
+			icon: 'resources/images/delete.png',
+			disabled : true,
+			handler : 'deleteItemHandler'
+		}]
+	},{
+		xtype : 'pagingtoolbar',
+		reference: 'pagingtoolbar',
+		bind:{
+			store: '{listStore}'
+		},
+		dock : 'bottom',
+		displayInfo : true,
+		hidden: this.isEmbeddedList
+	}],
+
+	
+	listeners:{
+		afterrender: function( self){
+			// pagingtoolbar bind store not working properly
+			// Bug  EXTJS-14469 fixed in 5.0.2.
+			// As a workaround delay refresh
+			var task = new Ext.util.DelayedTask(function(){
+				var paging = this.lookupReference('pagingtoolbar');
+				if(paging) paging.doRefresh();
+			}, this);
+			task.delay(500);
+		}
+	},
     
 	viewConfig : {
 		stripeRows : true

@@ -8,6 +8,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 	referencedPropertyName: null, 
 	
 	initComponent : function() {
+		console.log('${appName}.view.${domainClass.propertyName}.RestList')
 		this.grid = this.childComponent = Ext.create('${appName}.view.${domainClass.propertyName}.RestList', {
 			isEmbeddedList : (this.referencedPropertyName)?false:true
 		});
@@ -18,7 +19,8 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 		this.grid.store.sync = function() {
 			//TODO: Turn off sync() in rowediting
 		};
-		
+		console.log(this.grid)
+		console.log(this.grid.store)
 		this.grid.store.addListener('update', function(self, eOpts) {
 
 			//TODO:Would be nice to get store.rawData

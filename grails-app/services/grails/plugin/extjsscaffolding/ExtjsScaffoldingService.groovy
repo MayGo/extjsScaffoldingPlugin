@@ -53,8 +53,16 @@ class ExtjsScaffoldingService{
 						eq("$property.name", value.toDouble())
 					} else if( property.type == Float){
 						eq("$property.name", value.toFloat())
-					}  else if( property.manyToOne || property.oneToOne){
+					}  else if( (property.manyToOne || property.oneToOne) && value.isLong()){
 						eq("${property.name}.id", value.toLong())
+					} else if( property.oneToMany){
+						"${property.name}"{
+							if(value instanceof String[]) {
+								'in'("id", value.collect{it.toLong()})
+							}else {
+								eq("id", value.toLong())
+							}
+						}
 					}
 				}
 			}

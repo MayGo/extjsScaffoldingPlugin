@@ -41,10 +41,10 @@ Ext.define('${appName}.view.main.Main', {
 		        pack: 'start',
 		        align: 'stretch'
 			},
+			autoScroll:true,
 		    items: [
 		        {
-			    	xtype:'top-menu',
-			    	flex: 1
+			    	xtype:'top-menu'
 			    },
 			    {
 			    	type:'component', 
