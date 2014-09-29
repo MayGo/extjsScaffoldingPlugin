@@ -54,7 +54,7 @@ Ext.define('${appName}.view.main.Main', {
 					xtype: 'combo',
 					margin: '3 10',
 			    	width: 200,
-					store: {type:'author-liststore'},
+	                store: {type:'${domainClasses.first().getShortName().toLowerCase()}-liststore'},//TODO: Add it from ViewModel
 					displayField: 'uniqueName',
 					itemId: 'mainSearch',
 					minChars: 1,
