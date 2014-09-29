@@ -139,7 +139,8 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		binding.put("appName", grailsApplication.metadata['app.name'].capitalize().replace(" ", ""));
 		binding.put("config", config);
 		binding.put("domainClasses", domainClasses);
-		binding.put("appUrl", Holders.config.grails.plugin.extjsscaffolding.appUrl?:APP_URL + grailsApplication.metadata['app.name']);
+		String appUrl = (config.grails.serverURL)?:APP_URL + grailsApplication.metadata['app.name']
+		binding.put("appUrl", Holders.config.grails.plugin.extjsscaffolding.appUrl?:appUrl)
 
 		generate(templateText, binding, out);
 	}
@@ -214,6 +215,8 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		binding.put("config", config);
 		binding.put("propertyName", getPropertyName(domainClass));
 		binding.put("appName", grailsApplication.metadata['app.name'].capitalize().replace(" ", ""));
+		String appUrl = (config.grails.serverURL)?:APP_URL + grailsApplication.metadata['app.name']
+		binding.put("appUrl", Holders.config.grails.plugin.extjsscaffolding.appUrl?:appUrl)
 		
 		generate(templateText, binding, out);
 	}
