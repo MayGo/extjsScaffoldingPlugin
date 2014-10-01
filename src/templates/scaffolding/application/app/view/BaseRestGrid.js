@@ -74,7 +74,7 @@ Ext.define('${appName}.view.BaseRestGrid', {
 			// As a workaround delay refresh
 			var task = new Ext.util.DelayedTask(function(){
 				var paging = this.lookupReference('pagingtoolbar');
-				if(paging) paging.doRefresh();
+				if(paging && paging.store.autoLoad) paging.doRefresh();
 			}, this);
 			task.delay(500);
 		}

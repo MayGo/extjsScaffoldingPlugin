@@ -23,23 +23,28 @@ Ext.define('${appName}.services.TabService', {
 		var domain = rec.getDomainName();
     	var xtype = this.domainDetailXtype(domain);
     	var domainObject = rec
+    	var isReadOnly = true
     	if(isNew){
+    		isReadOnly = false
     		domainObject = {
     			type: domain,
     			create:true
     		}
+    	}else{
+    		isNew = false
     	}
     	var tab = this.createTab(domain, rec, {
             xtype: xtype,
             viewModel:{
-            	 links: {
-            		 theDomainObject: domainObject
-            	 }
+            	data:{
+            		isReadOnly: isReadOnly,
+            		isNew: isNew
+            	},
+            	links: {
+        			theDomainObject: domainObject
+            	}
             }
         });
-    	if(isNew){
-     		tab.getViewModel().set('isReadOnly', false);
-     	}
 	},
 	domainListXtype:function(domainName){
 		return  Ext.util.Format.lowercase(domainName) + "-listview";

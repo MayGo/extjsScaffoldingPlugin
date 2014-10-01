@@ -80,6 +80,10 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
     			}
     		},
     		title: "${domainCl.getName()}s",
+    		hidden: true,
+    		bind: {
+    			hidden:'{isNew}'
+    		},
     		collapsible:true
     	}
     <%}

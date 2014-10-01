@@ -8,8 +8,8 @@ Ext.define('${appName}.view.${domainClass.propertyName}.ListModel', {
   
     stores:{
     	listStore:{
-            model: '${className}',
-            //type:'${domainClass.getShortName().toLowerCase()}-liststore',
+            //model: '${className}',//remoteSort not working with this
+            type:'${domainClass.getShortName().toLowerCase()}-liststore',
             autoLoad: true
         }	
 	}

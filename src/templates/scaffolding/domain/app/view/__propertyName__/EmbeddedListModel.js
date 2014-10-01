@@ -13,7 +13,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedListModel', {
                 property: '{referencedPropertyName}',
                 value: '{theDomainObject.id}'
             }],
-            autoLoad: true
+            autoLoad: '{!isNew}'
         }	
 	}
 });
