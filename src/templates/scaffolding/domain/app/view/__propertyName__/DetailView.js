@@ -52,7 +52,6 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
 			%>
 			{
 	            fieldLabel: '${property.naturalName}',
-	           // name:'${property.name}', 
 	            <%  if (property.oneToMany  || (property.manyToMany && property.isOwningSide())){%>
                 bind: {
                     value: {
