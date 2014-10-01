@@ -25,7 +25,7 @@ Ext.define('${appName}.services.TabService', {
     	var tab = this.createTab(domain, rec, {
             xtype: xtype,
             viewModel: {
-                data: {
+                links: {
                     theDomainObject: rec
                 }
             }

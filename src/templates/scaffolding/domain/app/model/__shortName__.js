@@ -65,5 +65,62 @@ private renderFieldForProperty(property, owningClass, prefix = "") {
 		type: '${type}'${andMore}
 	},
 <%  } %>
-]
+],
+validators:{<%
+for (p in props) {
+	if (p.embedded) {
+		def embeddedPropNames = p.component.persistentProperties*.name
+		def embeddedProps = p.component.properties.findAll { embeddedPropNames.contains(it.name) && !excludedProps.contains(it.name) }
+		Collections.sort(embeddedProps, comparator.constructors[0].newInstance([p.component] as Object[]))
+		//NOT USED
+	} else {
+		renderFieldValidationForProperty(p, domainClass)
+	}
+
+}            
+%>}
 });
+
+<%
+private renderFieldValidationForProperty(property, owningClass, prefix = "") {
+	boolean hasHibernate = pluginManager?.hasGrailsPlugin('hibernate') || pluginManager?.hasGrailsPlugin('hibernate4')
+	boolean required = false
+	String validators = ""
+	if (hasHibernate) {
+		cp = owningClass.constrainedProperties[property.name]
+		required = (cp ? !(cp.propertyType in [boolean, Boolean]) && !cp.nullable : false)
+		if(required || cp.blank) validators += "{type:'presence'},"
+		//if(cp.creditCard) validators += "{type:'presence'},"
+		if(property.type == String && cp.email) validators += "{type:'email'},"
+		def inList = (domainClass.constraints."${property.name}".inList).collect{"'$it'"}
+		if(cp.inList) validators += "type:'inclusion'},list:[$inList]"
+		if(cp.max) validators += "{type:'range', max:${cp.max}},"
+		if(cp.maxSize) validators += "{type:'length', max:${cp.maxSize}},"
+		if(cp.min) validators += "{type:'range', min:${cp.min}},"
+		if(cp.minSize) validators += "{type:'length', mine:${cp.minSize}},"
+		//if(cp.notEqual) validators += "{type:'presence'},"
+		if(cp.range) validators += "{type:'range', min:${cp.range.from}, max:${cp.range.to}}."
+		//if(cp.scale) validators += "{type:'presence'},"
+		//if(cp.size) validators += "{type:'presence'},"
+		//if(cp.unique) validators += "{type:'presence'},"
+		//if(cp.url) validators += "{type:'presence'},"
+		
+		if(cp.propertyType in [boolean, Boolean]){
+			 type = "boolean"
+		}else if(cp.propertyType in [int, Integer, long, Long]){
+			 type = "int"
+		}else if(Number.isAssignableFrom(property.type) || (property.type?.isPrimitive() && property.type != boolean)){
+			 type = "number"
+		}else if(property.type == Date || property.type == java.sql.Date || property.type == java.sql.Time || property.type == Calendar){
+			 type = "date"
+			andMore=",dateWriteFormat: 'Y-m-d H:i:s.uO'"
+		}else if(property.type == String){
+			 type = "string"
+		}
+	}
+	
+	%>
+	${property.name}:[
+	     $validators
+	],
+<%  } %>

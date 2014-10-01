@@ -21,7 +21,7 @@ Ext.define('${appName}.view.BaseDetailView', {
 		hidden: true,
     	 bind: {
              hidden: '{isReadOnly}',
-			 disabled : '{!dataHasChanged}'
+             disabled : '{!status.dirty}'
          }
     },{
         text: 'Reset',
@@ -30,7 +30,7 @@ Ext.define('${appName}.view.BaseDetailView', {
 		hidden: true,
     	 bind: {
              hidden: '{isReadOnly}',
-			 disabled : '{!dataHasChanged}'
+             disabled : '{!status.dirty}'
          }
     },{
         text: 'Edit',
