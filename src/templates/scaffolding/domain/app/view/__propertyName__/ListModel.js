@@ -5,9 +5,11 @@ Ext.define('${appName}.view.${domainClass.propertyName}.ListModel', {
     extend: 'Ext.app.ViewModel',
 
     alias: 'viewmodel.${domainClass.propertyName.toLowerCase()}-listviewmodel',
+  
     stores:{
     	listStore:{
             model: '${className}',
+            //type:'${domainClass.getShortName().toLowerCase()}-liststore',
             autoLoad: true
         }	
 	}

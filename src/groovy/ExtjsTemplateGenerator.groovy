@@ -131,13 +131,14 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 			log.error "No lenght for template file."
 			return;
 		}
-		def domainClasses = grailsApplication.domainClasses
+		
 		def config = grailsApplication.config
 		
 		Map<String, Object> binding = new HashMap<String, Object>();
 		
 		binding.put("appName", grailsApplication.metadata['app.name'].capitalize().replace(" ", ""));
 		binding.put("config", config);
+		def domainClasses = grailsApplication.domainClasses
 		binding.put("domainClasses", domainClasses);
 		String appUrl = (config.grails.serverURL)?:APP_URL + grailsApplication.metadata['app.name']
 		binding.put("appUrl", Holders.config.grails.plugin.extjsscaffolding.appUrl?:appUrl)
@@ -213,6 +214,8 @@ class ExtjsTemplateGenerator extends AbstractGrailsTemplateGenerator {
 		binding.put("multiPart", multiPart);
 		def config = grailsApplication.config
 		binding.put("config", config);
+		def domainClasses = grailsApplication.domainClasses
+		binding.put("domainClasses", domainClasses);
 		binding.put("propertyName", getPropertyName(domainClass));
 		binding.put("appName", grailsApplication.metadata['app.name'].capitalize().replace(" ", ""));
 		String appUrl = (config.grails.serverURL)?:APP_URL + grailsApplication.metadata['app.name']

@@ -27,8 +27,9 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
         },
         items: [\
 		<%  
+		ScaffoldingHelper sh = new ScaffoldingHelper(domainClass, pluginManager, comparator, getClass().classLoader)
+		props = sh.getProps()
 		
-		props = ScaffoldingHelper.getProps(domainClass, pluginManager, comparator, getClass().classLoader)
 		
 		for (p in props) {
 			if (p.embedded) {
@@ -68,5 +69,22 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
 			},
 		<%  } %>        
 		]
-    }]
+    }
+    <%
+    relationsProps = sh.findRelationsProps(domainClasses as List)
+    relationsProps.each{property, domainCl->%>
+    	,{
+    		xtype: '${domainCl.getShortName().toLowerCase()}-embedded-restlist',//Has property in other domainClass
+    		viewModel:{
+    			data:{
+    				referencedPropertyName:'${property.name}.id'
+    			}
+    		},
+    		title: "${domainCl.getName()}s",
+    		collapsible:true
+    	}
+    <%}
+    %>
+    
+    ]
 });

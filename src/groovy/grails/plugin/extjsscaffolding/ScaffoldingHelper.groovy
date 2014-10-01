@@ -2,11 +2,25 @@ package grails.plugin.extjsscaffolding
 
 import grails.persistence.Event
 import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
+import org.codehaus.groovy.grails.commons.GrailsDomainClass
+import org.codehaus.groovy.grails.commons.GrailsClass
+import org.codehaus.groovy.grails.commons.GrailsDomainClassProperty
 
 
 class ScaffoldingHelper {
+	def domainClass
+	def pluginManager
+	def comparator
+	def classLoader
+	
+	ScaffoldingHelper(def domainClass, def pluginManager, def comparator, def classLoader){
+		this.domainClass = domainClass
+		this.pluginManager = pluginManager
+		this.comparator = comparator
+		this.classLoader = classLoader
+	}
 
-	static getProps(def domainClass, def pluginManager, def comparator, def classLoader) {
+	def getProps() {
 		def excludedProps = Event.allEvents.toList() << 'version' << 'dateCreated' << 'lastUpdated'
 		def persistentPropNames = domainClass.persistentProperties*.name
 		boolean hasHibernate = pluginManager?.hasGrailsPlugin('hibernate') || pluginManager?.hasGrailsPlugin('hibernate4')
@@ -36,8 +50,28 @@ class ScaffoldingHelper {
 		}
 		return props
 	}
+	
+	Map<GrailsDomainClassProperty, GrailsDomainClass> findRelationsProps(List<GrailsDomainClass> domainClasses) {
+		
+	
+		
+		Map<GrailsDomainClassProperty, GrailsDomainClass> relationDomainClasses = [:]
+		domainClasses.each{
+			def relationProps = it.persistentProperties.findAll{it.type == domainClass.clazz}
+			relationProps.each {relProp->
+				relationDomainClasses[relProp]=it
+			}
+			
+		}
+		if(relationDomainClasses) {
+			println "${domainClass.name} has"
+			println relationDomainClasses
+		}
+				
+		return relationDomainClasses
+	}
 
-	static private String getAssociationType(def property) {
+	private String getAssociationType(def property) {
 		String assType = "";
 		if(property.isManyToMany()) {
 			assType = "4";

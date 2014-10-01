@@ -27,7 +27,8 @@ Ext.define('${appName}.view.${domainClass.propertyName}.ListSearch', {
     	items: [
 				<%  
 				
-				props = ScaffoldingHelper.getProps(domainClass, pluginManager, comparator, getClass().classLoader)
+				ScaffoldingHelper sh = new ScaffoldingHelper(domainClass, pluginManager, comparator, getClass().classLoader)
+				props = sh.getProps()
 				
 				for (p in props) {
 					if (p.embedded) {
