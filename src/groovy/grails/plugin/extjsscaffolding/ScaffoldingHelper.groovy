@@ -50,10 +50,12 @@ class ScaffoldingHelper {
 		}
 		return props
 	}
-	
+	/**
+	 * Finds relations in other domain classes. Defining relationship with hasMany, belongsTo,  etc is not compulsory.
+	 * @param domainClasses
+	 * @return
+	 */
 	Map<GrailsDomainClassProperty, GrailsDomainClass> findRelationsProps(List<GrailsDomainClass> domainClasses) {
-		
-	
 		
 		Map<GrailsDomainClassProperty, GrailsDomainClass> relationDomainClasses = [:]
 		domainClasses.each{
@@ -61,11 +63,6 @@ class ScaffoldingHelper {
 			relationProps.each {relProp->
 				relationDomainClasses[relProp]=it
 			}
-			
-		}
-		if(relationDomainClasses) {
-			println "${domainClass.name} has"
-			println relationDomainClasses
 		}
 				
 		return relationDomainClasses

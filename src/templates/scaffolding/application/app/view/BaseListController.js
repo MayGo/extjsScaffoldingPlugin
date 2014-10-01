@@ -9,7 +9,17 @@ Ext.define('${appName}.view.BaseListController', {
 		var grid = this.view;
 		var store = grid.store;
 		var plugin = grid.getPlugin('rowediting');
-		store.insert(0, Ext.create(store.model));
+		var rec = Ext.create(store.model);
+		
+		//Set referencedPropertyName as default value
+		var viewModel = grid.lookupViewModel()
+		var property = viewModel.get('referencedPropertyName') 
+		if(property){
+			property = property.split(".")[0]
+			var theDomainObject = viewModel.linkData.theDomainObject
+			rec.set(property, theDomainObject.getId());
+		}
+		store.insert(0, rec);
 		plugin.startEdit(0, 0);
 	},
 	deleteItemHandler : function() {
