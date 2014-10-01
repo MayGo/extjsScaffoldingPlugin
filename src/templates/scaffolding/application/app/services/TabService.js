@@ -22,12 +22,19 @@ Ext.define('${appName}.services.TabService', {
     openDomainDetailTab: function(rec, isNew){
 		var domain = rec.getDomainName();
     	var xtype = this.domainDetailXtype(domain);
+    	var domainObject = rec
+    	if(isNew){
+    		domainObject = {
+    			type: domain,
+    			create:true
+    		}
+    	}
     	var tab = this.createTab(domain, rec, {
             xtype: xtype,
-            viewModel: {
-                links: {
-                    theDomainObject: rec
-                }
+            viewModel:{
+            	 links: {
+            		 theDomainObject: domainObject
+            	 }
             }
         });
     	if(isNew){
