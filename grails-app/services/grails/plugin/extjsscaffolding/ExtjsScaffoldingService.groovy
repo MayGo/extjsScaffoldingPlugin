@@ -2,7 +2,7 @@ package grails.plugin.extjsscaffolding
 
 import groovy.json.*
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass
-
+import grails.converters.JSON
 
 class ExtjsScaffoldingService{
 	
@@ -66,6 +66,40 @@ class ExtjsScaffoldingService{
 					}
 				}
 			}
+			//Filters
+			if(param.filter)param.filter = JSON.parse(param.filter)
+			param.filter.each{filter->
+				def property = persistentPropertiesMap[filter.property]
+				def value = filter.value
+				
+				if(filter.property.endsWith('.id')) {//Search for relation
+					eq(filter.property, value.toLong())
+				}else if(property && value) {//not tested
+					if (property.type == String) {
+						ilike ("$property.name",  value+'%')
+					} else if(property.type == Integer){
+						eq("$property.name", value.toInteger())
+					} else if(property.type == Long){
+						eq("$property.name", value.toLong())
+					} else if(property.type == Double){
+						eq("$property.name", value.toDouble())
+					} else if( property.type == Float){
+						eq("$property.name", value.toFloat())
+					}  else if( (property.manyToOne || property.oneToOne) && value.isLong()){
+						eq("${property.name}.id", value.toLong())
+					} else if( property.oneToMany){
+						"${property.name}"{
+							if(value instanceof String[]) {
+								'in'("id", value.collect{it.toLong()})
+							}else {
+								eq("id", value.toLong())
+							}
+						}
+					}
+				}
+			}
+			
+			
 			//Search from all String and Numeric fields
 			if(searchString) {
 				List intNumbers = searchString.findAll( /\d+/ )
