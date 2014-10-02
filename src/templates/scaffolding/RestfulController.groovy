@@ -3,7 +3,7 @@
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import grails.rest.RestfulController
-
+import grails.plugin.extjsscaffolding.ExtjsScaffoldingService
 
 @Transactional(readOnly = true)
 class ${className}Controller extends RestfulController{
@@ -19,7 +19,7 @@ class ${className}Controller extends RestfulController{
 		
 		// Parses params.query for dynamic search and uses params.offset/params.max for paging. Returns [list: results, total: results.totalCount] for paging grid.
 		// This is here so running demo works right away. Should be replaced with own service, eg: ${domainClass.propertyName}Service.list(params)
-		def listObject = grails.plugin.extjsscaffolding.ExtjsScaffoldingService.parseParamsAndRetrieveListAndCount(resource, params)
+		def listObject = ExtjsScaffoldingService.parseParamsAndRetrieveListAndCount(resource, params)
 		respond listObject as Object
 	}
 }
