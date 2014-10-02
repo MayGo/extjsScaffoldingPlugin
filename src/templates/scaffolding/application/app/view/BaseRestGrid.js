@@ -46,12 +46,12 @@ Ext.define('${appName}.view.BaseRestGrid', {
 		xtype : 'toolbar',
 		items : ['->', {
 			text : 'Add',
-			icon: 'resources/images/add.png',
+			glyph: 0xf055,
 			handler : 'addItemHandler'
 		}, '-', {
 			itemId : 'delete',
 			text : 'Delete',
-			icon: 'resources/images/delete.png',
+			glyph: 0xf056,
 			disabled : true,
 			handler : 'deleteItemHandler'
 		}]

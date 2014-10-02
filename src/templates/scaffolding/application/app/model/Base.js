@@ -11,14 +11,15 @@ Ext.define('${appName}.model.Base', {
 		name : 'uniqueName',
 		type : 'string',
 		convert : function(newValue, model) {
-			return model.getDomainName() + " " + (model.get('id')?model.get('id'):model.toString());
+			return (model.get('id')?model.getDomainName() + " " + model.get('id'):model.toString());
 		},
 		depends: ['id']
 	}, {
 		name : 'tabName',
 		type : 'string',
 		convert : function(newValue, model) {
-			return model.getDomainName() + " - " + model.get('uniqueName');
+			var isNewStr = (Ext.isNumeric(model.get('id')))?'':' [new]';
+			return model.getDomainName() + isNewStr +  " - " + model.get('uniqueName');
 		},
 		depends: ['uniqueName']
 	}
@@ -45,7 +46,7 @@ Ext.define('${appName}.model.Base', {
 	},
 	
 	toString:function(){
-		var text = "[";
+		var text = "";
 		var data = this.getData({persist:true});
 		Ext.iterate(data, function(key, value) {
 		 if(Ext.isObject(value)){
@@ -62,8 +63,7 @@ Ext.define('${appName}.model.Base', {
 		 }
 		
 		});
- 
-		return text + "]"
+		return (text)?"["+text+"]":''
 	},
 	
 	proxy : {

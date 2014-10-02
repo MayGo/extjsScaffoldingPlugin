@@ -15,7 +15,6 @@ Ext.define('${appName}.Application', {
     ],
 
     stores: [
-             'MenuItems',
 	<%
 	for(d in domainClasses){%>
 		'${d.getShortName()}List',
