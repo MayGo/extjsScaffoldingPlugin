@@ -92,7 +92,7 @@ private renderFieldValidationForProperty(property, owningClass, prefix = "") {
 		
 		if(cp){
 			required =  !(cp.propertyType in [boolean, Boolean]) && !cp.nullable 
-			if(required || cp.blank) validators += "{type:'presence'},"
+			if(required || !cp.blank) validators += "{type:'presence'},"
 			//if(cp.creditCard) validators += "{type:'presence'},"
 			if(property.type == String && cp.email) validators += "{type:'email'},"
 			def inList = (domainClass.constraints."${property.name}".inList).collect{"'$it'"}

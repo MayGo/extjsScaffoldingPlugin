@@ -63,30 +63,23 @@
     }
 
     private renderManyToMany(domainClass, property) {
-    	if(property.isOwningSide()){
-			return 	""" 
-	    			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-embedded-arraylist',//ManyToMany
-					maxWidth: 2000,
-					viewModel:{
-	        			data:{
-	        				referencedPropertyName: '${property.getReferencedPropertyName()}.id',
-	        			}
-	        		},
-					"""
-		}else{
-			return 	""" 
-	    			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-embedded-restlist',//ManyToMany not owningSide
-					maxWidth: 2000,
-					"""
-		}
+    	return  """
+				  xtype : 'combo',,//ManyToMany
+				  valueField: 'id',
+  				  displayField: 'uniqueName',
+  				  multiSelect: true,
+				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},
+			"""
     }
 
     private renderOneToMany(domainClass, property) {
-		return 	""" 
-    			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-embedded-arraylist',//OneToMany
-    			referencedPropertyName: '${property.getReferencedPropertyName()}.id',
-				maxWidth: 2000,
-				"""
+    	return  """
+				  xtype : 'combo',//OneToMany
+				  valueField: 'id',
+  				  displayField: 'uniqueName',
+  				  multiSelect: true,
+				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},
+			"""
     }
 
     private renderNumberEditor(domainClass, property) {

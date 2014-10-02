@@ -51,20 +51,9 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
 			}
 			%>
 			{
-	            fieldLabel: '${property.naturalName}',
-	            <%  if (property.oneToMany  || (property.manyToMany && property.isOwningSide())){%>
-                bind: {
-                    value: {
-                        bindTo: '{theDomainObject.${property.name}}',
-                        single: true
-                    }
-                },
-        <% }else{%>
-                 bind: '{theDomainObject.${property.name}}',
-         <%}%>
-
-				${renderEditor(property, true)}
-				
+        		fieldLabel: '${property.naturalName}',
+                bind: '{theDomainObject.${property.name}}',
+                ${renderEditor(property, true)}
 			},
 		<%  } %>        
 		]
