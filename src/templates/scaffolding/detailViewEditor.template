@@ -67,6 +67,11 @@
 			return 	""" 
 	    			xtype : '${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-embedded-arraylist',//ManyToMany
 					maxWidth: 2000,
+					viewModel:{
+	        			data:{
+	        				referencedPropertyName: '${property.getReferencedPropertyName()}.id',
+	        			}
+	        		},
 					"""
 		}else{
 			return 	""" 

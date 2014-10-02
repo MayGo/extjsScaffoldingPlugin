@@ -8,11 +8,13 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 	referencedPropertyName: null, 
 	
 	initComponent : function() {
-		console.log('${appName}.view.${domainClass.propertyName}.RestList')
-		this.grid = this.childComponent = Ext.create('${appName}.view.${domainClass.propertyName}.RestList', {
-			isEmbeddedList : (this.referencedPropertyName)?false:true
+		var viewModel = this.lookupViewModel()
+		console.log(viewModel)
+		console.log(viewModel.data.referencedPropertyName)
+		this.grid = this.childComponent = Ext.create('Horizon.view.person2.EmbeddedRestList', {
+			viewModel:viewModel,
 		});
-		
+		/*
 		//disable remote sorting  if there is no search property
 		if(!this.referencedPropertyName) this.grid.store.remoteSort = false
 		//Make copy of store
@@ -33,7 +35,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 			this.value = rawData;
 			this.checkDirty();
 		}, this);
-		
+		*/
 		this.callParent(arguments);
 	},// Generates the child component markup and let Ext.form.field.Base handle the rest
 	
@@ -64,10 +66,13 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 	setValue : function(values) {
 		//Load full object from store using objects id
 		if (values) {
-			var form = this.ownerCt;
+		/*	var form = this.ownerCt;
 			if(this.referencedPropertyName){
-				
-				var id = form.getRecord().getId();
+				console.log(this.grid)
+				console.log(this.grid.store)
+				var rec = this.getViewModel(true).getData().theDomainObject;
+				console.log(rec)
+				var id = rec.getId();
 				var name = this.referencedPropertyName;
 				//Load only "referencedPropertyName" reference values
 				this.grid.store.proxy.extraParams[name]=id;
@@ -84,7 +89,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.EmbeddedArrayList', {
 						scope: this
 					});
 				}, this);
-			}
+			}*/
 		}
 	},
 	
