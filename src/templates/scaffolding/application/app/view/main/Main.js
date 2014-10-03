@@ -18,67 +18,69 @@ Ext.define('${appName}.view.main.Main', {
 	%>
 	],
 
-	 xtype: 'app-main',
-	    controller: 'main',
-	    layout: {
-	        type: 'vbox',
-	        align : 'stretch',
-	        pack  : 'start'
-	    },
+	xtype: 'app-main',
+    controller: 'main',
+    layout: {
+        type: 'border',
+        align : 'stretch'
+    },
 
-		bodyBorder: false,
-		
-		defaults: {
-		    bodyPadding: 1,
+	bodyBorder: false,
+	
+	defaults: {
+	        collapsible: false,
+	        split: false,
+	        bodyPadding: 10
+    },
+	
+	items: [
+	{
+		xtype: 'panel',
+		region: 'north',
+	    layout: {
+	    	type: 'hbox',
+	        pack: 'start',
+	        align: 'stretch'
 		},
-		
-		items: [
-		{
-			xtype: 'panel',
-		    layout: {
-		    	type: 'hbox',
-		        pack: 'start',
-		        align: 'stretch'
-			},
-			autoScroll:true,
-		    items: [
-		        {
-			    	xtype:'top-menu'
-			    },
-			    {
-			    	type:'component', 
-			    	flex: 1
-			    },
-			    {
-					xtype: 'combo',
-					margin: '3 10',
-			    	width: 200,
-	                store: {type:'${domainClasses.first().getShortName().toLowerCase()}-liststore'},//TODO: Add it from ViewModel
-					displayField: 'uniqueName',
-					itemId: 'mainSearch',
-					minChars: 1,
-					
-					listConfig: {
-					    loadingText: 'Searching...',
-					    emptyText: 'No matching results found.',
-					},
-					listeners:{
-							select:'onSearchSelect' 
-					}
+		autoScroll:true,
+	    items: [
+	        {
+		    	xtype:'top-menu'
+		    },
+		    {
+		    	type:'component', 
+		    	flex: 1
+		    },
+		    {
+				xtype: 'combo',
+				margin: '3 10',
+		    	width: 200,
+                store: {type:'${domainClasses.first().getShortName().toLowerCase()}-liststore'},//TODO: Add it from ViewModel
+				displayField: 'uniqueName',
+				itemId: 'mainSearch',
+				minChars: 1,
+				
+				listConfig: {
+				    loadingText: 'Searching...',
+				    emptyText: 'No matching results found.',
 				},
-			    {
-			    	type:'component', 
-			    	layout:'fit',
-			    	items:[{ xtype: 'button', text: 'Logout', handler: 'onLogout', scale: 'medium'}]
-			    }
-		
-		    ]
-		},{
-	        flex:1,
-	        margin: '5 0 0 0',
+				listeners:{
+						select:'onSearchSelect' 
+				}
+			},
+		    {
+		    	type:'component', 
+		    	layout:'fit',
+		    	items:[{ xtype: 'button', text: 'Logout', handler: 'onLogout', scale: 'medium'}]
+		    }
+	
+	    ]
+	},{
+	        
 	        xtype: 'tabpanel',
 	        id: 'myTabpanel',
 	        reference: 'main',
+	        region: 'center',
 	        items:[
 			{
 			    xtype: 'dashboard',
@@ -91,8 +93,6 @@ Ext.define('${appName}.view.main.Main', {
 	    height: 100,
 	    collapsed:true,
 	    collapsible: true,
-	    minHeight: 75,
-	    maxHeight: 150,
 	    html: '<p>Information about application</p>'
 	}]
 });

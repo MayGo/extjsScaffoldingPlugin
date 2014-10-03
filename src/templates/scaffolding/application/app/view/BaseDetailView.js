@@ -13,7 +13,7 @@ Ext.define('${appName}.view.BaseDetailView', {
     bind: {
         title: '{theDomainObject.tabName}'
     },
-    bodyPadding: 20,
+    
     tbar: [{
         text: 'Save',
         handler: 'onSaveClick',

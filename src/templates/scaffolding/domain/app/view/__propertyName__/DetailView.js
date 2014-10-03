@@ -17,10 +17,13 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
         type: '${domainClass.propertyName.toLowerCase()}-detailviewmodel'
     },
     
+    overflowY:'auto',
+    
     items: [{
         xtype: 'base-form',
         reference: 'baseform',
         modelValidation: true,
+        bodyPadding: 20,
         defaults: {
             anchor: '95%',
             maxWidth: 400
@@ -73,7 +76,8 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
     		bind: {
     			hidden:'{isNew}'
     		},
-    		collapsible:true
+    		collapsible:true,
+    		collapsed:true
     	}
     <%}
     %>

@@ -9,9 +9,6 @@ Ext.define('${appName}.view.BaseRestGrid', {
 	multiColumnSort : true,
 	multiSelect : true,
 	
-	//If propery is true, then we hide some elements
-	isEmbeddedList:false,
-
 	selModel : {
 		pruneRemoved : false,
 		listeners : {
@@ -62,8 +59,7 @@ Ext.define('${appName}.view.BaseRestGrid', {
 			store: '{listStore}'
 		},
 		dock : 'bottom',
-		displayInfo : true,
-		hidden: this.isEmbeddedList
+		displayInfo : true
 	}],
 
 	
