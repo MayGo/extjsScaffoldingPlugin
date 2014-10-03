@@ -16,13 +16,14 @@ Ext.define('${appName}.view.${domainClass.propertyName}.ListView', {
         type: 'border',
         align: 'stretch'
     },
+    overflowY:'auto',
 	defaults: {
 	        collapsible: true,
 	        split: true
 	      
 	},
     items: [
-            {xtype:'${domainClass.propertyName.toLowerCase()}-listsearch', region:'north'},
+            {xtype:'${domainClass.propertyName.toLowerCase()}-listsearch', region:'north', collapsed:true},
             {xtype:'${domainClass.propertyName.toLowerCase()}-restlist', region:'center', collapsible: false}
 	
 	]

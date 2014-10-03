@@ -69,12 +69,23 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
     		viewModel:{
     			data:{
     				referencedPropertyName:'${property.name}.id'
+    			},
+    			stores:{
+    		    	listStore:{
+    		            autoLoad: false
+    		        }	
     			}
     		},
-    		title: "${domainCl.getName()}s",
+    		title: "${property.naturalName} in ${domainCl.getName()}s",
+    		margin: '1 0 0 0',
     		hidden: true,
     		bind: {
     			hidden:'{isNew}'
+    		},
+    		listeners:{
+    			expand: function(panel, eOpts){
+    				panel.store.reload();
+    			}
     		},
     		collapsible:true,
     		collapsed:true

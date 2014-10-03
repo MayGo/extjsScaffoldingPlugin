@@ -97,9 +97,8 @@ private renderSearchField( property ){
 }
 private renderEnumEditor(domainClass, property) {
 	return """
-			xtype : 'combo',
-			multiSelect: true,
-			store : ${(property.type.values()*.name()).collect{"'$it'"}}
+			xtype : 'tagfield',
+			store : ${(property.type.values()*.name()).collect{"'$it'"}}//EnumField
 		"""
 }
 
@@ -117,12 +116,11 @@ private renderByteArrayEditor(domainClass, property) {
 
 private String renderManyToOne(domainClass,property) {
     if (property.association) {
-		return  """
-			  xtype : 'combo',
-			  valueField: 'id',
-			  multiSelect: true,
-			  displayField: 'uniqueName',
-			  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}-liststore'},
+		return  """		  
+			  xtype: 'tagfield',//ManyToOne
+	          store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}-liststore'},
+	          displayField: 'uniqueName',
+	          valueField: 'id'
 		"""
     }else{
     	return "//renderManyToOne not association"
@@ -132,17 +130,15 @@ private String renderManyToOne(domainClass,property) {
 private renderManyToMany(domainClass, property) {
 	if(property.isOwningSide()){
 		return 	""" 
-				xtype : 'combo',
+				xtype : 'tagfield',//ManyToMany owning
 				valueField: 'id',
-				multiSelect: true,
 				displayField: 'uniqueName',
 				store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},//ManyToMany
 				"""
 	}else{
 		return 	""" 
-				xtype : 'combo',
+				xtype : 'tagfield',//ManyToMany not_owning
 				valueField: 'id',
-				multiSelect: true,
 				displayField: 'uniqueName',
 				store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},//ManyToMany not owningSide
 				"""
@@ -151,9 +147,8 @@ private renderManyToMany(domainClass, property) {
 
 private renderOneToMany(domainClass, property) {
 	return 	""" 
-	 		xtype : 'combo',
+	 		xtype : 'tagfield',//OneToMany
 	 		valueField: 'id',
-	 		multiSelect: true,
 			displayField: 'uniqueName',
 			store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},//OneToMany
 			"""

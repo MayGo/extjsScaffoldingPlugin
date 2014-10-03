@@ -52,7 +52,7 @@
     private String renderManyToOne(domainClass,property) {
         if (property.association) {
 			return  """
-				  xtype : 'combo',
+				  xtype : 'combo',//ManyToOne
 				  valueField: 'id',
   				  displayField: 'uniqueName',
 				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}-liststore'},
@@ -64,11 +64,32 @@
 
     private renderManyToMany(domainClass, property) {
     	return  """
-				  xtype : 'combo',//ManyToMany
-				  valueField: 'id',
-  				  displayField: 'uniqueName',
-  				  multiSelect: true,
-				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},
+			
+		        xtype: 'tagfield',//ManyToMany
+		        store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},
+		        displayField: 'uniqueName',
+		        valueField: 'id'
+		    
+		/*	{
+		        xtype: 'multiselector',
+		        title: 'Yksuss',
+		        bind:{
+		        	store:{
+		                bindTo:'{theDomainObject.yksuss}',//Not binding
+		                deep:true
+		        	}
+	            },
+		        fieldName: 'uniqueName',
+		        viewConfig: {
+		            deferEmptyText: false,
+		            emptyText: 'No employees selected'
+		        },
+		        search: {
+		            field: 'uniqueName',
+		            store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},
+		        }
+		    }*/
+				  
 			"""
     }
 

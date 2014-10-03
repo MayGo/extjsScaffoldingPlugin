@@ -30,7 +30,7 @@ Ext.define('${appName}.view.main.Main', {
 	defaults: {
 	        collapsible: false,
 	        split: false,
-	        bodyPadding: 10
+	        bodyPadding: 1
     },
 	
 	items: [
@@ -65,7 +65,7 @@ Ext.define('${appName}.view.main.Main', {
 				    emptyText: 'No matching results found.',
 				},
 				listeners:{
-						select:'onSearchSelect' 
+					select:'onSearchSelect' 
 				}
 			},
 		    {

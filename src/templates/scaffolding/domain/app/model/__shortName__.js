@@ -64,6 +64,15 @@ private renderFieldForProperty(property, owningClass, prefix = "") {
 	{
 		name : '${property.name}',
 		type: '${type}'${andMore}
+	<% if ((property.oneToMany && !property.bidirectional) || property.manyToMany) { %>
+		,mapping: function(data) {
+	    	var list = new Array();
+			Ext.each(data.${property.name}, function(value) {
+				 list.push(Ext.create('${appName}.model.${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType())}',   value));
+			});
+	        return list;
+		},
+		<% }%>
 	},
 <%  } %>
 ],
