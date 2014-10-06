@@ -55,8 +55,9 @@ Ext.define('${appName}.view.${domainClass.propertyName}.DetailView', {
 			%>
 			{
         		fieldLabel: '${property.naturalName}',
-                bind: '{theDomainObject.${property.name}}',
-                ${renderEditor(property, true)}
+        		itemId: '${property.name}',
+                bind: '{theDomainObject.${property.name}}',\
+                ${renderEditor(property, true)}\
 			},
 		<%  } %>        
 		]

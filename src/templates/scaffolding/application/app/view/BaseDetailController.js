@@ -80,7 +80,11 @@ Ext.define('${appName}.view.BaseDetailController', {
 		}
 		
 		if(errors.length>0){
-			form.getForm().markInvalid(errors);
+			//form.getForm().markInvalid(errors);
+			//in ver 5.0.1 markInvalid on form doesn't work. So add separatelly
+			Ext.each(errors, function(error, index) {
+				form.down('#'+error.id).markInvalid(error.msg);
+			});
 		}else{
 			Ext.MessageBox.show({
 				title : 'Save Failed',
