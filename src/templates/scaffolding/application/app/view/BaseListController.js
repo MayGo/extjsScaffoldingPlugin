@@ -22,6 +22,14 @@ Ext.define('${appName}.view.BaseListController', {
 		store.insert(0, rec);
 		plugin.startEdit(0, 0);
 	},
+	
+	onSearchSpecialKey: function(field, event, options) {
+		// Enable submitting with enter in field
+		if (event.getKey() == event.ENTER) {
+			this.onSearchClick();
+		}
+	},
+	
 	deleteItemHandler : function() {
 		var grid = this.view;
 		var store = grid.store;

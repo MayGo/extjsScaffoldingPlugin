@@ -9,8 +9,11 @@ Ext.define('${appName}.view.menu.TopMenu', {
 	items:[{
         xtype: 'segmentedbutton',
         defaults:{
-        	 scale: 'medium',
-        	 height:30
+			scale: 'medium',
+			height:30,
+			handler: function() {
+				this.showMenu();
+			}
         },
         allowToggle: false,
         items: [{

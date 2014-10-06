@@ -20,9 +20,12 @@ Ext.define('${appName}.view.${domainClass.propertyName}.ListSearch', {
     	xtype:'form',
     	reference: 'listSearchForm',
     	defaults: {
-           //anchor: '95%',
-           maxWidth: 400,
-           margin:15
+            //anchor: '95%',
+            maxWidth: 400,
+            margin:15,
+            listeners : {
+	       		specialkey : 'onSearchSpecialKey'
+       	    }
         },
     	items: [
 				<%  

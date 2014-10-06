@@ -23,8 +23,7 @@ Ext.define('${appName}.view.login.Login',{
 				specialkey : function(field, event, options) {
 					// Enable submitting with enter in field
 					if (event.getKey() == event.ENTER) {
-						var loginBtn = field.up('form').down(
-								'button#loginBtn');
+						var loginBtn = field.up('form').down('button#loginBtn');
 						if (loginBtn.disabled == false)
 							loginBtn.fireHandler();
 					}
