@@ -17,9 +17,8 @@ Ext.define('${appName}.view.BaseDetailController', {
 		}
 	},
 	onResetClick : function() {
-		var form = this.lookupReference('baseform');
-		console.log("should reset");
-		//form.reset();
+		var rec = this.getViewModel().getData().theDomainObject;
+		rec.reject();
 	},
 	onEditClick : function() {
 		this.getViewModel().set('isReadOnly', false);
