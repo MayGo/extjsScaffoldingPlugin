@@ -15,7 +15,7 @@ Ext.define('${appName}.view.BaseDetailView', {
     },
     
     tbar: [{
-        text: 'Save',
+        text: Ext.i18n.MessageSource.getMsg('button.save'),
         handler: 'onSaveClick',
         scale: 'medium',
 		hidden: true,
@@ -24,7 +24,7 @@ Ext.define('${appName}.view.BaseDetailView', {
              disabled : '{!status.dirty}'
          }
     },{
-        text: 'Reset',
+        text: Ext.i18n.MessageSource.getMsg('button.reset'),
         handler: 'onResetClick',
         scale: 'medium',
 		hidden: true,
@@ -33,7 +33,7 @@ Ext.define('${appName}.view.BaseDetailView', {
              disabled : '{!status.dirty}'
          }
     },{
-        text: 'Edit',
+        text: Ext.i18n.MessageSource.getMsg('button.edit'),
         handler: 'onEditClick',
         scale: 'medium',
     	 bind: {

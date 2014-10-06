@@ -14,7 +14,7 @@ Ext.define('${appName}.view.${domainClass.propertyName}.ListSearch', {
     
     title:'Search',
     bodyPadding: '5 10',
-    bbar:[{xtype:'button', text:'Search', handler:'onSearchClick'}],
+    bbar:[{xtype:'button', text: Ext.i18n.MessageSource.getMsg('button.search'), handler:'onSearchClick'}],
 
     items: [{
     	xtype:'form',
@@ -51,13 +51,12 @@ Ext.define('${appName}.view.${domainClass.propertyName}.ListSearch', {
 						cp = owningClass.constrainedProperties[property.name]
 						required = (cp ? !(cp.propertyType in [boolean, Boolean]) && !cp.nullable : false)
 					}
-					%>{
-				            fieldLabel: '${property.naturalName}',
-				            name:'${property.name}',
-							${renderSearchField(property)}
-					   },<% 
-				} %>               
-    	         ]
+				%>{
+					fieldLabel: '${property.naturalName}',
+					name:'${property.name}',\
+					${renderSearchField(property)}
+				},<% } %>               
+				]
     }]
 });
 
@@ -100,30 +99,30 @@ private renderSearchField( property ){
 }
 private renderEnumEditor(domainClass, property) {
 	return """
-			xtype : 'tagfield',
-			store : ${(property.type.values()*.name()).collect{"'$it'"}}//EnumField
+					xtype : 'tagfield',
+					store : ${(property.type.values()*.name()).collect{"'$it'"}}//EnumField
 		"""
 }
 
 private String renderStringEditor(domainClass, property) {
 	return """
-		xtype : 'textfield'
+					xtype : 'textfield'
 	"""
 }
 
 private renderByteArrayEditor(domainClass, property) {
     return """
-			xtype : 'filefield'
+					xtype : 'filefield'
 		"""
 }
 
 private String renderManyToOne(domainClass,property) {
     if (property.association) {
 		return  """		  
-			  xtype: 'tagfield',//ManyToOne
-	          store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}-liststore'},
-	          displayField: 'uniqueName',
-	          valueField: 'id'
+					xtype: 'tagfield',//ManyToOne
+					store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}-liststore'},
+					displayField: 'uniqueName',
+					valueField: 'id'
 		"""
     }else{
     	return "//renderManyToOne not association"
@@ -133,27 +132,27 @@ private String renderManyToOne(domainClass,property) {
 private renderManyToMany(domainClass, property) {
 	if(property.isOwningSide()){
 		return 	""" 
-				xtype : 'tagfield',//ManyToMany owning
-				valueField: 'id',
-				displayField: 'uniqueName',
-				store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},//ManyToMany
+					xtype : 'tagfield',//ManyToMany owning
+					valueField: 'id',
+					displayField: 'uniqueName',
+					store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},//ManyToMany
 				"""
 	}else{
 		return 	""" 
-				xtype : 'tagfield',//ManyToMany not_owning
-				valueField: 'id',
-				displayField: 'uniqueName',
-				store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},//ManyToMany not owningSide
+					xtype : 'tagfield',//ManyToMany not_owning
+					valueField: 'id',
+					displayField: 'uniqueName',
+					store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},//ManyToMany not owningSide
 				"""
 	}
 }
 
 private renderOneToMany(domainClass, property) {
 	return 	""" 
-	 		xtype : 'tagfield',//OneToMany
-	 		valueField: 'id',
-			displayField: 'uniqueName',
-			store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},//OneToMany
+			 		xtype : 'tagfield',//OneToMany
+			 		valueField: 'id',
+					displayField: 'uniqueName',
+					store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},//OneToMany
 			"""
 }
 
@@ -185,22 +184,22 @@ private renderNumberEditor(domainClass, property) {
 
 private renderBooleanEditor(domainClass, property) {
      return """
-			xtype : 'checkbox'
+					xtype : 'checkbox'
 		"""
 }
 
 private renderDateEditor(domainClass, property) {
      return """ 	
-			xtype : 'datefield',
-	 		format: 'Y-m-d',
+					xtype : 'datefield',
+			 		format: 'Y-m-d',
 		"""
 }
 
 private renderSelectTypeEditor(type, domainClass,property) {
 	return """
-			xtype : 'combo',
-			multiSelect: true,
-			store : []
+					xtype : 'combo',
+					multiSelect: true,
+					store : []
 		"""
 
 }

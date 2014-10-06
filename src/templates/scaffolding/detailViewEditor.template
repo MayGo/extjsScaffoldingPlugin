@@ -39,7 +39,7 @@
 
     private String renderStringEditor(domainClass, property) {
 		return """
-			xtype : 'textfield'
+				xtype : 'textfield'
 		"""
     }
 
@@ -52,10 +52,10 @@
     private String renderManyToOne(domainClass,property) {
         if (property.association) {
 			return  """
-				  xtype : 'combo',//ManyToOne
-				  valueField: 'id',
-  				  displayField: 'uniqueName',
-				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}-liststore'},
+				xtype : 'combo',//ManyToOne
+				valueField: 'id',
+				displayField: 'uniqueName',
+				store: {type:'${grails.util.GrailsNameUtils.getShortName(property.type).toLowerCase()}-liststore'},
 			"""
         }else{
         	return "//renderManyToOne not association"
@@ -64,13 +64,11 @@
 
     private renderManyToMany(domainClass, property) {
     	return  """
-			
 		        xtype: 'tagfield',//ManyToMany
 		        store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},
 		        displayField: 'uniqueName',
 		        valueField: 'id'
-		    
-		/*	{
+		/*	
 		        xtype: 'multiselector',
 		        title: 'Yksuss',
 		        bind:{
@@ -88,18 +86,17 @@
 		            field: 'uniqueName',
 		            store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},
 		        }
-		    }*/
-				  
+		    */
 			"""
     }
 
     private renderOneToMany(domainClass, property) {
     	return  """
-				  xtype : 'combo',//OneToMany
-				  valueField: 'id',
-  				  displayField: 'uniqueName',
-  				  multiSelect: true,
-				  store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},
+				xtype : 'combo',//OneToMany
+				valueField: 'id',
+				displayField: 'uniqueName',
+				multiSelect: true,
+				store: {type:'${grails.util.GrailsNameUtils.getShortName(property.getReferencedPropertyType()).toLowerCase()}-liststore'},
 			"""
     }
 

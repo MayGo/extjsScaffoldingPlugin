@@ -71,7 +71,7 @@ Ext.define('${appName}.view.main.Main', {
 		    {
 		    	type:'component', 
 		    	layout:'fit',
-		    	items:[{ xtype: 'button', text: 'Logout', handler: 'onLogout', scale: 'medium'}]
+		    	items:[{ xtype: 'button', text: Ext.i18n.MessageSource.getMsg('button.logout'), handler: 'onLogout', scale: 'medium'}]
 		    }
 	
 	    ]

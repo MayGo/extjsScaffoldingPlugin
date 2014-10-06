@@ -63,7 +63,7 @@ private renderFieldForProperty(property, owningClass, prefix = "") {
 	%>
 	{
 		name : '${property.name}',
-		type: '${type}'${andMore}
+		type: '${type}'${andMore}\
 	<% if ((property.oneToMany && !property.bidirectional) || property.manyToMany) { %>
 		,mapping: function(data) {
 	    	var list = new Array();
@@ -72,7 +72,7 @@ private renderFieldForProperty(property, owningClass, prefix = "") {
 			});
 	        return list;
 		},
-		<% }%>
+		<% } %>
 	},
 <%  } %>
 ],
@@ -105,7 +105,7 @@ private renderFieldValidationForProperty(property, owningClass, prefix = "") {
 			//if(cp.creditCard) validators += "{type:'presence'},"
 			if(property.type == String && cp.email) validators += "{type:'email'},"
 			def inList = (domainClass.constraints."${property.name}".inList).collect{"'$it'"}
-			if(cp.inList) validators += "{type:'inclusion',list:[$inList]},"
+			if(cp.inList) validators += "{type:'inclusion',list:$inList},"
 			if(cp.max) validators += "{type:'range', max:${cp.max}},"
 			if(cp.maxSize) validators += "{type:'length', max:${cp.maxSize}},"
 			if(cp.min) validators += "{type:'range', min:${cp.min}},"

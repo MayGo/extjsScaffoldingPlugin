@@ -7,7 +7,7 @@ Ext.define('${appName}.Application', {
     extend: 'Ext.app.Application',
     
     name: '${appName}',
-    requires : ['${appName}.config.Runtime'],
+    requires : ['${appName}.config.Runtime','Ext.i18n.MessageSource'],
 
     views: [
 		'login.Login',

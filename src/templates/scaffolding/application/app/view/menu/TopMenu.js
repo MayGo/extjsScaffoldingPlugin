@@ -34,13 +34,13 @@ Ext.define('${appName}.view.menu.TopMenu', {
 	            		handler: 'onClickMenuItem',
 	                    menu: [
 	                        { 
-	                        	text: 'Search items',
+	                        	text: Ext.i18n.MessageSource.getMsg('button.quicksearch'),
 	                        	handler: 'onOpenSearch',
 	                        	value: '${d.getShortName()}',
 	                        	glyph: 0xf002
 	                        },
 	                        { 
-	                        	text: 'Create new',
+	                        	text: Ext.i18n.MessageSource.getMsg('button.create'),
 	                        	handler: 'onCreateDomainObject',
 	                        	value: '${d.getShortName()}',
 	                        	glyph: 0xf067 
@@ -70,13 +70,13 @@ Ext.define('${appName}.view.menu.TopMenu', {
 			            		glyph: ${charList[i]},
 		                    	menu: [
 			                        { 
-			                        	text: 'Search items',
+			                        	text: Ext.i18n.MessageSource.getMsg('button.quicksearch'),
 			                        	handler: 'onOpenSearch',
 			                        	value: '${d.getShortName()}',
 			                        	glyph: 0xf002
 			                        },
 			                        { 
-			                        	text: 'Create new',
+			                        	text: Ext.i18n.MessageSource.getMsg('button.create'),
 			                        	handler: 'onCreateDomainObject',
 			                        	value: '${d.getShortName()}',
 			                        	glyph: 0xf067 

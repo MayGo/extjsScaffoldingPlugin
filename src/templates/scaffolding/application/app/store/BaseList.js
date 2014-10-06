@@ -9,13 +9,10 @@ Ext.define('${appName}.store.BaseList', {
 	
 	listeners : {
 		write : function(store, operation, eOpts) {
-			var record = operation.getRecords()[0], name = Ext.String.capitalize(operation.action), verb;
+			var record = operation.getRecords()[0]
+			var name = operation.action;
 
-			if (name == 'Destroy') {
-				verb = 'Deleted';
-			} else {
-				verb = name + 'd';
-			}
+			var verb = Ext.i18n.MessageSource.getMsg('operation.' + name);
 			Ext.toast({
 				html : Ext.String.format("{0} {1}", verb, record.get('uniqueName')),
 				align : 't',
