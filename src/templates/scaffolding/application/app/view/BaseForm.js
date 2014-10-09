@@ -10,11 +10,7 @@ Ext.define('${appName}.view.BaseForm', {
 		
 	},
     bind: {
-        formReadOnly: '{isReadOnly}',
-        formRecord:'{theDomainObject}'
-    },
-    setFormRecord:function(record){
-		this.loadRecord(record);
+        formReadOnly: '{isReadOnly}'
     },
     setFormReadOnly:function(readOnly){
 		var form = this.getForm();

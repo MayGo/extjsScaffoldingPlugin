@@ -29,10 +29,11 @@ Ext.define('${appName}.model.${className}', {
 			type : 'string',
 			convert : function(newValue, model) {
 				var name = "";
-				<% useBaseNames.each{ basename-> %>name += model.get('${basename}')+'${(basename == useBaseNames.last())?"":","}';<% } %>
-				return name
+				<% useBaseNames.each{ basename-> %>
+				name += model.get('${basename}')+'${(basename == useBaseNames.last())?"":","}';<% } %>
+				return name;
 			},
-			depends: [<% useBaseNames.each{ basename-> %>'${basename}${(basename == useBaseNames.last())?"":","}'<% } %>]
+			depends: [<% useBaseNames.each{ basename-> %>'${basename}'${(basename == useBaseNames.last())?"":","}<% } %>]
 		}<%
 	}
 
